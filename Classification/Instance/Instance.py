@@ -22,6 +22,15 @@ class Instance(object):
         self.classLabel = classLabel
         self.attributes = attributes
 
+    def __lt__(self, other):
+        return self.classLabel < other.classLabel
+
+    def __gt__(self, other):
+        return self.classLabel > other.classLabel
+
+    def __eq__(self, other):
+        return self.classLabel == other.classLabel
+
     """
     Adds a discrete attribute with the given String value.
 
