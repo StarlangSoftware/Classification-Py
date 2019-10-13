@@ -55,7 +55,7 @@ class InstanceList(object):
     fileName : str  
         Name of the data set file.
     """
-    def initWithFile(self, definition: DataDefinition, separator: str, fileName: str):
+    def initWithDefinitionAndFile(self, definition: DataDefinition, separator: str, fileName: str):
         self.list = []
         file = open(fileName, 'r')
         lines = file.readlines()
