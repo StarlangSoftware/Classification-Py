@@ -10,7 +10,7 @@ class ExperimentPerformance:
     """
     A constructor which creates a new list of Performance as results.
     """
-    def __init__(self):
+    def __init__(self) -> object:
         self.results = []
         self.containsDetails = True
         self.classification = True
