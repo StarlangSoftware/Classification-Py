@@ -10,3 +10,7 @@ class Attribute(object):
     @abstractmethod
     def continuousAttributes(self) -> list:
         pass
+
+    @abstractmethod
+    def getValue(self):
+        pass

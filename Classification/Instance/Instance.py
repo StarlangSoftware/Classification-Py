@@ -1,7 +1,10 @@
+from __future__ import annotations
 from Classification.Attribute.DiscreteAttribute import DiscreteAttribute
 from Classification.Attribute.ContinuousAttribute import ContinuousAttribute
 from Classification.Attribute.Attribute import Attribute
 from Math.Vector import Vector
+
+from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
 
 
 class Instance(object):
@@ -173,6 +176,26 @@ class Instance(object):
         for attribute in self.attributes:
             result = result + attribute.__str__() + ","
         result = result + self.classLabel
+        return result
+
+    """
+    The getSubSetOfFeatures method takes a FeatureSubSet as an input. First it creates a result Instance
+    with the class label, and adds the attributes of the given featureSubSet to it.
+
+    PARAMETERS
+    ----------
+    featureSubSet : FeatureSubSet
+        FeatureSubSet an list of indices.
+        
+    RETURNS
+    -------
+    Instance
+        result Instance.
+    """
+    def getSubSetOfFeatures(self, featureSubSet: FeatureSubSet) -> Instance:
+        result = Instance(self.classLabel)
+        for i in range(featureSubSet.size()):
+            result.addAttribute(self.attributes[featureSubSet.get(i)])
         return result
 
     """

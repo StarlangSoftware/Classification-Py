@@ -1,3 +1,5 @@
+from __future__ import annotations
+from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.DataSet.DataDefinition import DataDefinition
 from Classification.Attribute.AttributeType import AttributeType
@@ -19,7 +21,7 @@ class DataSet(object):
     definition : DataDefinition
         Data definition of the data set.
     """
-    def __init__(self, definition:None):
+    def __init__(self, definition=None):
         self.definition = definition
         self.instances = InstanceList()
 
@@ -297,6 +299,25 @@ class DataSet(object):
     """
     def getDataDefinition(self) -> DataDefinition:
         return self.definition
+
+    """
+    Return a subset generated via the given FeatureSubSet.
+
+    PARAMETERS
+    ----------
+    featureSubSet : FeatureSubSet
+        FeatureSubSet input.
+        
+    RETURNS
+    -------
+    FeatureSubSet
+        Subset generated via the given FeatureSubSet.
+    """
+    def getSubSetOfFeatures(self, featureSubSet: FeatureSubSet) -> DataSet:
+        result = DataSet(self.definition.getSubSetOfFeatures(featureSubSet))
+        for i in range(self.instances.size()):
+            result.addInstance(self.instances.get(i).getSubSetOfFeatures(featureSubSet))
+        return result
 
     """
     Print out the instances of InstanceList as a String.

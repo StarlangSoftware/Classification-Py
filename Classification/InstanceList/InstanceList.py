@@ -1,6 +1,8 @@
 from __future__ import annotations
 import random
 import math
+
+from Classification.Classifier.Classifier import Classifier
 from Classification.DataSet.DataDefinition import DataDefinition
 from Classification.Instance.Instance import Instance
 from Classification.Attribute.AttributeType import AttributeType
@@ -219,7 +221,7 @@ class InstanceList(object):
         for instance in self.list:
             if isinstance(instance, CompositeInstance):
                 for possibleClassLabel in instance.getPossibleClassLabels():
-                    if not possibleClassLabel in possibleClassLabels:
+                    if possibleClassLabel not in possibleClassLabels:
                         possibleClassLabels.append(possibleClassLabel)
             else:
                 if not instance.getClassLabel() in possibleClassLabels:
@@ -288,7 +290,7 @@ class InstanceList(object):
         partition.add(InstanceList())
         partition.add(InstanceList())
         distribution = self.classDistribution()
-        counts = [0] * distribution.size()
+        counts = [0] * len(distribution)
         randomArray = [i for i in range(self.size())]
         random.shuffle(randomArray, seed)
         for i in range(self.size()):
@@ -646,7 +648,7 @@ class InstanceList(object):
         Mean of all the attributes for instances in the list.
     """
     def average(self) -> Instance:
-        result = Instance(list[0].getClassLabel())
+        result = Instance(self.list[0].getClassLabel())
         for i in range(self.list[0].attributeSize()):
             result.addAttribute(self.attributeAverage(i))
         return result
@@ -674,7 +676,7 @@ class InstanceList(object):
         Standard deviation of attributes for instances.
     """
     def standardDeviation(self) -> Instance:
-        result = Instance(list[0].getClassLabel())
+        result = Instance(self.list[0].getClassLabel())
         for i in range(self.list[0].attributeSize()):
             result.addAttribute(self.attributeStandardDeviation(i))
         return result
@@ -707,7 +709,7 @@ class InstanceList(object):
         Covariance Matrix.
     """
     def covariance(self, average: Vector) -> Matrix:
-        result = Matrix(list[0].continuousAttributeSize(), list[0].continuousAttributeSize())
+        result = Matrix(self.list[0].continuousAttributeSize(), self.list[0].continuousAttributeSize())
         for instance in self.list:
             continuousAttributes = instance.continuousAttributes()
             for i in range(instance.continuousAttributeSize()):

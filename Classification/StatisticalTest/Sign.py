@@ -5,7 +5,7 @@ from Classification.StatisticalTest.StatisticalTestResult import StatisticalTest
 import math
 
 
-class sign(PairedTest):
+class Sign(PairedTest):
 
     def binomial(self, m: int, n: int) -> int:
         if n == 0 or m == n:

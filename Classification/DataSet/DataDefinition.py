@@ -1,4 +1,6 @@
+from __future__ import annotations
 from Classification.Attribute.AttributeType import AttributeType
+from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
 
 
 class DataDefinition(object):
@@ -100,3 +102,22 @@ class DataDefinition(object):
     """
     def removeAllAtrributes(self):
         self.attributeTypes.clear()
+
+    """
+    Generates new subset of attribute types by using given feature subset.
+
+    PARAMETERS
+    ----------
+    featureSubSet : FeatureSubSet
+        FeatureSubSet input.
+        
+    RETURNS
+    -------
+    DataDefinition
+        DataDefinition with new subset of attribute types.
+    """
+    def getSubSetOfFeatures(self, featureSubSet: FeatureSubSet) -> DataDefinition:
+        newAttributeTypes = []
+        for i in range(featureSubSet.size()):
+            newAttributeTypes.append(self.attributeTypes[featureSubSet.get(i)])
+        return DataDefinition(newAttributeTypes)

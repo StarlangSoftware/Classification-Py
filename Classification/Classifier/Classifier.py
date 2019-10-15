@@ -101,7 +101,7 @@ class Classifier(object):
     str
         The class label that occurs most in the array of class labels (mod of class label list).
     """
-    def getMaximum(self, classLabels: list) -> str:
+    def getMaximum(classLabels: list) -> str:
         frequencies = CounterHashMap()
         for label in classLabels:
             frequencies.put(label)

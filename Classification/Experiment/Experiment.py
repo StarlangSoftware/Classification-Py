@@ -1,4 +1,6 @@
+from __future__ import annotations
 from Classification.Classifier.Classifier import Classifier
+from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
 from Classification.Parameter.Parameter import Parameter
 from Classification.DataSet.DataSet import DataSet
 
@@ -56,3 +58,19 @@ class Experiment(object):
 
     def getDataSet(self) -> DataSet:
         return self.dataSet
+
+    """
+    Construct and returns a feature selection experiment.
+
+    PARAMETERS
+    ----------
+    featureSubSet : FeatureSubSet
+        Feature subset used in the feature selection experiment
+
+    RETURNS
+    -------
+    Experiment
+        Experiment constructed
+    """
+    def featureSelectedExperiment(self, featureSubSet: FeatureSubSet) -> Experiment:
+        return Experiment(self.classifier, self.parameter, self.dataSet.getSubSetOfFeatures(featureSubSet))
