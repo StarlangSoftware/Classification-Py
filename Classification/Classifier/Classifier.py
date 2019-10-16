@@ -13,6 +13,7 @@ from DataStructure.CounterHashMap import CounterHashMap
 
 class Classifier(object):
 
+
     @abstractmethod
     def train(self, trainSet: InstanceList, parameters: Parameter):
         pass
