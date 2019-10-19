@@ -1,3 +1,4 @@
+from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
 from Classification.Parameter.KMeansParameter import KMeansParameter
 
 
@@ -12,9 +13,11 @@ class KnnParameter(KMeansParameter):
         Seed is used for random number generation.
     k : int
         Parameter of the K-nearest neighbor algorithm.
+    distanceMetric : DistanceMetric
+        Used to calculate the distance between two instances.
     """
-    def __init__(self, seed: int, k: int):
-        super().__init__(seed)
+    def __init__(self, seed: int, k: int, distanceMetric = EuclidianDistance()):
+        super().__init__(seed, distanceMetric)
         self.k = k
 
     """
