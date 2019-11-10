@@ -11,6 +11,8 @@ from Classification.Performance.ExperimentPerformance import ExperimentPerforman
 
 class KFoldRun(MultipleRun):
 
+    K: int
+
     """
     Constructor for KFoldRun class. Basically sets K parameter of the K-fold cross-validation.
 

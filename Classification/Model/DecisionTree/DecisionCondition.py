@@ -7,6 +7,10 @@ from Classification.Instance.Instance import Instance
 
 class DecisionCondition(object):
 
+    __attributeIndex: int
+    __comparison: str
+    __value: Attribute
+
     """
     A constructor that sets attributeIndex and Attribute value. It also assigns equal sign to the comparison character.
 
@@ -18,9 +22,9 @@ class DecisionCondition(object):
         The value of the Attribute.
     """
     def __init__(self, attributeIndex: int, value: Attribute, comparison="="):
-        self.attributeIndex = attributeIndex
-        self.comparison = comparison
-        self.value = value
+        self.__attributeIndex = attributeIndex
+        self.__comparison = comparison
+        self.__value = value
 
     """
     The satisfy method takes an Instance as an input.
@@ -46,16 +50,16 @@ class DecisionCondition(object):
         True if gicen instance satisfies the conditions.
     """
     def satisfy(self, instance: Instance):
-        if isinstance(self.value, DiscreteIndexedAttribute):
-            if self.value.getIndex() != -1:
-                return instance.getAttribute(self.attributeIndex).getIndex() == self.value.getIndex()
+        if isinstance(self.__value, DiscreteIndexedAttribute):
+            if self.__value.getIndex() != -1:
+                return instance.getAttribute(self.__attributeIndex).getIndex() == self.__value.getIndex()
             else:
                 return True
-        elif isinstance(self.value, DiscreteAttribute):
-            return instance.getAttribute(self.attributeIndex).getValue() == self.value.getValue()
-        elif isinstance(self.value, ContinuousAttribute):
-            if self.comparison == "<":
-                return instance.getAttribute(self.attributeIndex).getValue() <= self.value.getValue()
+        elif isinstance(self.__value, DiscreteAttribute):
+            return instance.getAttribute(self.__attributeIndex).getValue() == self.__value.getValue()
+        elif isinstance(self.__value, ContinuousAttribute):
+            if self.__comparison == "<":
+                return instance.getAttribute(self.__attributeIndex).getValue() <= self.__value.getValue()
             else:
-                return instance.getAttribute(self.attributeIndex).getValue() > self.value.getValue()
+                return instance.getAttribute(self.__attributeIndex).getValue() > self.__value.getValue()
         return False

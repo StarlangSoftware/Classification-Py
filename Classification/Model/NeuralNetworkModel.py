@@ -12,6 +12,13 @@ import math
 
 class NeuralNetworkModel(ValidatedModel):
 
+    classLabels: list
+    K: int
+    d: int
+    x: Vector
+    y: Vector
+    r: Vector
+
     @abstractmethod
     def calculateOutput(self):
         pass

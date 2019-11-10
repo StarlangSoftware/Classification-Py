@@ -9,6 +9,9 @@ from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
 
 class Instance(object):
 
+    __classLabel: str
+    __attributes: list
+
     """
     Constructor for a single instance. Given the attributes and class label, it generates a new instance.
 
@@ -22,17 +25,17 @@ class Instance(object):
     def __init__(self, classLabel: str, attributes=None):
         if attributes is None:
             attributes = []
-        self.classLabel = classLabel
-        self.attributes = attributes
+        self.__classLabel = classLabel
+        self.__attributes = attributes
 
     def __lt__(self, other):
-        return self.classLabel < other.classLabel
+        return self.__classLabel < other.classLabel
 
     def __gt__(self, other):
-        return self.classLabel > other.classLabel
+        return self.__classLabel > other.classLabel
 
     def __eq__(self, other):
-        return self.classLabel == other.classLabel
+        return self.__classLabel == other.classLabel
 
     """
     Adds a discrete attribute with the given String value.
@@ -43,7 +46,7 @@ class Instance(object):
         Value of the discrete attribute.
     """
     def addDiscreteAttribute(self, value: str):
-        self.attributes.append(DiscreteAttribute(value))
+        self.__attributes.append(DiscreteAttribute(value))
 
     """
     Adds a continuous attribute with the given float value.
@@ -54,7 +57,7 @@ class Instance(object):
         Value of the continuous attribute.
     """
     def addContinuousAttribute(self, value: float):
-        self.attributes.append(ContinuousAttribute(value))
+        self.__attributes.append(ContinuousAttribute(value))
 
     """
     Adds a new attribute.
@@ -65,7 +68,7 @@ class Instance(object):
         Attribute to be added.
     """
     def addAttribute(self, attribute: Attribute):
-        self.attributes.append(attribute)
+        self.__attributes.append(attribute)
 
     """
     Adds a Vector of continuous attributes.
@@ -77,7 +80,7 @@ class Instance(object):
     """
     def addVectorAttribute(self, vector: Vector):
         for i in range(vector.size()):
-            self.attributes.append(ContinuousAttribute(vector.getValue(i)))
+            self.__attributes.append(ContinuousAttribute(vector.getValue(i)))
 
     """
     Removes attribute with the given index from the attributes list.
@@ -88,13 +91,13 @@ class Instance(object):
         Index of the attribute to be removed.
     """
     def removeAttribute(self, index: int):
-        self.attributes.pop(index)
+        self.__attributes.pop(index)
 
     """
     Removes all the attributes from the attributes list.
     """
     def removeAllAttributes(self):
-        self.attributes.clear()
+        self.__attributes.clear()
 
     """
     Accessor for a single attribute.
@@ -110,7 +113,7 @@ class Instance(object):
         Attribute with index 'index'.
     """
     def getAttribute(self, index: int) -> Attribute:
-        return self.attributes[index]
+        return self.__attributes[index]
 
     """
     Returns the number of attributes in the attributes list.
@@ -121,7 +124,7 @@ class Instance(object):
         Number of attributes in the attributes list.
     """
     def attributeSize(self) -> int:
-        return len(self.attributes)
+        return len(self.__attributes)
 
     """
     Returns the number of continuous and discrete indexed attributes in the attributes list.
@@ -133,7 +136,7 @@ class Instance(object):
     """
     def continuousAttributeSize(self) -> int:
         size = 0
-        for attribute in self.attributes:
+        for attribute in self.__attributes:
             size += attribute.continuousAttributeSize()
         return size
 
@@ -148,7 +151,7 @@ class Instance(object):
     """
     def continuousAttributes(self) -> list:
         result = []
-        for attribute in self.attributes:
+        for attribute in self.__attributes:
             result.append(attribute.continuousAttributes())
         return result
 
@@ -161,7 +164,7 @@ class Instance(object):
         Class label of the instance.
     """
     def getClassLabel(self) -> str:
-        return self.classLabel
+        return self.__classLabel
 
     """
     Converts instance to a String.
@@ -173,9 +176,9 @@ class Instance(object):
     """
     def __str__(self) -> str:
         result = ""
-        for attribute in self.attributes:
+        for attribute in self.__attributes:
             result = result + attribute.__str__() + ","
-        result = result + self.classLabel
+        result = result + self.__classLabel
         return result
 
     """
@@ -193,9 +196,9 @@ class Instance(object):
         result Instance.
     """
     def getSubSetOfFeatures(self, featureSubSet: FeatureSubSet) -> Instance:
-        result = Instance(self.classLabel)
+        result = Instance(self.__classLabel)
         for i in range(featureSubSet.size()):
-            result.addAttribute(self.attributes[featureSubSet.get(i)])
+            result.addAttribute(self.__attributes[featureSubSet.get(i)])
         return result
 
     """
@@ -208,6 +211,6 @@ class Instance(object):
     """
     def toVector(self) -> Vector:
         values = []
-        for attribute in self.attributes:
+        for attribute in self.__attributes:
             values.append(attribute.continuousAttributes())
         return Vector(values)

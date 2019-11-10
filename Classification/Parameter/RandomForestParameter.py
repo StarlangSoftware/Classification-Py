@@ -3,6 +3,8 @@ from Classification.Parameter.BaggingParameter import BaggingParameter
 
 class RandomForestParameter(BaggingParameter):
 
+    __attributeSubsetSize: int
+
     """
     Parameters of the random forest classifier.
 
@@ -17,7 +19,7 @@ class RandomForestParameter(BaggingParameter):
     """
     def __init__(self, seed: int, ensembleSize: int, attributeSubsetSize: int):
         super().__init__(seed, ensembleSize)
-        self.attributeSubsetSize = attributeSubsetSize
+        self.__attributeSubsetSize = attributeSubsetSize
 
     """
     Accessor for the attributeSubsetSize.
@@ -28,4 +30,4 @@ class RandomForestParameter(BaggingParameter):
         The attributeSubsetSize.
     """
     def getAttributeSubsetSize(self) -> int:
-        return self.attributeSubsetSize
+        return self.__attributeSubsetSize

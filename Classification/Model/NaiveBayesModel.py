@@ -7,6 +7,10 @@ import math
 
 class NaiveBayesModel(GaussianModel):
 
+    __classMeans: dict
+    __classDeviations: dict
+    __classAttributeDistributions: dict
+
     """
     A constructor that sets the priorDistribution.
 
@@ -29,9 +33,9 @@ class NaiveBayesModel(GaussianModel):
         A dict of String and Vector.
     """
     def initForContinuous(self, classMeans: dict, classDeviations: dict):
-        self.classMeans = classMeans
-        self.classDeviations = classDeviations
-        self.classAttributeDistributions = None
+        self.__classMeans = classMeans
+        self.__classDeviations = classDeviations
+        self.__classAttributeDistributions = None
 
     """
     A constructor that sets the priorDistribution and classAttributeDistributions.
@@ -42,7 +46,7 @@ class NaiveBayesModel(GaussianModel):
         A dict of String and list of DiscreteDistributions.
     """
     def initForDiscrete(self, classAttributeDistributions: dict):
-        self.classAttributeDistributions = classAttributeDistributions
+        self.__classAttributeDistributions = classAttributeDistributions
 
     """
     The calculateMetric method takes an Instance and a String as inputs and it returns the log likelihood of
@@ -61,7 +65,7 @@ class NaiveBayesModel(GaussianModel):
         The log likelihood of inputs.
     """
     def calculateMetric(self, instance: Instance, Ci: str) -> float:
-        if self.classAttributeDistributions is None:
+        if self.__classAttributeDistributions is None:
             return self.logLikelihoodContinuous(Ci, instance)
         else:
             return self.logLikelihoodDiscrete(Ci, instance)
@@ -87,8 +91,8 @@ class NaiveBayesModel(GaussianModel):
         loglikelihood = math.log(self.priorDistribution.getProbability(classLabel))
         for i in range(instance.attributeSize()):
             xi = instance.getAttribute(i).getValue()
-            mi = self.classMeans[classLabel].getValue(i)
-            si = self.classDeviations[classLabel].getValue(i)
+            mi = self.__classMeans[classLabel].getValue(i)
+            si = self.__classDeviations[classLabel].getValue(i)
             loglikelihood += -0.5 * math.pow((xi - mi) / si, 2)
         return loglikelihood
 
@@ -113,7 +117,7 @@ class NaiveBayesModel(GaussianModel):
     """
     def logLikelihoodDiscrete(self, classLabel: str, instance: Instance) -> float:
         loglikelihood = math.log(self.priorDistribution.getProbability(classLabel))
-        attributeDistributions = self.classAttributeDistributions.get(classLabel)
+        attributeDistributions = self.__classAttributeDistributions.get(classLabel)
         for i in range(instance.attributeSize()):
             xi = instance.getAttribute(i).getValue()
             loglikelihood += math.log(attributeDistributions.get(i).getProbabilityLaplaceSmoothing(xi))

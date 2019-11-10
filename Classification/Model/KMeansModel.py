@@ -8,6 +8,9 @@ from Classification.Model.GaussianModel import GaussianModel
 
 class KMeansModel(GaussianModel):
 
+    __classMeans: InstanceList
+    __distanceMetric: DistanceMetric
+
     """
     The constructor that sets the classMeans, priorDistribution and distanceMetric according to given inputs.
 
@@ -21,14 +24,14 @@ class KMeansModel(GaussianModel):
         DistanceMetric input.
     """
     def __init__(self, priorDistribution: DiscreteDistribution, classMeans: InstanceList, distanceMetric: DistanceMetric):
-        self.classMeans = classMeans
+        self.__classMeans = classMeans
         self.priorDistribution = priorDistribution
-        self.distanceMetric = distanceMetric
+        self.__distanceMetric = distanceMetric
 
     """
     The calculateMetric method takes an {@link Instance} and a String as inputs. It loops through the class means, if
-    the corresponding class label is same as the given String it returns the negated distance between given instance and the
-    current item of class means. Otherwise it returns the smallest negative number.
+    the corresponding class label is same as the given String it returns the negated distance between given instance and
+    the current item of class means. Otherwise it returns the smallest negative number.
 
     PARAMETERS
     ----------
@@ -43,7 +46,7 @@ class KMeansModel(GaussianModel):
         The negated distance between given instance and the current item of class means.
     """
     def calculateMetric(self, instance: Instance, Ci: str) -> float:
-        for i in range(self.classMeans.size()):
-            if self.classMeans.get(i).getClassLabel() == Ci:
-                return -self.distanceMetric.distance(instance, self.classMeans.get(i))
+        for i in range(self.__classMeans.size()):
+            if self.__classMeans.get(i).getClassLabel() == Ci:
+                return -self.__distanceMetric.distance(instance, self.__classMeans.get(i))
         return -1000000

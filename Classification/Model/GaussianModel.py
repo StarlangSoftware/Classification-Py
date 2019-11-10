@@ -1,11 +1,15 @@
 from abc import abstractmethod
 
+from Math.DiscreteDistribution import DiscreteDistribution
+
 from Classification.Instance.CompositeInstance import CompositeInstance
 from Classification.Instance.Instance import Instance
 from Classification.Model.ValidatedModel import ValidatedModel
 
 
 class GaussianModel(ValidatedModel):
+
+    priorDistribution: DiscreteDistribution
 
     @abstractmethod
     def calculateMetric(self, instance: Instance, Ci: str) -> float:

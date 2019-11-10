@@ -7,6 +7,8 @@ from Classification.InstanceList.InstanceList import InstanceList
 
 class BootstrapRun(MultipleRun):
 
+    __numberOfBootstraps: int
+
     """
     Constructor for BootstrapRun class. Basically sets the number of bootstrap runs.
 
@@ -16,7 +18,7 @@ class BootstrapRun(MultipleRun):
         Number of bootstrap runs.
     """
     def __init__(self, numberOfBootstraps: int):
-        self.numberOfBootstraps = numberOfBootstraps
+        self.__numberOfBootstraps = numberOfBootstraps
 
     """
     Execute the bootstrap run with the given classifier on the given data set using the given parameters.
@@ -33,7 +35,7 @@ class BootstrapRun(MultipleRun):
     """
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
         result = ExperimentPerformance()
-        for i in range(self.numberOfBootstraps):
+        for i in range(self.__numberOfBootstraps):
             bootstrap = Bootstrap(experiment.getDataSet().getInstances(), i + experiment.getParameter().getSeed())
             bootstrapSample = InstanceList(bootstrap.getSample())
             experiment.getClassifier().train(bootstrapSample, experiment.getParameter())

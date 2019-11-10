@@ -7,6 +7,8 @@ from Classification.Performance.ExperimentPerformance import ExperimentPerforman
 
 class StratifiedMxKFoldRunSeparateTest(StratifiedKFoldRunSeparateTest):
 
+    M: int
+
     """
     Constructor for StratifiedMxKFoldRunSeparateTest class. Basically sets K parameter of the K-fold cross-validation
     and M for the number of times.

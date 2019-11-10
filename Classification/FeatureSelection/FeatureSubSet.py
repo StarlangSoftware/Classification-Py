@@ -1,5 +1,7 @@
 class FeatureSubSet(object):
 
+    __indexList: list
+
     """
     A constructor that sets the indexList {@link ArrayList}.
 
@@ -11,7 +13,7 @@ class FeatureSubSet(object):
     def __init__(self, indexList=None):
         if indexList is None:
             indexList = []
-        self.indexList = indexList
+        self.__indexList = indexList
 
     """
     A constructor that takes number of features as input and initializes indexList with these numbers.
@@ -22,7 +24,7 @@ class FeatureSubSet(object):
         Indicates the indices of indexList.
     """
     def initWithNumberOfFeatures(self, numberOfFeatures: int):
-        self.indexList = [i for i in range(numberOfFeatures)]
+        self.__indexList = [i for i in range(numberOfFeatures)]
 
     """
     The size method returns the size of the indexList.
@@ -33,7 +35,7 @@ class FeatureSubSet(object):
         The size of the indexList.
     """
     def size(self) -> int:
-        return len(self.indexList)
+        return len(self.__indexList)
 
     """
     The get method returns the item of indexList at given index.
@@ -49,7 +51,7 @@ class FeatureSubSet(object):
         The item of indexList at given index.
     """
     def get(self, index: int) -> int:
-        return self.indexList[index]
+        return self.__indexList[index]
 
     """
     The contains method returns True, if indexList contains given input number and False otherwise.
@@ -65,7 +67,7 @@ class FeatureSubSet(object):
         True, if indexList contains given input number.
     """
     def contains(self, featureNo: int) -> bool:
-        return featureNo in self.indexList
+        return featureNo in self.__indexList
 
     """
     The add method adds given Integer to the indexList.
@@ -76,7 +78,7 @@ class FeatureSubSet(object):
         Integer that will be added to indexList.
     """
     def add(self, featureNo: int):
-        self.indexList.append(featureNo)
+        self.__indexList.append(featureNo)
 
     """
     The remove method removes the item of indexList at the given index.
@@ -87,4 +89,4 @@ class FeatureSubSet(object):
         Index of the item that will be removed.
     """
     def remove(self, index: int):
-        self.indexList.remove(index)
+        self.__indexList.remove(index)

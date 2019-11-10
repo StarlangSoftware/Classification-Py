@@ -6,6 +6,9 @@ from Classification.Model.GaussianModel import GaussianModel
 
 class LdaModel(GaussianModel):
 
+    w0: dict
+    w: dict
+
     """
     A constructor which sets the priorDistribution, w and w0 according to given inputs.
 

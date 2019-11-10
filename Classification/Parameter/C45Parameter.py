@@ -3,6 +3,9 @@ from Classification.Parameter.Parameter import Parameter
 
 class C45Parameter(Parameter):
 
+    __prune: bool
+    __crossValidationRatio: float
+
     """
     Parameters of the C4.5 univariate decision tree classifier.
 
@@ -17,8 +20,8 @@ class C45Parameter(Parameter):
     """
     def __init__(self, seed: int, prune: bool, crossValidationRatio: float):
         super().__init__(seed)
-        self.prune = prune
-        self.crossValidationRatio = crossValidationRatio
+        self.__prune = prune
+        self.__crossValidationRatio = crossValidationRatio
 
     """
     Accessor for the prune.
@@ -29,7 +32,7 @@ class C45Parameter(Parameter):
         Prune.
     """
     def isPrune(self) -> bool:
-        return self.prune
+        return self.__prune
 
     """
     Accessor for the crossValidationRatio.
@@ -40,4 +43,4 @@ class C45Parameter(Parameter):
         crossValidationRatio.
     """
     def getCrossValidationRatio(self) -> float:
-        return self.crossValidationRatio
+        return self.__crossValidationRatio

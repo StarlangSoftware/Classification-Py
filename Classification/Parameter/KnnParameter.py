@@ -4,6 +4,8 @@ from Classification.Parameter.KMeansParameter import KMeansParameter
 
 class KnnParameter(KMeansParameter):
 
+    __k: int
+
     """
     Parameters of the K-nearest neighbor classifier.
 
@@ -16,9 +18,9 @@ class KnnParameter(KMeansParameter):
     distanceMetric : DistanceMetric
         Used to calculate the distance between two instances.
     """
-    def __init__(self, seed: int, k: int, distanceMetric = EuclidianDistance()):
+    def __init__(self, seed: int, k: int, distanceMetric=EuclidianDistance()):
         super().__init__(seed, distanceMetric)
-        self.k = k
+        self.__k = k
 
     """
     Accessor for the k.
@@ -29,4 +31,4 @@ class KnnParameter(KMeansParameter):
         Value of the k.
     """
     def getK(self) -> int:
-        return self.k
+        return self.__k

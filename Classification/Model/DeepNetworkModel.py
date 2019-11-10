@@ -8,6 +8,9 @@ from Classification.Performance.ClassificationPerformance import ClassificationP
 
 class DeepNetworkModel(NeuralNetworkModel):
 
+    __weights: list
+    __hiddenLayerSize: int
+
     """
     Constructor that takes two InstanceList train set and validation set and DeepNetworkParameter as
     inputs. First it sets the class labels, their sizes as K and the size of the continuous attributes as d of given
@@ -44,34 +47,34 @@ class DeepNetworkModel(NeuralNetworkModel):
                 hidden.clear()
                 hiddenBiased.clear()
                 deltaWeights.clear()
-                for k in range(self.hiddenLayerSize):
+                for k in range(self.__hiddenLayerSize):
                     if k == 0:
-                        hidden.append(self.calculateHidden(self.x, self.weights[k]))
+                        hidden.append(self.calculateHidden(self.x, self.__weights[k]))
                     else:
-                        hidden.append(self.calculateHidden(hiddenBiased[k - 1], self.weights[k]))
+                        hidden.append(self.calculateHidden(hiddenBiased[k - 1], self.__weights[k]))
                     hiddenBiased.append(hidden[k].biased())
-                rMinusY = self.calculateRMinusY(trainSet.get(j), hiddenBiased[self.hiddenLayerSize - 1], self.weights[len(self.weights) - 1])
-                deltaWeights.insert(0, rMinusY.multiplyWithVector(hiddenBiased[self.hiddenLayerSize - 1]))
-                for k in range(len(self.weights) - 2, -1, -1):
+                rMinusY = self.calculateRMinusY(trainSet.get(j), hiddenBiased[self.__hiddenLayerSize - 1], self.__weights[len(self.__weights) - 1])
+                deltaWeights.insert(0, rMinusY.multiplyWithVector(hiddenBiased[self.__hiddenLayerSize - 1]))
+                for k in range(len(self.__weights) - 2, -1, -1):
                     oneMinusHidden = self.calculateOneMinusHidden(hidden[k])
-                    tmph = deltaWeights[0].elementProduct(self.weights[k + 1]).sumOfRows()
+                    tmph = deltaWeights[0].elementProduct(self.__weights[k + 1]).sumOfRows()
                     tmph.remove(0)
                     tmpHidden = oneMinusHidden.elementProduct(tmph)
                     if k == 0:
                         deltaWeights.insert(0, tmpHidden.multiplyWithVector(self.x))
                     else:
                         deltaWeights.insert(0, tmpHidden.multiplyWithVector(hiddenBiased[k - 1]))
-                for k in range(len(self.weights)):
+                for k in range(len(self.__weights)):
                     deltaWeights[k].multiplyWithConstant(learningRate)
-                    self.weights[k].add(deltaWeights[k])
+                    self.__weights[k].add(deltaWeights[k])
             currentClassificationPerformance = self.testClassifier(validationSet)
             if currentClassificationPerformance.getAccuracy() > bestClassificationPerformance.getAccuracy():
                 bestClassificationPerformance = currentClassificationPerformance
                 bestWeights = self.setBestWeights()
             learningRate *= parameters.getEtaDecrease()
-        self.weights.clear()
+        self.__weights.clear()
         for m in bestWeights:
-            self.weights.append(m)
+            self.__weights.append(m)
 
     """
     The allocateWeights method takes DeepNetworkParameters as an input. First it adds random weights to the list
@@ -84,12 +87,12 @@ class DeepNetworkModel(NeuralNetworkModel):
         DeepNetworkParameter input.
     """
     def allocateWeights(self, parameters: DeepNetworkParameter):
-        self.weights = []
-        self.weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(0), self.d + 1))
+        self.__weights = []
+        self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(0), self.d + 1))
         for i in range(parameters.layerSize() - 1):
-            self.weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(i + 1), parameters.getHiddenNodes(i) + 1))
-        self.weights.append(self.allocateLayerWeights(self.K, parameters.getHiddenNodes(parameters.layerSize() - 1) + 1))
-        self.hiddenLayerSize = parameters.layerSize()
+            self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(i + 1), parameters.getHiddenNodes(i) + 1))
+        self.__weights.append(self.allocateLayerWeights(self.K, parameters.getHiddenNodes(parameters.layerSize() - 1) + 1))
+        self.__hiddenLayerSize = parameters.layerSize()
 
     """
     The setBestWeights method creates a list of Matrix as bestWeights and clones the values of weights list
@@ -102,7 +105,7 @@ class DeepNetworkModel(NeuralNetworkModel):
     """
     def setBestWeights(self) -> list:
         bestWeights = []
-        for m in self.weights:
+        for m in self.__weights:
             bestWeights.append(copy.deepcopy(m))
         return bestWeights
 
@@ -112,10 +115,10 @@ class DeepNetworkModel(NeuralNetworkModel):
     """
     def calculateOutput(self):
         hiddenBiased = None
-        for i in range(len(self.weights) - 1):
+        for i in range(len(self.__weights) - 1):
             if i == 0:
-                hidden = self.calculateHidden(self.x, self.weights[i])
+                hidden = self.calculateHidden(self.x, self.__weights[i])
             else:
-                hidden = self.calculateHidden(hiddenBiased, self.weights[i])
+                hidden = self.calculateHidden(hiddenBiased, self.__weights[i])
             hiddenBiased = hidden.biased()
-        self.y = self.weights[len(self.weights) - 1].multiplyWithVectorFromRight(hiddenBiased)
+        self.y = self.__weights[len(self.__weights) - 1].multiplyWithVectorFromRight(hiddenBiased)

@@ -3,6 +3,8 @@ from Classification.Parameter.Parameter import Parameter
 
 class BaggingParameter(Parameter):
 
+    ensembleSize: int
+
     """
     Parameters of the bagging trees algorithm.
 

@@ -7,6 +7,10 @@ from Classification.DataSet.DataSet import DataSet
 
 class Experiment(object):
 
+    __classifier: Classifier
+    __parameter: Parameter
+    __dataSet: DataSet
+
     """
     Constructor for a specific machine learning experiment
 
@@ -20,9 +24,9 @@ class Experiment(object):
         DataSet on which the classifier is run.
     """
     def __init__(self, classifier: Classifier, parameter: Parameter, dataSet: DataSet):
-        self.classifier = classifier
-        self.parameter = parameter
-        self.dataSet = dataSet
+        self.__classifier = classifier
+        self.__parameter = parameter
+        self.__dataSet = dataSet
 
     """
     Accessor for the classifier attribute.
@@ -33,7 +37,7 @@ class Experiment(object):
         Classifier attribute.
     """
     def getClassifier(self) -> Classifier:
-        return self.classifier
+        return self.__classifier
 
     """
     Accessor for the parameter attribute.
@@ -45,7 +49,7 @@ class Experiment(object):
     """
 
     def getParameter(self) -> Parameter:
-        return self.parameter
+        return self.__parameter
 
     """
     Accessor for the dataSet attribute.
@@ -57,7 +61,7 @@ class Experiment(object):
     """
 
     def getDataSet(self) -> DataSet:
-        return self.dataSet
+        return self.__dataSet
 
     """
     Construct and returns a feature selection experiment.
@@ -73,4 +77,4 @@ class Experiment(object):
         Experiment constructed
     """
     def featureSelectedExperiment(self, featureSubSet: FeatureSubSet) -> Experiment:
-        return Experiment(self.classifier, self.parameter, self.dataSet.getSubSetOfFeatures(featureSubSet))
+        return Experiment(self.__classifier, self.__parameter, self.__dataSet.getSubSetOfFeatures(featureSubSet))

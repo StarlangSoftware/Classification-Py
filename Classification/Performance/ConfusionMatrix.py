@@ -4,6 +4,9 @@ from DataStructure.CounterHashMap import CounterHashMap
 
 class ConfusionMatrix:
 
+    __matrix: dict
+    __classLabels: list
+
     """
     Constructor that sets the class labels list and creates new dictionary matrix
 
@@ -13,8 +16,8 @@ class ConfusionMatrix:
         list of String.
     """
     def __init__(self, classLabels: list):
-        self.classLabels = classLabels
-        self.matrix = {}
+        self.__classLabels = classLabels
+        self.__matrix = {}
 
     """
     The classify method takes two Strings; actual class and predicted class as inputs. If the matrix dictionary contains
@@ -30,12 +33,12 @@ class ConfusionMatrix:
         String input predicted class.
     """
     def classify(self, actualClass: str, predictedClass: str):
-        if actualClass in self.matrix:
-            counterHashMap = self.matrix[actualClass]
+        if actualClass in self.__matrix:
+            counterHashMap = self.__matrix[actualClass]
         else:
             counterHashMap = CounterHashMap()
         counterHashMap.put(predictedClass)
-        self.matrix[actualClass] = counterHashMap
+        self.__matrix[actualClass] = counterHashMap
 
     """
     The addConfusionMatrix method takes a ConfusionMatrix as an input and loops through actual classes of that 
@@ -48,14 +51,14 @@ class ConfusionMatrix:
         ConfusionMatrix input.
     """
     def addConfusionMatrix(self, confusionMatrix: ConfusionMatrix):
-        for actualClass in confusionMatrix.matrix:
-            rowToBeAdded = confusionMatrix.matrix[actualClass]
-            if actualClass in self.matrix:
-                currentRow = self.matrix[actualClass]
+        for actualClass in confusionMatrix.__matrix:
+            rowToBeAdded = confusionMatrix.__matrix[actualClass]
+            if actualClass in self.__matrix:
+                currentRow = self.__matrix[actualClass]
                 currentRow.add(rowToBeAdded)
-                self.matrix[actualClass] = currentRow
+                self.__matrix[actualClass] = currentRow
             else:
-                self.matrix[actualClass] = rowToBeAdded
+                self.__matrix[actualClass] = rowToBeAdded
 
     """
     The sumOfElements method loops through the keys in matrix dictionary and returns the summation of all the values 
@@ -68,8 +71,8 @@ class ConfusionMatrix:
     """
     def sumOfElements(self) -> float:
         result = 0
-        for actualClass in self.matrix:
-            result += self.matrix[actualClass]
+        for actualClass in self.__matrix:
+            result += self.__matrix[actualClass]
         return result
 
     """
@@ -83,9 +86,9 @@ class ConfusionMatrix:
     """
     def trace(self) -> float:
         result = 0
-        for actualClass in self.matrix:
-            if actualClass in self.matrix[actualClass]:
-                result += self.matrix[actualClass][actualClass]
+        for actualClass in self.__matrix:
+            if actualClass in self.__matrix[actualClass]:
+                result += self.__matrix[actualClass][actualClass]
         return result
 
     """
@@ -104,9 +107,9 @@ class ConfusionMatrix:
     """
     def columnSum(self, predictedClass: str) -> float:
         result = 0
-        for actualClass in self.matrix:
-            if predictedClass in self.matrix[actualClass]:
-                result += self.matrix[actualClass][predictedClass]
+        for actualClass in self.__matrix:
+            if predictedClass in self.__matrix[actualClass]:
+                result += self.__matrix[actualClass][predictedClass]
         return result
 
     """
@@ -121,16 +124,20 @@ class ConfusionMatrix:
         return self.trace() / self.sumOfElements()
 
     """
-    The precision method loops through the class labels and returns the resulting Array which has the result of TP/FP+TP.
-     *
-     * @return The result of TP/FP+TP.
+    The precision method loops through the class labels and returns the resulting Array which has the result of 
+    TP/FP+TP.
+    
+    RETURNS
+    -------
+    list
+        The result of TP/FP+TP.
     """
     def precision(self) -> list:
         result = []
-        for i in range(len(self.classLabels)):
-            actualClass = self.classLabels[i]
-            if actualClass in self.matrix:
-                result.append(self.matrix[actualClass][actualClass] / self.columnSum(actualClass))
+        for i in range(len(self.__classLabels)):
+            actualClass = self.__classLabels[i]
+            if actualClass in self.__matrix:
+                result.append(self.__matrix[actualClass][actualClass] / self.columnSum(actualClass))
         return result
 
     """
@@ -143,10 +150,10 @@ class ConfusionMatrix:
     """
     def recall(self) -> list:
         result = []
-        for i in range(len(self.classLabels)):
-            actualClass = self.classLabels[i]
-            if actualClass in self.matrix:
-                result.append(self.matrix[actualClass][actualClass] / self.matrix[actualClass].sumOfCounts())
+        for i in range(len(self.__classLabels)):
+            actualClass = self.__classLabels[i]
+            if actualClass in self.__matrix:
+                result.append(self.__matrix[actualClass][actualClass] / self.__matrix[actualClass].sumOfCounts())
         return result
 
     """
@@ -162,7 +169,7 @@ class ConfusionMatrix:
         precision = self.precision()
         recall = self.recall()
         result = []
-        for i in range(len(self.classLabels)):
+        for i in range(len(self.__classLabels)):
             result.append(2 / (1 / precision[i] + 1 / recall[i]))
         return result
 
@@ -177,8 +184,8 @@ class ConfusionMatrix:
     """
     def weightedFMeasure(self) -> float:
         fMeasure = self.fMeasure()
-        sum = 0
-        for i in range(len(self.classLabels)):
-            actualClass = self.classLabels[i]
-            sum += fMeasure[i] * self.matrix[actualClass].sumOfCounts()
-        return sum / self.sumOfElements()
+        total = 0
+        for i in range(len(self.__classLabels)):
+            actualClass = self.__classLabels[i]
+            total += fMeasure[i] * self.__matrix[actualClass].sumOfCounts()
+        return total / self.sumOfElements()

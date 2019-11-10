@@ -7,6 +7,8 @@ from Classification.Model.ValidatedModel import ValidatedModel
 
 class DecisionTree(ValidatedModel):
 
+    __root: DecisionNode
+
     """
     Constructor that sets root node of the decision tree.
 
@@ -16,7 +18,7 @@ class DecisionTree(ValidatedModel):
         DecisionNode type input.
     """
     def __init__(self, root: DecisionNode):
-        self.root = root
+        self.__root = root
 
     """
     The predict method  performs prediction on the root node of given instance, and if it is null, it returns the 
@@ -33,7 +35,7 @@ class DecisionTree(ValidatedModel):
         Possible class labels.
     """
     def predict(self, instance: Instance) -> str:
-        predictedClass = self.root.predict(instance)
+        predictedClass = self.__root.predict(instance)
         if predictedClass is None and isinstance(instance, CompositeInstance):
             predictedClass = instance.getPossibleClassLabels()
         return predictedClass
@@ -47,4 +49,4 @@ class DecisionTree(ValidatedModel):
         InstanceList to perform pruning.
     """
     def prune(self, pruneSet: InstanceList):
-        self.root.prune(self, pruneSet)
+        self.__root.prune(self, pruneSet)

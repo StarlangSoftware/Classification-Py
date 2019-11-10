@@ -22,6 +22,8 @@ from Math.Matrix import Matrix
 
 class InstanceList(object):
 
+    list: list
+
     """
     Empty constructor for an instance list. Initializes the instance list with the given instance list.
 
@@ -351,7 +353,7 @@ class InstanceList(object):
     def divideWithRespectToDiscreteAttribute(self, attributeIndex: int) -> Partition:
         valueList = self.getAttributeValueList(attributeIndex)
         result = Partition()
-        for value in valueList:
+        for _ in valueList:
             result.add(InstanceList())
         for instance in self.list:
             result.get(valueList.index(instance.getAttribute(attributeIndex).getValue())).add(instance)
@@ -433,10 +435,10 @@ class InstanceList(object):
                 values.append(instance.getAttribute(index).getValue())
             return DiscreteAttribute(Classifier.getMaximum(values))
         elif isinstance(self.list[0].getAttribute(index), ContinuousAttribute):
-            sum = 0.0
+            total = 0.0
             for instance in self.list:
-                sum += instance.getAttribute(index).getValue()
-            return ContinuousAttribute(sum / len(self.list))
+                total += instance.getAttribute(index).getValue()
+            return ContinuousAttribute(total / len(self.list))
         else:
             return None
 
@@ -464,10 +466,10 @@ class InstanceList(object):
                 values[i] = values[i] / len(self.list)
             return values
         elif isinstance(self.list[0].getAttribute(index), ContinuousAttribute):
-            sum = 0.0
+            total = 0.0
             for instance in self.list:
-                sum += instance.getAttribute(index).getValue()
-            return [sum / len(self.list)]
+                total += instance.getAttribute(index).getValue()
+            return [total / len(self.list)]
         else:
             return None
 
@@ -487,14 +489,14 @@ class InstanceList(object):
     """
     def attributeStandardDeviation(self, index: int) -> Attribute:
         if isinstance(self.list[0].getAttribute(index), ContinuousAttribute):
-            sum = 0.0
+            total = 0.0
             for instance in self.list:
-                sum += instance.getAttribute(index).getValue()
-            average = sum / len(self.list)
-            sum = 0.0
+                total += instance.getAttribute(index).getValue()
+            average = total / len(self.list)
+            total = 0.0
             for instance in self.list:
-                sum += math.pow(instance.getAttribute(index).getValue() - average, 2)
-            return ContinuousAttribute(math.sqrt(sum / (len(self.list) - 1)))
+                total += math.pow(instance.getAttribute(index).getValue() - average, 2)
+            return ContinuousAttribute(math.sqrt(total / (len(self.list) - 1)))
         else:
             return None
 
@@ -532,13 +534,13 @@ class InstanceList(object):
                 values[i] = math.sqrt(values[i] / (len(self.list) - 1))
             return values
         elif isinstance(self.list[0].getAttribute(index), ContinuousAttribute):
-            sum = 0.0
+            total = 0.0
             for instance in self.list:
-                sum += instance.getAttribute(index).getValue()
-            average = sum / len(self.list)
+                total += instance.getAttribute(index).getValue()
+            average = total / len(self.list)
             for instance in self.list:
-                sum += math.pow(instance.getAttribute(index).getValue() - average, 2)
-            return [math.sqrt(sum / (len(self.list) - 1))]
+                total += math.pow(instance.getAttribute(index).getValue() - average, 2)
+            return [math.sqrt(total / (len(self.list) - 1))]
         else:
             return None
 
@@ -581,7 +583,7 @@ class InstanceList(object):
     def attributeClassDistribution(self, attributeIndex: int) -> list:
         distributions = []
         valueList = self.getAttributeValueList(attributeIndex)
-        for ignored in valueList:
+        for _ in valueList:
             distributions.append(DiscreteDistribution())
         for instance in self.list:
             distributions[valueList.index(instance.getAttribute(attributeIndex).getValue())].addItem(instance.getClassLabel())

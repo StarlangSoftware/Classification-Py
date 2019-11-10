@@ -5,6 +5,8 @@ from Classification.Parameter.Parameter import Parameter
 
 class KMeansParameter(Parameter):
 
+    distanceMetric: DistanceMetric
+
     """
     Parameters of the Rocchio classifier.
 
@@ -15,7 +17,7 @@ class KMeansParameter(Parameter):
     distanceMetric : DistanceMetric
         distance metric used to calculate the distance between two instances.
     """
-    def __init__(self, seed: int, distanceMetric = EuclidianDistance()):
+    def __init__(self, seed: int, distanceMetric=EuclidianDistance()):
         super().__init__(seed)
         self.distanceMetric = distanceMetric
 

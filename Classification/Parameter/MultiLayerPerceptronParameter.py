@@ -3,6 +3,8 @@ from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronP
 
 class MultiLayerPerceptronParameter(LinearPerceptronParameter):
 
+    __hiddenNodes: int
+
     """
     Parameters of the multi layer perceptron algorithm.
 
@@ -23,7 +25,7 @@ class MultiLayerPerceptronParameter(LinearPerceptronParameter):
     """
     def __init__(self, seed: int, learningRate: float, etaDecrease: float, crossValidationRatio: float, epoch: int, hiddenNodes: int):
         super().__init__(seed, learningRate, etaDecrease, crossValidationRatio, epoch)
-        self.hiddenNodes = hiddenNodes
+        self.__hiddenNodes = hiddenNodes
 
     """
     Accessor for the hiddenNodes.
@@ -34,4 +36,4 @@ class MultiLayerPerceptronParameter(LinearPerceptronParameter):
         The hiddenNodes.
     """
     def getHiddenNodes(self) -> int:
-        return self.hiddenNodes
+        return self.__hiddenNodes

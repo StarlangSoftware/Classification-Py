@@ -8,6 +8,8 @@ from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
 
 class SubSetSelection(object):
 
+    initialSubSet: FeatureSubSet
+
     """
     A constructor that sets the initial subset with given input.
 

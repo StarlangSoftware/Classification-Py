@@ -3,11 +3,13 @@ from Classification.InstanceList.InstanceList import InstanceList
 
 class Partition(object):
 
+    __multilist: list
+
     """
     Constructor for generating a partition.
     """
     def __init__(self):
-        self.multilist = []
+        self.__multilist = []
 
     """
     Adds given instance list to the list of instance lists.
@@ -18,7 +20,7 @@ class Partition(object):
         Instance list to add.
     """
     def add(self, list: InstanceList):
-        self.multilist.append(list)
+        self.__multilist.append(list)
 
     """
     Returns the size of the list of instance lists.
@@ -29,7 +31,7 @@ class Partition(object):
         The size of the list of instance lists.
     """
     def size(self) -> int:
-        return len(self.multilist)
+        return len(self.__multilist)
 
     """
     Returns the corresponding instance list at given index of list of instance lists.
@@ -45,7 +47,7 @@ class Partition(object):
         Instance list at given index of list of instance lists.
     """
     def get(self, index: int) -> InstanceList:
-        return self.multilist[index]
+        return self.__multilist[index]
 
     """
     Returns the instances of the items at the list of instance lists.
@@ -57,6 +59,6 @@ class Partition(object):
     """
     def getLists(self) -> list:
         result = []
-        for instanceList in self.multilist:
+        for instanceList in self.__multilist:
             result.append(instanceList.getInstances())
         return result

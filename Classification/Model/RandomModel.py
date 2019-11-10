@@ -5,6 +5,8 @@ import random
 
 class RandomModel(Model):
 
+    __classLabels: list
+
     """
     A constructor that sets the class labels.
 
@@ -14,7 +16,7 @@ class RandomModel(Model):
         A List of class labels.
     """
     def __init__(self, classLabels: list):
-        self.classLabels = classLabels
+        self.__classLabels = classLabels
 
     """
     The predict method gets an Instance as an input and retrieves the possible class labels as an ArrayList. Then 
@@ -37,6 +39,6 @@ class RandomModel(Model):
             index = random.randint(0, size)
             return possibleClassLabels[index]
         else:
-            size = len(self.classLabels)
+            size = len(self.__classLabels)
             index = random.randint(0, size)
-            return self.classLabels[index]
+            return self.__classLabels[index]

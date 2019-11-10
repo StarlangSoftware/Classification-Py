@@ -11,6 +11,8 @@ from Classification.Performance.Performance import Performance
 
 class SingleRunWithK(SingleRun):
 
+    __K: int
+
     """
     Constructor for SingleRunWithK class. Basically sets K parameter of the K-fold cross-validation.
 
@@ -20,7 +22,7 @@ class SingleRunWithK(SingleRun):
         K of the K-fold cross-validation.
     """
     def __init__(self, K: int):
-        self.K = K
+        self.__K = K
 
     def runExperiment(self, classifier: Classifier, parameter: Parameter, crossValidation: CrossValidation):
         trainSet = InstanceList(crossValidation.getTrainFold(0))
@@ -41,5 +43,5 @@ class SingleRunWithK(SingleRun):
         A Performance instance.
     """
     def execute(self, experiment: Experiment) -> Performance:
-        crossValidation = KFoldCrossValidation(experiment.getDataSet().getInstances(), self.K, experiment.getParameter().getSeed())
+        crossValidation = KFoldCrossValidation(experiment.getDataSet().getInstances(), self.__K, experiment.getParameter().getSeed())
         return self.runExperiment(experiment.getClassifier(), experiment.getParameter(), crossValidation)

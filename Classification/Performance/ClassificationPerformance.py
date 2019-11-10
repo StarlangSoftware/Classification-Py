@@ -3,6 +3,8 @@ from Classification.Performance.Performance import Performance
 
 class ClassificationPerformance(Performance):
 
+    __accuracy: float
+
     """
     A constructor that sets the accuracy and errorRate via given input.
 
@@ -18,7 +20,7 @@ class ClassificationPerformance(Performance):
             self.errorRate = 1 - accuracy
         else:
             self.errorRate = errorRate
-        self.accuracy = accuracy
+        self.__accuracy = accuracy
 
     """
     Accessor for the accuracy.
@@ -29,4 +31,4 @@ class ClassificationPerformance(Performance):
         Accuracy value.
     """
     def getAccuracy(self) -> float:
-        return self.accuracy
+        return self.__accuracy

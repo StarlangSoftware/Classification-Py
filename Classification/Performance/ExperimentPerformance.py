@@ -7,13 +7,17 @@ import math
 
 class ExperimentPerformance:
 
+    __results: list
+    __containsDetails: bool
+    __classification: bool
+
     """
     A constructor which creates a new list of Performance as results.
     """
     def __init__(self) -> object:
-        self.results = []
-        self.containsDetails = True
-        self.classification = True
+        self.__results = []
+        self.__containsDetails = True
+        self.__classification = True
 
     def __gt__(self, other) -> bool:
         accuracy1 = self.meanClassificationPerformance().getAccuracy()
@@ -35,11 +39,11 @@ class ExperimentPerformance:
         String input.
     """
     def initWithFile(self, fileName: str):
-        self.containsDetails = False
-        input = open(fileName, "r")
-        lines = input.readlines()
+        self.__containsDetails = False
+        inputFile = open(fileName, "r")
+        lines = inputFile.readlines()
         for line in lines:
-            self.results.append(Performance(float(line)))
+            self.__results.append(Performance(float(line)))
 
     """
     The add method takes a Performance as an input and adds it to the results list.
@@ -51,10 +55,10 @@ class ExperimentPerformance:
     """
     def add(self, performance: Performance):
         if not isinstance(performance, DetailedClassificationPerformance):
-            self.containsDetails = False
+            self.__containsDetails = False
         if not isinstance(performance, ClassificationPerformance):
-            self.classification = False
-        self.results.append(performance)
+            self.__classification = False
+        self.__results.append(performance)
 
     """
     The numberOfExperiments method returns the size of the results {@link ArrayList}.
@@ -65,7 +69,7 @@ class ExperimentPerformance:
         The results list.
     """
     def numberOfExperiments(self) -> int:
-        return len(self.results)
+        return len(self.__results)
 
     """
     The getErrorRate method takes an index as an input and returns the errorRate at given index of results list.
@@ -81,7 +85,7 @@ class ExperimentPerformance:
         The errorRate at given index of results list.
     """
     def getErrorRate(self, index: int) -> float:
-        return self.results[index]
+        return self.__results[index]
 
     """
     The getAccuracy method takes an index as an input. It returns the accuracy of a Performance at given index 
@@ -98,7 +102,7 @@ class ExperimentPerformance:
         The accuracy of a Performance at given index of results list.
     """
     def getAccuracy(self, index: int) -> float:
-        return self.results[index].getAccuracy()
+        return self.__results[index].getAccuracy()
 
     """
     The meanPerformance method loops through the performances of results list and sums up the errorRates of each then
@@ -111,9 +115,9 @@ class ExperimentPerformance:
     """
     def meanPerformance(self) -> Performance:
         sumError = 0
-        for performance in self.results:
+        for performance in self.__results:
             sumError += performance.getErrorRate()
-        return Performance(sumError / len(self.results))
+        return Performance(sumError / len(self.__results))
 
     """
     The meanClassificationPerformance method loops through the performances of results list and sums up 
@@ -126,12 +130,12 @@ class ExperimentPerformance:
         A new classificationPerformance with the mean of that summation.
     """
     def meanClassificationPerformance(self) -> ClassificationPerformance:
-        if len(self.results) == 0 or not self.classification:
+        if len(self.__results) == 0 or not self.__classification:
             return None
         sumAccuracy = 0
-        for performance in self.results:
+        for performance in self.__results:
             sumAccuracy += performance.getAccuracy()
-        return ClassificationPerformance(sumAccuracy / len(self.results))
+        return ClassificationPerformance(sumAccuracy / len(self.__results))
 
     """
     The meanDetailedPerformance method gets the first confusion matrix of results list.
@@ -144,12 +148,12 @@ class ExperimentPerformance:
         A new DetailedClassificationPerformance with the ConfusionMatrix sum.
     """
     def meanDetailedPerformance(self) -> DetailedClassificationPerformance:
-        if len(self.results) == 0 or not self.containsDetails:
+        if len(self.__results) == 0 or not self.__containsDetails:
             return None
-        sum = self.results[0].getConfusionMatrix()
-        for i in range(1, len(self.results)):
-            sum.addConfusionMatrix(self.results[i].getConfusionMatrix())
-        return DetailedClassificationPerformance(sum)
+        sumMatrix = self.__results[0].getConfusionMatrix()
+        for i in range(1, len(self.__results)):
+            sumMatrix.addConfusionMatrix(self.__results[i].getConfusionMatrix())
+        return DetailedClassificationPerformance(sumMatrix)
 
     """
     The standardDeviationPerformance method loops through the Performances of results list and returns
@@ -163,9 +167,9 @@ class ExperimentPerformance:
     def standardDeviationPerformance(self) -> Performance:
         sumErrorRate = 0
         averagePerformance = self.meanPerformance()
-        for performance in self.results:
+        for performance in self.__results:
             sumErrorRate += math.pow(performance.getErrorRate() - averagePerformance.getErrorRate(), 2)
-        return Performance(math.sqrt(sumErrorRate / (len(self.results) - 1)))
+        return Performance(math.sqrt(sumErrorRate / (len(self.__results) - 1)))
 
     """
     The standardDeviationClassificationPerformance method loops through the Performances of results list and
@@ -177,15 +181,15 @@ class ExperimentPerformance:
         A new ClassificationPerformance with standard deviation.
     """
     def standardDeviationClassificationPerformance(self) -> ClassificationPerformance:
-        if len(self.results) == 0 or not self.classification:
+        if len(self.__results) == 0 or not self.__classification:
             return None
         sumAccuracy = 0
         sumErrorRate = 0
         averageClassificationPerformance = self.meanClassificationPerformance()
-        for performance in self.results:
+        for performance in self.__results:
             sumAccuracy += math.pow(performance.getAccuracy() - averageClassificationPerformance.getAccuracy(), 2)
             sumErrorRate += math.pow(performance.getErrorRate() - averageClassificationPerformance.getErrorRate(), 2)
-        return ClassificationPerformance(math.sqrt(sumAccuracy / (len(self.results) - 1)))
+        return ClassificationPerformance(math.sqrt(sumAccuracy / (len(self.__results) - 1)))
 
     """
     The isBetter method  takes an ExperimentPerformance as an input and returns true if the result of compareTo method 

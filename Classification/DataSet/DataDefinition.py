@@ -5,6 +5,8 @@ from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
 
 class DataDefinition(object):
 
+    __attributeTypes: list
+
     """
     Constructor for creating a new DataDefinition with given attribute types.
 
@@ -16,7 +18,7 @@ class DataDefinition(object):
     def __init__(self, attributeTypes=None):
         if attributeTypes is None:
             attributeTypes = []
-        self.attributeTypes = attributeTypes
+        self.__attributeTypes = attributeTypes
 
     """
     Returns the number of attribute types.
@@ -27,7 +29,7 @@ class DataDefinition(object):
         Number of attribute types.
     """
     def attributeCount(self) -> int:
-        return len(self.attributeTypes)
+        return len(self.__attributeTypes)
 
     """
     Counts the occurrences of binary and discrete type attributes.
@@ -39,7 +41,7 @@ class DataDefinition(object):
     """
     def discreteAttributeCount(self) -> int:
         count = 0
-        for attributeType in self.attributeTypes:
+        for attributeType in self.__attributeTypes:
             if attributeType is AttributeType.DISCRETE or attributeType is AttributeType.BINARY:
                 count = count + 1
         return count
@@ -54,7 +56,7 @@ class DataDefinition(object):
     """
     def continuousAttributeCount(self) -> int:
         count = 0
-        for attributeType in self.attributeTypes:
+        for attributeType in self.__attributeTypes:
             if attributeType is AttributeType.CONTINUOUS:
                 count = count + 1
         return count
@@ -73,7 +75,7 @@ class DataDefinition(object):
         Attribute type of the corresponding item at given index.
     """
     def getAttributeType(self, index: int) -> AttributeType:
-        return self.attributeTypes[index]
+        return self.__attributeTypes[index]
 
     """
     Adds an attribute type to the list of attribute types.
@@ -84,7 +86,7 @@ class DataDefinition(object):
         Attribute type to add to the list of attribute types.
     """
     def addAttribute(self, attributeType: AttributeType):
-        self.attributeTypes.append(attributeType)
+        self.__attributeTypes.append(attributeType)
 
     """
     Removes the attribute type at given index from the list of attributes.
@@ -95,13 +97,13 @@ class DataDefinition(object):
         Index to remove attribute type from list.
     """
     def removeAttribute(self, index: int):
-        self.attributeTypes.pop(index)
+        self.__attributeTypes.pop(index)
 
     """
     Clears all the attribute types from list.
     """
     def removeAllAtrributes(self):
-        self.attributeTypes.clear()
+        self.__attributeTypes.clear()
 
     """
     Generates new subset of attribute types by using given feature subset.
@@ -119,5 +121,5 @@ class DataDefinition(object):
     def getSubSetOfFeatures(self, featureSubSet: FeatureSubSet) -> DataDefinition:
         newAttributeTypes = []
         for i in range(featureSubSet.size()):
-            newAttributeTypes.append(self.attributeTypes[featureSubSet.get(i)])
+            newAttributeTypes.append(self.__attributeTypes[featureSubSet.get(i)])
         return DataDefinition(newAttributeTypes)

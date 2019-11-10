@@ -1,3 +1,4 @@
+from Math.Matrix import Matrix
 from Math.Vector import Vector
 
 from Classification.Instance.Instance import Instance
@@ -10,6 +11,9 @@ from Classification.Performance.Performance import Performance
 
 
 class AutoEncoderModel(NeuralNetworkModel):
+
+    __V: Matrix
+    __W: Matrix
 
     """
     The AutoEncoderModel method takes two InstanceLists as inputs; train set and validation set. First it allocates
@@ -32,8 +36,8 @@ class AutoEncoderModel(NeuralNetworkModel):
         super().__init__(trainSet)
         self.K = trainSet.get(0).continuousAttributeSize()
         self.allocateWeights(parameters.getHiddenNodes())
-        bestW = copy.deepcopy(self.W)
-        bestV = copy.deepcopy(self.V)
+        bestW = copy.deepcopy(self.__W)
+        bestV = copy.deepcopy(self.__V)
         bestPerformance = Performance(1000000000)
         epoch = parameters.getEpoch()
         learningRate = parameters.getLearningRate()
@@ -42,27 +46,27 @@ class AutoEncoderModel(NeuralNetworkModel):
             for j in range(trainSet.size()):
                 self.createInputVector(trainSet.get(j))
                 self.r = trainSet.get(j).toVector()
-                hidden = self.calculateHidden(self.x, self.W)
+                hidden = self.calculateHidden(self.x, self.__W)
                 hiddenBiased = hidden.biased()
-                self.y = self.V.multiplyWithVectorFromRight(hiddenBiased)
+                self.y = self.__V.multiplyWithVectorFromRight(hiddenBiased)
                 rMinusY = self.r.difference(self.y)
                 deltaV = rMinusY.multiplyWithVector(hiddenBiased)
                 oneMinusHidden = self.calculateOneMinusHidden(hidden)
-                tmph = self.V.multiplyWithVectorFromLeft(rMinusY)
+                tmph = self.__V.multiplyWithVectorFromLeft(rMinusY)
                 tmph.remove(0)
                 tmpHidden = oneMinusHidden.elementProduct(hidden.elementProduct(tmph))
                 deltaW = tmpHidden.multiplyWithVector(self.x)
                 deltaV.multiplyWithConstant(learningRate)
-                self.V.add(deltaV)
+                self.__V.add(deltaV)
                 deltaW.multiplyWithConstant(learningRate)
-                self.W.add(deltaW)
+                self.__W.add(deltaW)
             currentPerformance = self.testAutoEncoder(validationSet)
             if currentPerformance.getErrorRate() < bestPerformance.getErrorRate():
                 bestPerformance = currentPerformance
-                bestW = copy.deepcopy(self.W)
-                bestV = copy.deepcopy(self.V)
-        self.W = bestW
-        self.V = bestV
+                bestW = copy.deepcopy(self.__W)
+                bestV = copy.deepcopy(self.__V)
+        self.__W = bestW
+        self.__V = bestV
 
     """
     The allocateWeights method takes an integer number and sets layer weights of W and V matrices according to given 
@@ -74,8 +78,8 @@ class AutoEncoderModel(NeuralNetworkModel):
         Integer input.
     """
     def allocateWeights(self, H: int):
-        self.W = self.allocateLayerWeights(H, self.d + 1)
-        self.V = self.allocateLayerWeights(self.K, H + 1)
+        self.__W = self.allocateLayerWeights(H, self.d + 1)
+        self.__V = self.allocateLayerWeights(self.K, H + 1)
 
     """
     The testAutoEncoder method takes an InstanceList as an input and tries to predict a value and finds the difference 
@@ -117,11 +121,11 @@ class AutoEncoderModel(NeuralNetworkModel):
     """
     def predictInput(self, instance: Instance) -> Vector:
         self.createInputVector(instance)
-        self.calculateForwardSingleHiddenLayer(self.W, self.V)
+        self.calculateForwardSingleHiddenLayer(self.__W, self.__V)
         return self.y
 
     """
     The calculateOutput method calculates a forward single hidden layer.
     """
     def calculateOutput(self):
-        self.calculateForwardSingleHiddenLayer(self.W, self.V)
+        self.calculateForwardSingleHiddenLayer(self.__W, self.__V)

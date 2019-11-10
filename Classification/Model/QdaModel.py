@@ -5,6 +5,9 @@ from Classification.Model.GaussianModel import GaussianModel
 
 
 class QdaModel(GaussianModel):
+
+    __W: dict
+
     """
     A constructor which sets the priorDistribution, w and w0 and dictionary of String Matrix according to given inputs.
 
@@ -22,7 +25,7 @@ class QdaModel(GaussianModel):
 
     def __init__(self, priorDistribution: DiscreteDistribution, W: dict, w: dict, w0: dict):
         self.priorDistribution = priorDistribution
-        self.W = W
+        self.__W = W
         self.w = w
         self.w0 = w0
 
@@ -46,7 +49,7 @@ class QdaModel(GaussianModel):
 
     def calculateMetric(self, instance: Instance, Ci: str) -> float:
         xi = instance.toVector()
-        Wi = self.W[Ci]
+        Wi = self.__W[Ci]
         wi = self.w[Ci]
         w0i = self.w0[Ci]
         return Wi.multiplyWithVectorFromLeft(xi).dotProduct(xi) + wi.dotProduct(xi) + w0i

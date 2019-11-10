@@ -6,6 +6,8 @@ from Classification.Model.Model import Model
 
 class TreeEnsembleModel(Model):
 
+    __forest: list
+
     """
     A constructor which sets the list of DecisionTree with given input.
 
@@ -15,7 +17,7 @@ class TreeEnsembleModel(Model):
         A list of DecisionTrees.
     """
     def __init__(self, forest: list):
-        self.forest = forest
+        self.__forest = forest
 
     """
     The predict method takes an Instance as an input and loops through the list of DecisionTrees.
@@ -33,6 +35,6 @@ class TreeEnsembleModel(Model):
     """
     def predict(self, instance: Instance) -> str:
         distribution = DiscreteDistribution()
-        for tree in self.forest:
+        for tree in self.__forest:
             distribution.addItem(tree.predict(instance))
         return distribution.getMaxItem()

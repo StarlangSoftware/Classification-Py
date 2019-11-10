@@ -1,5 +1,7 @@
 class Parameter(object):
 
+    seed: int
+
     """
     Constructor of Parameter class which assigns given seed value to seed.
 

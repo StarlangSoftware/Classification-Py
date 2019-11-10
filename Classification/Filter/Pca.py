@@ -9,6 +9,10 @@ from Classification.Instance.Instance import Instance
 
 class Pca(TrainedFeatureFilter):
 
+    __covarianceExplained: float
+    __eigenvectors: list
+    __numberOfDimensions: int
+
     """
     Constructor that sets the dataSet and covariance explained. Then calls train method.
 
@@ -21,12 +25,12 @@ class Pca(TrainedFeatureFilter):
     numberOfDimensions : int
         Dimension number.
     """
-    def __init__(self, dataSet: DataSet, covarianceExplained = 0.99, numberOfDimensions = -1):
+    def __init__(self, dataSet: DataSet, covarianceExplained=0.99, numberOfDimensions=-1):
         super().__init__(dataSet)
-        self.eigenvectors = []
-        self.covarianceExplained = covarianceExplained
+        self.__eigenvectors = []
+        self.__covarianceExplained = covarianceExplained
         if numberOfDimensions != -1:
-            self.numberOfDimensions = numberOfDimensions
+            self.__numberOfDimensions = numberOfDimensions
         self.train()
 
     """
@@ -37,13 +41,13 @@ class Pca(TrainedFeatureFilter):
     def removeUnnecessaryEigenvectors(self):
         sum = 0.0
         currentSum = 0.0
-        for eigenvector in self.eigenvectors:
+        for eigenvector in self.__eigenvectors:
             sum += eigenvector.eigenvalue()
-        for i in range(len(self.eigenvectors)):
-            if currentSum / sum < self.covarianceExplained:
-                currentSum += self.eigenvectors[i].eigenValue()
+        for i in range(len(self.__eigenvectors)):
+            if currentSum / sum < self.__covarianceExplained:
+                currentSum += self.__eigenvectors[i].eigenValue()
             else:
-                del self.eigenvectors[i:]
+                del self.__eigenvectors[i:]
                 break
 
     """
@@ -51,17 +55,17 @@ class Pca(TrainedFeatureFilter):
     surplus eigenvectors when the number of eigenvectors is greater than the dimension.
     """
     def removeAllEigenvectorsExceptTheMostImportantK(self):
-        del self.eigenvectors[self.numberOfDimensions:]
+        del self.__eigenvectors[self.__numberOfDimensions:]
 
     """
-    The train method creates an averageVector from continuousAttributeAverage and a covariance {@link Matrix} from that averageVector.
-    Then finds the eigenvectors of that covariance matrix and removes its unnecessary eigenvectors.
+    The train method creates an averageVector from continuousAttributeAverage and a covariance {@link Matrix} from that 
+    averageVector. Then finds the eigenvectors of that covariance matrix and removes its unnecessary eigenvectors.
     """
     def train(self):
         averageVector = Vector(self.dataSet.getInstanceList().continuousAttributeAverage())
         covariance = self.dataSet.getInstanceList().covariance(averageVector)
-        self.eigenvectors = covariance.characteristics()
-        if self.numberOfDimensions != -1:
+        self.__eigenvectors = covariance.characteristics()
+        if self.__numberOfDimensions != -1:
             self.removeAllEigenvectorsExceptTheMostImportantK()
         else:
             self.removeUnnecessaryEigenvectors()
@@ -79,7 +83,7 @@ class Pca(TrainedFeatureFilter):
     def convertInstance(self, instance: Instance):
         attributes = Vector(instance.continuousAttributes())
         instance.removeAllAttributes()
-        for eigenvector in self.eigenvectors:
+        for eigenvector in self.__eigenvectors:
             instance.addAttribute(ContinuousAttribute(attributes.dotProduct(eigenvector)))
 
     """
@@ -89,5 +93,5 @@ class Pca(TrainedFeatureFilter):
     def convertDataDefinition(self):
         dataDefinition = self.dataSet.getDataDefinition()
         dataDefinition.removeAllAtrributes()
-        for i in range(len(self.eigenvectors)):
+        for i in range(len(self.__eigenvectors)):
             dataDefinition.addAttribute(AttributeType.CONTINUOUS)

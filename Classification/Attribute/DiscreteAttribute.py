@@ -3,6 +3,8 @@ from Classification.Attribute.Attribute import Attribute
 
 class DiscreteAttribute(Attribute):
 
+    __value: str
+
     """
     Constructor for a discrete attribute.
 
@@ -12,7 +14,7 @@ class DiscreteAttribute(Attribute):
         Value of the attribute.
     """
     def __init__(self, value: str):
-        self.value = value
+        self.__value = value
 
     """
     Accessor method for value.
@@ -23,7 +25,7 @@ class DiscreteAttribute(Attribute):
         value
     """
     def getValue(self) -> str:
-        return self.value
+        return self.__value
 
     """
     Converts value to String.
@@ -34,9 +36,9 @@ class DiscreteAttribute(Attribute):
         String representation of value.
     """
     def __str__(self) -> str:
-        if self.value == ",":
+        if self.__value == ",":
             return "comma"
-        return self.value
+        return self.__value
 
     def continuousAttributeSize(self) -> int:
         return 0

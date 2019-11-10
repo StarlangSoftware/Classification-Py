@@ -1,3 +1,5 @@
+from Math.Matrix import Matrix
+
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.NeuralNetworkModel import NeuralNetworkModel
 from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronParameter
@@ -7,6 +9,8 @@ from Classification.Performance.ClassificationPerformance import ClassificationP
 
 
 class LinearPerceptronModel(NeuralNetworkModel):
+
+    W: Matrix
 
     def initWithTrainSet(self, trainSet: InstanceList):
         super().__init__(trainSet)

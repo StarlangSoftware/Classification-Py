@@ -3,6 +3,11 @@ from Classification.Parameter.Parameter import Parameter
 
 class LinearPerceptronParameter(Parameter):
 
+    learningRate: float
+    etaDecrease: float
+    crossValidationRatio: float
+    __epoch: int
+
     """
     Parameters of the linear perceptron algorithm.
 
@@ -24,7 +29,7 @@ class LinearPerceptronParameter(Parameter):
         self.learningRate = learningRate
         self.etaDecrease = etaDecrease
         self.crossValidationRatio = crossValidationRatio
-        self.epoch = epoch
+        self.__epoch = epoch
 
     """
     Accessor for the learningRate.
@@ -68,4 +73,4 @@ class LinearPerceptronParameter(Parameter):
         The epoch.
     """
     def getEpoch(self) -> int:
-        return self.epoch
+        return self.__epoch

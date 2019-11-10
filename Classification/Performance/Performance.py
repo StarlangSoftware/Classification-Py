@@ -1,5 +1,7 @@
 class Performance(object):
 
+    errorRate: float
+
     """
     Constructor that sets the error rate.
 

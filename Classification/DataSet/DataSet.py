@@ -13,6 +13,9 @@ from Classification.Attribute.DiscreteIndexedAttribute import DiscreteIndexedAtt
 
 class DataSet(object):
 
+    __instances: InstanceList
+    __definition: DataDefinition
+
     """
     Constructor for generating a new DataSet with given DataDefinition.
 
@@ -22,8 +25,8 @@ class DataSet(object):
         Data definition of the data set.
     """
     def __init__(self, definition=None):
-        self.definition = definition
-        self.instances = InstanceList()
+        self.__definition = definition
+        self.__instances = InstanceList()
 
     """
     Constructor for generating a new DataSet from given File.
@@ -34,8 +37,8 @@ class DataSet(object):
         File to generate DataSet from.
     """
     def initWithFile(self, fileName: str):
-        self.instances = InstanceList()
-        self.definition = DataDefinition()
+        self.__instances = InstanceList()
+        self.__definition = DataDefinition()
         input = open(fileName, 'r')
         lines = input.readlines()
         i = 0
@@ -45,24 +48,24 @@ class DataSet(object):
                 for j in range(len(attributes) - 1):
                     try:
                         float(attributes[j])
-                        self.definition.addAttribute(AttributeType.CONTINUOUS)
+                        self.__definition.addAttribute(AttributeType.CONTINUOUS)
                     except:
-                        self.definition.addAttribute(AttributeType.DISCRETE)
+                        self.__definition.addAttribute(AttributeType.DISCRETE)
             else:
-                if len(attributes) != self.definition.attributeCount() + 1:
+                if len(attributes) != self.__definition.attributeCount() + 1:
                     continue
-            if not ";" in attributes[len(attributes) - 1]:
+            if ";" not in attributes[len(attributes) - 1]:
                 instance = Instance(attributes[len(attributes) - 1])
             else:
                 labels = attributes[len(attributes) - 1].split(";")
                 instance = CompositeInstance(labels[0], None, labels)
             for j in range(len(attributes) - 1):
-                if self.definition.getAttributeType(j) is AttributeType.CONTINUOUS:
+                if self.__definition.getAttributeType(j) is AttributeType.CONTINUOUS:
                     instance.addAttribute(ContinuousAttribute(float(attributes[j])))
-                elif self.definition.getAttributeType(j) is AttributeType.DISCRETE:
+                elif self.__definition.getAttributeType(j) is AttributeType.DISCRETE:
                     instance.addAttribute(DiscreteAttribute(attributes[j]))
-            if instance.attributeSize() == self.definition.attributeCount():
-                self.instances.add(instance)
+            if instance.attributeSize() == self.__definition.attributeCount():
+                self.__instances.add(instance)
             i = i + 1
 
     """
@@ -78,14 +81,14 @@ class DataSet(object):
         Name of the data set file.
     """
     def initWithDefinitionAndFile(self, definition: DataDefinition, separator: str, fileName: str):
-        self.definition = definition
-        self.instances = InstanceList()
-        self.instances.initWithDefinitionAndFile(definition, separator, fileName)
+        self.__definition = definition
+        self.__instances = InstanceList()
+        self.__instances.initWithDefinitionAndFile(definition, separator, fileName)
 
     """
-    Checks the correctness of the attribute type, for instance, if the attribute of given instance is a Binary attribute,
-    and the attribute type of the corresponding item of the data definition is also a Binary attribute, it then
-    returns true, and false otherwise.
+    Checks the correctness of the attribute type, for instance, if the attribute of given instance is a Binary 
+    attribute, and the attribute type of the corresponding item of the data definition is also a Binary attribute, it 
+    then returns true, and false otherwise.
 
     PARAMETERS
     ----------
@@ -100,16 +103,16 @@ class DataSet(object):
     def checkDefinition(self, instance: Instance) -> bool:
         for i in range(instance.attributeSize()):
             if isinstance(instance.getAttribute(i), BinaryAttribute):
-                if self.definition.getAttributeType(i) is not AttributeType.BINARY:
+                if self.__definition.getAttributeType(i) is not AttributeType.BINARY:
                     return False
             elif isinstance(instance.getAttribute(i), DiscreteIndexedAttribute):
-                if self.definition.getAttributeType(i) is not AttributeType.DISCRETE_INDEXED:
+                if self.__definition.getAttributeType(i) is not AttributeType.DISCRETE_INDEXED:
                     return False
             elif isinstance(instance.getAttribute(i), DiscreteAttribute):
-                if self.definition.getAttributeType(i) is not AttributeType.DISCRETE:
+                if self.__definition.getAttributeType(i) is not AttributeType.DISCRETE:
                     return False
             elif isinstance(instance.getAttribute(i), ContinuousAttribute):
-                if self.definition.getAttributeType(i) is not AttributeType.CONTINUOUS:
+                if self.__definition.getAttributeType(i) is not AttributeType.CONTINUOUS:
                     return False
         return True
 
@@ -133,7 +136,7 @@ class DataSet(object):
                 attributeTypes.append(AttributeType.DISCRETE)
             elif isinstance(instance.getAttribute(i), ContinuousAttribute):
                 attributeTypes.append(AttributeType.CONTINUOUS)
-        self.definition = DataDefinition(attributeTypes)
+        self.__definition = DataDefinition(attributeTypes)
 
     """
     Returns the size of the InstanceList.
@@ -144,7 +147,7 @@ class DataSet(object):
         Size of the InstanceList.
     """
     def sampleSize(self) -> int:
-        return self.instances.size()
+        return self.__instances.size()
 
     """
     Returns the size of the class label distribution of InstanceList.
@@ -155,7 +158,7 @@ class DataSet(object):
         Size of the class label distribution of InstanceList.
     """
     def classCount(self) -> int:
-        return len(self.instances.classDistribution())
+        return len(self.__instances.classDistribution())
 
     """
     Returns the number of attribute types at DataDefinition list.
@@ -166,7 +169,7 @@ class DataSet(object):
         The number of attribute types at DataDefinition list.
     """
     def attributeCount(self) -> int:
-        return self.definition.attributeCount()
+        return self.__definition.attributeCount()
 
     """
     Returns the number of discrete attribute types at DataDefinition list.
@@ -177,7 +180,7 @@ class DataSet(object):
         The number of discrete attribute types at DataDefinition list.
     """
     def discreteAttributeCount(self) -> int:
-        return self.definition.discreteAttributeCount()
+        return self.__definition.discreteAttributeCount()
 
     """
     Returns the number of continuous attribute types at DataDefinition list.
@@ -188,7 +191,7 @@ class DataSet(object):
         The number of continuous attribute types at DataDefinition list.
     """
     def continuousAttributeCount(self) -> int:
-        return self.definition.continuousAttributeCount()
+        return self.__definition.continuousAttributeCount()
 
     """
     Returns the accumulated String of class labels of the InstanceList.
@@ -199,7 +202,7 @@ class DataSet(object):
         The accumulated String of class labels of the InstanceList.
     """
     def getClasses(self) -> str:
-        classLabels = self.instances.getDistinctClassLabels()
+        classLabels = self.__instances.getDistinctClassLabels()
         result = classLabels[0]
         for i in range(len(classLabels)):
             result = result + ";" + classLabels[i]
@@ -238,11 +241,11 @@ class DataSet(object):
         Instance to add.
     """
     def addInstance(self, current: Instance):
-        if self.definition is None:
+        if self.__definition is None:
             self.setDefinition(current)
-            self.instances.add(current)
+            self.__instances.add(current)
         elif self.checkDefinition(current):
-            self.instances.add(current)
+            self.__instances.add(current)
 
     """
     Adds all the instances of given instance list to the InstanceList.
@@ -252,7 +255,7 @@ class DataSet(object):
     instanceList : list
         InstanceList to add instances from.
     """
-    def addInstanceList(self, instanceList : list):
+    def addInstanceList(self, instanceList: list):
         for instance in instanceList:
             self.addInstance(instance)
 
@@ -265,7 +268,7 @@ class DataSet(object):
         The instances of InstanceList.
     """
     def getInstances(self) -> list:
-        return self.instances.getInstances()
+        return self.__instances.getInstances()
 
     """
     Returns instances of the items at the list of instance lists from the partitions.
@@ -276,7 +279,7 @@ class DataSet(object):
         Instances of the items at the list of instance lists from the partitions.
     """
     def getClassInstances(self) -> list:
-        return self.instances.divideIntoClasses().getLists()
+        return self.__instances.divideIntoClasses().getLists()
 
     """
     Accessor for the InstanceList.
@@ -287,7 +290,7 @@ class DataSet(object):
         The InstanceList.
     """
     def getInstanceList(self) -> InstanceList:
-        return self.instances
+        return self.__instances
 
     """
     Accessor for the data definition.
@@ -298,7 +301,7 @@ class DataSet(object):
         The data definition.
     """
     def getDataDefinition(self) -> DataDefinition:
-        return self.definition
+        return self.__definition
 
     """
     Return a subset generated via the given FeatureSubSet.
@@ -314,9 +317,9 @@ class DataSet(object):
         Subset generated via the given FeatureSubSet.
     """
     def getSubSetOfFeatures(self, featureSubSet: FeatureSubSet) -> DataSet:
-        result = DataSet(self.definition.getSubSetOfFeatures(featureSubSet))
-        for i in range(self.instances.size()):
-            result.addInstance(self.instances.get(i).getSubSetOfFeatures(featureSubSet))
+        result = DataSet(self.__definition.getSubSetOfFeatures(featureSubSet))
+        for i in range(self.__instances.size()):
+            result.addInstance(self.__instances.get(i).getSubSetOfFeatures(featureSubSet))
         return result
 
     """
@@ -329,6 +332,6 @@ class DataSet(object):
     """
     def writeToFile(self, outFileName: str):
         outfile = open(outFileName, "w")
-        for i in range(self.instances.size()):
-            outfile.write(self.instances.get(i).__str__() + "\n")
+        for i in range(self.__instances.size()):
+            outfile.write(self.__instances.get(i).__str__() + "\n")
         outfile.close()
