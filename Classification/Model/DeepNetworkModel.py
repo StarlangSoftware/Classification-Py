@@ -1,6 +1,7 @@
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.NeuralNetworkModel import NeuralNetworkModel
 from Classification.Parameter.DeepNetworkParameter import DeepNetworkParameter
+from Math.Matrix import Matrix
 import copy
 
 from Classification.Performance.ClassificationPerformance import ClassificationPerformance
@@ -54,16 +55,16 @@ class DeepNetworkModel(NeuralNetworkModel):
                         hidden.append(self.calculateHidden(hiddenBiased[k - 1], self.__weights[k]))
                     hiddenBiased.append(hidden[k].biased())
                 rMinusY = self.calculateRMinusY(trainSet.get(j), hiddenBiased[self.__hiddenLayerSize - 1], self.__weights[len(self.__weights) - 1])
-                deltaWeights.insert(0, rMinusY.multiplyWithVector(hiddenBiased[self.__hiddenLayerSize - 1]))
+                deltaWeights.insert(0, Matrix(rMinusY, hiddenBiased[self.__hiddenLayerSize - 1]))
                 for k in range(len(self.__weights) - 2, -1, -1):
                     oneMinusHidden = self.calculateOneMinusHidden(hidden[k])
                     tmph = deltaWeights[0].elementProduct(self.__weights[k + 1]).sumOfRows()
                     tmph.remove(0)
                     tmpHidden = oneMinusHidden.elementProduct(tmph)
                     if k == 0:
-                        deltaWeights.insert(0, tmpHidden.multiplyWithVector(self.x))
+                        deltaWeights.insert(0, Matrix(tmpHidden, self.x))
                     else:
-                        deltaWeights.insert(0, tmpHidden.multiplyWithVector(hiddenBiased[k - 1]))
+                        deltaWeights.insert(0, Matrix(tmpHidden, hiddenBiased[k - 1]))
                 for k in range(len(self.__weights)):
                     deltaWeights[k].multiplyWithConstant(learningRate)
                     self.__weights[k].add(deltaWeights[k])

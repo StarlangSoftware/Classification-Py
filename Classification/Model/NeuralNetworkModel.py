@@ -52,8 +52,7 @@ class NeuralNetworkModel(ValidatedModel):
         Matrix with random weights.
     """
     def allocateLayerWeights(self, row: int, column: int) -> Matrix:
-        matrix = Matrix(row, column)
-        matrix.initRandom(-0.01, +0.01)
+        matrix = Matrix(row, column, -0.01, +0.01)
         return matrix
 
     """
@@ -71,12 +70,12 @@ class NeuralNetworkModel(ValidatedModel):
         Normalized vector.
     """
     def normalizeOutput(self, o: Vector) -> Vector:
-        sum = 0.0
+        total = 0.0
         values = []
         for i in range(len(values)):
-            sum += math.exp(o.getValue(i))
+            total += math.exp(o.getValue(i))
         for i in range(len(values)):
-            values.append(math.exp(o.getValue(i)) / sum)
+            values.append(math.exp(o.getValue(i)) / total)
         return Vector(values)
 
     """

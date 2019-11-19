@@ -42,7 +42,7 @@ class LinearPerceptronModel(NeuralNetworkModel):
             for j in range(trainSet.size()):
                 self.createInputVector(trainSet.get(j))
                 rMinusY = self.calculateRMinusY(trainSet.get(j), self.x, self.W)
-                deltaW = rMinusY.multiplyWithVector(self.x)
+                deltaW = Matrix(rMinusY, self.x)
                 deltaW.multiplyWithConstant(learningRate)
                 self.W.add(deltaW)
             currentClassificationPerformance = self.testClassifier(validationSet)
