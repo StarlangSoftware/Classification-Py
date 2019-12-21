@@ -1,4 +1,3 @@
-from Math.Matrix import Matrix
 from Math.Vector import Vector
 from copy import deepcopy
 
