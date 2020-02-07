@@ -37,7 +37,8 @@ class Normalize(FeatureFilter):
                 xi = instance.getAttribute(i)
                 mi = self.__averageInstance.getAttribute(i)
                 si = self.__standardDeviationInstance.getAttribute(i)
-                xi.setValue((xi.getValue() - mi.getValue()) / si.getValue())
+                if isinstance(xi, ContinuousAttribute):
+                    xi.setValue((xi.getValue() - mi.getValue()) / si.getValue())
 
     def convertDataDefinition(self):
         pass

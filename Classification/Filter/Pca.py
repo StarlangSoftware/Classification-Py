@@ -39,12 +39,12 @@ class Pca(TrainedFeatureFilter):
     these eigenvectors.
     """
     def removeUnnecessaryEigenvectors(self):
-        sum = 0.0
+        total = 0.0
         currentSum = 0.0
         for eigenvector in self.__eigenvectors:
-            sum += eigenvector.eigenvalue()
+            total += eigenvector.eigenvalue()
         for i in range(len(self.__eigenvectors)):
-            if currentSum / sum < self.__covarianceExplained:
+            if currentSum / total < self.__covarianceExplained:
                 currentSum += self.__eigenvectors[i].eigenValue()
             else:
                 del self.__eigenvectors[i:]

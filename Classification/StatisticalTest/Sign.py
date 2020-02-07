@@ -15,7 +15,8 @@ class Sign(PairedTest):
 
     def compare(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance) -> StatisticalTestResult:
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
-            raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of experiments in both algorithms.")
+            raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
+                                               "experiments in both algorithms.")
         plus = 0
         minus = 0
         for i in range(classifier1.numberOfExperiments()):

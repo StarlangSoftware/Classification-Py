@@ -40,7 +40,7 @@ class ExperimentPerformance:
     """
     def initWithFile(self, fileName: str):
         self.__containsDetails = False
-        inputFile = open(fileName, "r")
+        inputFile = open(fileName, "r", encoding='utf8')
         lines = inputFile.readlines()
         for line in lines:
             self.__results.append(Performance(float(line)))

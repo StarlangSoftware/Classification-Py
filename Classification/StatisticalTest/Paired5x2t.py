@@ -10,7 +10,8 @@ class Paired5x2t(PairedTest):
 
     def testStatistic(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance):
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
-            raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of experiments in both algorithms.")
+            raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
+                                               "experiments in both algorithms.")
         if classifier1.numberOfExperiments() != 10:
             raise StatisticalTestNotApplicable("In order to apply a 5x2 test, you need to have 10 experiments.")
         difference = []
@@ -19,7 +20,8 @@ class Paired5x2t(PairedTest):
         denominator = 0
         for i in range(classifier1.numberOfExperiments() // 2):
             mean = (difference[2 * i] + difference[2 * i + 1]) / 2
-            variance = (difference[2 * i] - mean) * (difference[2 * i] - mean) + (difference[2 * i + 1] - mean) * (difference[2 * i + 1] - mean)
+            variance = (difference[2 * i] - mean) * (difference[2 * i] - mean) + (difference[2 * i + 1] - mean) \
+                       * (difference[2 * i + 1] - mean)
             denominator += variance
         denominator = math.sqrt(denominator / 5)
         if denominator == 0:

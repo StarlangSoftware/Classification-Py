@@ -10,7 +10,8 @@ class Combined5x2t(PairedTest):
 
     def testStatistic(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance):
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
-            raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of experiments in both algorithms.")
+            raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
+                                               "experiments in both algorithms.")
         if classifier1.numberOfExperiments() != 10:
             raise StatisticalTestNotApplicable("In order to apply a 5x2 test, you need to have 10 experiments.")
         difference = []

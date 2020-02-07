@@ -12,7 +12,7 @@ class Dummy(Classifier):
 
     PARAMETERS
     ----------
-    trainSet : InstanceList
+    trainSet: InstanceList
         Training data given to the algorithm.
     """
     def train(self, trainSet: InstanceList, parameters: Parameter):

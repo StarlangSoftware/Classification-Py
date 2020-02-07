@@ -24,7 +24,8 @@ class KFoldRun(MultipleRun):
     def __init__(self, K: int):
         self.K = K
 
-    def runExperiment(self, classifier: Classifier, parameter: Parameter, experimentPerformance: ExperimentPerformance, crossValidation: CrossValidation):
+    def runExperiment(self, classifier: Classifier, parameter: Parameter, experimentPerformance: ExperimentPerformance,
+                      crossValidation: CrossValidation):
         for i in range(self.K):
             trainSet = InstanceList(crossValidation.getTrainFold(i))
             testSet = InstanceList(crossValidation.getTestFold(i))
@@ -46,6 +47,7 @@ class KFoldRun(MultipleRun):
     """
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
         result = ExperimentPerformance()
-        crossValidation = KFoldCrossValidation(experiment.getDataSet().getInstances(), self.K, experiment.getParameter().getSeed())
+        crossValidation = KFoldCrossValidation(experiment.getDataSet().getInstances(), self.K, experiment.getParameter()
+                                               .getSeed())
         self.runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation)
         return result

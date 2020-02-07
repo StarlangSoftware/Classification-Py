@@ -43,6 +43,8 @@ class MxKFoldRunSeparateTest(KFoldRunSeparateTest):
         instanceList = experiment.getDataSet().getInstanceList()
         partition = instanceList.partition(0.25, experiment.getParameter().getSeed())
         for j in range(self.M):
-            crossValidation = KFoldCrossValidation(partition.get(1).getInstances(), self.K, experiment.getParameter().getSeed())
-            self.runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation, partition.get(0))
+            crossValidation = KFoldCrossValidation(partition.get(1).getInstances(), self.K, experiment.getParameter().
+                                                   getSeed())
+            self.runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation,
+                               partition.get(0))
         return result

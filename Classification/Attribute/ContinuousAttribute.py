@@ -53,6 +53,5 @@ class ContinuousAttribute(Attribute):
         return 1
 
     def continuousAttributes(self) -> list:
-        result = []
-        result.append(self.__value)
+        result = [self.__value]
         return result

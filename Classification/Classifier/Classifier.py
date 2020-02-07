@@ -13,6 +13,8 @@ from DataStructure.CounterHashMap import CounterHashMap
 
 class Classifier(object):
 
+    model: Model
+
     @abstractmethod
     def train(self, trainSet: InstanceList, parameters: Parameter):
         pass
@@ -31,7 +33,8 @@ class Classifier(object):
     """
     def discreteCheck(self, instance: Instance) -> bool:
         for i in range(instance.attributeSize()):
-            if isinstance(instance.getAttribute(i), DiscreteAttribute) and not isinstance(instance.getAttribute(i), DiscreteIndexedAttribute):
+            if isinstance(instance.getAttribute(i), DiscreteAttribute) and not isinstance(instance.getAttribute(i),
+                                                                                          DiscreteIndexedAttribute):
                 return False
         return True
 
@@ -101,6 +104,7 @@ class Classifier(object):
     str
         The class label that occurs most in the array of class labels (mod of class label list).
     """
+    @staticmethod
     def getMaximum(classLabels: list) -> str:
         frequencies = CounterHashMap()
         for label in classLabels:

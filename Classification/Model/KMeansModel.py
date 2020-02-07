@@ -7,7 +7,6 @@ from Classification.Model.GaussianModel import GaussianModel
 
 
 class KMeansModel(GaussianModel):
-
     __classMeans: InstanceList
     __distanceMetric: DistanceMetric
 
@@ -23,7 +22,9 @@ class KMeansModel(GaussianModel):
     distanceMetric : DistanceMetric
         DistanceMetric input.
     """
-    def __init__(self, priorDistribution: DiscreteDistribution, classMeans: InstanceList, distanceMetric: DistanceMetric):
+
+    def __init__(self, priorDistribution: DiscreteDistribution, classMeans: InstanceList,
+                 distanceMetric: DistanceMetric):
         self.__classMeans = classMeans
         self.priorDistribution = priorDistribution
         self.__distanceMetric = distanceMetric
@@ -45,6 +46,7 @@ class KMeansModel(GaussianModel):
     float
         The negated distance between given instance and the current item of class means.
     """
+
     def calculateMetric(self, instance: Instance, Ci: str) -> float:
         for i in range(self.__classMeans.size()):
             if self.__classMeans.get(i).getClassLabel() == Ci:

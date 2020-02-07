@@ -18,7 +18,7 @@ class DiscreteIndexedAttribute(DiscreteAttribute):
     maxIndex : int
         Maximum index of the attribute.
     """
-    def __init__(self, value : str, index: int, maxIndex: int):
+    def __init__(self, value: str, index: int, maxIndex: int):
         super().__init__(value)
         self.__index = index
         self.__maxIndex = maxIndex

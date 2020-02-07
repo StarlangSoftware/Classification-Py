@@ -8,7 +8,8 @@ from Classification.Performance.ExperimentPerformance import ExperimentPerforman
 class StratifiedMxKFoldRun(MxKFoldRun):
 
     """
-    Constructor for StratifiedMxKFoldRun class. Basically sets K parameter of the K-fold cross-validation and M for the number of times.
+    Constructor for StratifiedMxKFoldRun class. Basically sets K parameter of the K-fold cross-validation and M for the
+    number of times.
 
     PARAMETERS
     ----------
@@ -37,6 +38,7 @@ class StratifiedMxKFoldRun(MxKFoldRun):
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
         result = ExperimentPerformance()
         for j in range(self.M):
-            crossValidation = StratifiedKFoldCrossValidation(experiment.getDataSet().getClassInstances(), self.K, experiment.getParameter().getSeed())
+            crossValidation = StratifiedKFoldCrossValidation(experiment.getDataSet().getClassInstances(), self.K,
+                                                             experiment.getParameter().getSeed())
             self.runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation)
         return result

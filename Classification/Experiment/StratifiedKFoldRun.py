@@ -19,7 +19,8 @@ class StratifiedKFoldRun(KFoldRun):
         super().__init__(K)
 
     """
-    Execute Stratified K-fold cross-validation with the given classifier on the given data set using the given parameters.
+    Execute Stratified K-fold cross-validation with the given classifier on the given data set using the given 
+    parameters.
 
     PARAMETERS
     ----------
@@ -33,6 +34,7 @@ class StratifiedKFoldRun(KFoldRun):
     """
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
         result = ExperimentPerformance()
-        crossValidation = StratifiedKFoldCrossValidation(experiment.getDataSet().getClassInstances(), self.K, experiment.getParameter().getSeed())
+        crossValidation = StratifiedKFoldCrossValidation(experiment.getDataSet().getClassInstances(), self.K,
+                                                         experiment.getParameter().getSeed())
         self.runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation)
         return result

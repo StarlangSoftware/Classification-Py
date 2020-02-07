@@ -10,7 +10,8 @@ class PairedTest(object):
     def compare(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance) -> StatisticalTestResult:
         pass
 
-    def compareWithAlpha(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance, alpha: float) -> int:
+    def compareWithAlpha(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance, alpha: float) \
+            -> int:
         testResult1 = self.compare(classifier1, classifier2)
         testResult2 = self.compare(classifier2, classifier1)
         testResultType1 = testResult1.oneTailed(alpha)

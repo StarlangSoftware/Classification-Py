@@ -86,7 +86,8 @@ class KnnModel(Model):
             possibleClassLabels = instance.getPossibleClassLabels()
         for i in range(self.__data.size()):
             if not isinstance(instance, CompositeInstance) or self.__data.get(i).getClassLabel() in possibleClassLabels:
-                instances.append(KnnInstance(self.__data.get(i), self.__distanceMetric.distance(self.__data.get(i), instance)))
+                instances.append(KnnInstance(self.__data.get(i), self.__distanceMetric.distance(self.__data.get(i),
+                                                                                                instance)))
         instances.sort(key=self.makeComparator())
         for i in range(min(self.__k, len(instances))):
             result.add(instances[i].instance)

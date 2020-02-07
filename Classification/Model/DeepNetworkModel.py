@@ -54,7 +54,8 @@ class DeepNetworkModel(NeuralNetworkModel):
                     else:
                         hidden.append(self.calculateHidden(hiddenBiased[k - 1], self.__weights[k]))
                     hiddenBiased.append(hidden[k].biased())
-                rMinusY = self.calculateRMinusY(trainSet.get(j), hiddenBiased[self.__hiddenLayerSize - 1], self.__weights[len(self.__weights) - 1])
+                rMinusY = self.calculateRMinusY(trainSet.get(j), hiddenBiased[self.__hiddenLayerSize - 1],
+                                                self.__weights[len(self.__weights) - 1])
                 deltaWeights.insert(0, Matrix(rMinusY, hiddenBiased[self.__hiddenLayerSize - 1]))
                 for k in range(len(self.__weights) - 2, -1, -1):
                     oneMinusHidden = self.calculateOneMinusHidden(hidden[k])
@@ -91,8 +92,10 @@ class DeepNetworkModel(NeuralNetworkModel):
         self.__weights = []
         self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(0), self.d + 1))
         for i in range(parameters.layerSize() - 1):
-            self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(i + 1), parameters.getHiddenNodes(i) + 1))
-        self.__weights.append(self.allocateLayerWeights(self.K, parameters.getHiddenNodes(parameters.layerSize() - 1) + 1))
+            self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(i + 1),
+                                                            parameters.getHiddenNodes(i) + 1))
+        self.__weights.append(self.allocateLayerWeights(self.K,
+                                                        parameters.getHiddenNodes(parameters.layerSize() - 1) + 1))
         self.__hiddenLayerSize = parameters.layerSize()
 
     """

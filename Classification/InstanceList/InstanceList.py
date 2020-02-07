@@ -61,7 +61,7 @@ class InstanceList(object):
     """
     def initWithDefinitionAndFile(self, definition: DataDefinition, separator: str, fileName: str):
         self.list = []
-        file = open(fileName, 'r')
+        file = open(fileName, 'r', encoding='utf8')
         lines = file.readlines()
         for line in lines:
             attributeList = line.split(separator)
@@ -586,7 +586,8 @@ class InstanceList(object):
         for _ in valueList:
             distributions.append(DiscreteDistribution())
         for instance in self.list:
-            distributions[valueList.index(instance.getAttribute(attributeIndex).getValue())].addItem(instance.getClassLabel())
+            distributions[valueList.index(instance.getAttribute(attributeIndex).getValue())].addItem(instance.
+                                                                                                     getClassLabel())
         return distributions
 
     """
@@ -606,7 +607,8 @@ class InstanceList(object):
     DiscreteDistribution
         Distribution of the class labels.
     """
-    def discreteIndexedAttributeClassDistribution(self, attributeIndex: int, attributeValue: int) -> DiscreteDistribution:
+    def discreteIndexedAttributeClassDistribution(self, attributeIndex: int, attributeValue: int) -> \
+            DiscreteDistribution:
         distribution = DiscreteDistribution()
         for instance in self.list:
             if instance.getAttribute(attributeIndex).getIndex() == attributeValue:

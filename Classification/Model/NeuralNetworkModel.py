@@ -10,8 +10,8 @@ from Classification.Model.ValidatedModel import ValidatedModel
 
 import math
 
-class NeuralNetworkModel(ValidatedModel):
 
+class NeuralNetworkModel(ValidatedModel):
     classLabels: list
     K: int
     d: int
@@ -31,6 +31,7 @@ class NeuralNetworkModel(ValidatedModel):
     trainSet : InstanceList
         InstanceList to use as train set.
     """
+
     def __init__(self, trainSet: InstanceList):
         self.classLabels = trainSet.getDistinctClassLabels()
         self.K = len(self.classLabels)
@@ -51,6 +52,7 @@ class NeuralNetworkModel(ValidatedModel):
     Matrix
         Matrix with random weights.
     """
+
     def allocateLayerWeights(self, row: int, column: int) -> Matrix:
         matrix = Matrix(row, column, -0.01, +0.01)
         return matrix
@@ -69,6 +71,7 @@ class NeuralNetworkModel(ValidatedModel):
     Vector
         Normalized vector.
     """
+
     def normalizeOutput(self, o: Vector) -> Vector:
         total = 0.0
         values = []
@@ -87,6 +90,7 @@ class NeuralNetworkModel(ValidatedModel):
     instance : Instance
         Instance to insert 1.0.
     """
+
     def createInputVector(self, instance: Instance):
         self.x = instance.toVector()
         self.x.insert(0, 1.0)
@@ -107,6 +111,7 @@ class NeuralNetworkModel(ValidatedModel):
     Vector
         Result of sigmoid function.
     """
+
     def calculateHidden(self, input: Vector, weights: Matrix) -> Vector:
         z = weights.multiplyWithVectorFromRight(input)
         z.sigmoid()
@@ -126,6 +131,7 @@ class NeuralNetworkModel(ValidatedModel):
     Vector
         Returns the difference between ones Vector and input Vector.
     """
+
     def calculateOneMinusHidden(self, hidden: Vector) -> Vector:
         one = Vector()
         one.initAllSame(hidden.size(), 1.0)
@@ -142,6 +148,7 @@ class NeuralNetworkModel(ValidatedModel):
     V : Matrix
         Matrix to multiply.
     """
+
     def calculateForwardSingleHiddenLayer(self, W: Matrix, V: Matrix):
         hidden = self.calculateHidden(self.x, W)
         hiddenBiased = hidden.biased()
@@ -149,8 +156,8 @@ class NeuralNetworkModel(ValidatedModel):
 
     """
     The calculateRMinusY method creates a new Vector with given Instance, then it multiplies given
-    input Vector with given weights Matrix. After normalizing the output, it return the difference between the newly created
-    Vector and normalized output.
+    input Vector with given weights Matrix. After normalizing the output, it return the difference between the newly 
+    created Vector and normalized output.
 
     PARAMETERS
     ----------
@@ -166,10 +173,11 @@ class NeuralNetworkModel(ValidatedModel):
     Vector
         Difference between newly created Vector and normalized output.
     """
-    def calculateRMinusY(self, instance: Instance, input: Vector, weights: Matrix) -> Vector:
+
+    def calculateRMinusY(self, instance: Instance, inputVector: Vector, weights: Matrix) -> Vector:
         r = Vector()
         r.initAllZerosExceptOne(self.K, self.classLabels.index(instance.getClassLabel()), 1.0)
-        o = weights.multiplyWithVectorFromRight(input)
+        o = weights.multiplyWithVectorFromRight(inputVector)
         y = self.normalizeOutput(o)
         return r.difference(y)
 
@@ -187,6 +195,7 @@ class NeuralNetworkModel(ValidatedModel):
     str
         The class label which has the maximum value of y.
     """
+
     def predictWithCompositeInstance(self, possibleClassLabels: list) -> str:
         predictedClass = possibleClassLabels[0]
         maxY = -100000000
@@ -210,6 +219,7 @@ class NeuralNetworkModel(ValidatedModel):
     str
         The class label which has the maximum y.
     """
+
     def predict(self, instance: Instance) -> str:
         self.createInputVector(instance)
         self.calculateOutput()

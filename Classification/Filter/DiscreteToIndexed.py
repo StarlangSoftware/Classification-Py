@@ -30,5 +30,6 @@ class DiscreteToIndexed(LaryFilter):
         for i in range(size):
             if len(self.attributeDistributions[i]) > 0:
                 index = self.attributeDistributions[i].getIndex(instance.getAttribute(i).__str__())
-                instance.addAttribute(DiscreteIndexedAttribute(instance.getAttribute(i).__str__(), index, len(self.attributeDistributions[i])))
+                instance.addAttribute(DiscreteIndexedAttribute(instance.getAttribute(i).__str__(), index,
+                                                               len(self.attributeDistributions[i])))
         self.removeDiscreteAttributesFromInstance(instance, size)

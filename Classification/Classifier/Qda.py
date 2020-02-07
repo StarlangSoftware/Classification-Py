@@ -12,7 +12,8 @@ import math
 class Lda(Classifier):
 
     """
-    Training algorithm for the quadratic discriminant analysis classifier (Introduction to Machine Learning, Alpaydin, 2015).
+    Training algorithm for the quadratic discriminant analysis classifier (Introduction to Machine Learning, Alpaydin,
+    2015).
 
     PARAMETERS
     ----------
@@ -37,6 +38,7 @@ class Lda(Classifier):
             W[Ci] = Wi
             wi = classCovariance.multiplyWithVectorFromLeft(averageVector)
             w[Ci] = wi
-            w0i = -0.5 * (wi.dotProduct(averageVector) + math.log(determinant)) + math.log(priorDistribution.getProbability(Ci))
+            w0i = -0.5 * (wi.dotProduct(averageVector) + math.log(determinant)) + math.log(priorDistribution.
+                                                                                           getProbability(Ci))
             w0[Ci] = w0i
         self.model = QdaModel(priorDistribution, W, w, w0)

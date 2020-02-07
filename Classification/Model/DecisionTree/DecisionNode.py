@@ -138,7 +138,7 @@ class DecisionNode(object):
         total = 0.0
         distributions = self.__data.attributeClassDistribution(attributeIndex)
         for distribution in distributions:
-            total += (distributions.getSum() / self.__data.size()) * distribution.entropy()
+            total += (distribution.getSum() / self.__data.size()) * distribution.entropy()
         return total
 
     """
@@ -156,7 +156,8 @@ class DecisionNode(object):
     isStump : bool       
         Refers to decision trees with only 1 splitting rule.
     """
-    def createChildrenForDiscreteIndexed(self, attributeIndex: int, attributeValue: int, parameter: RandomForestParameter, isStump: bool):
+    def createChildrenForDiscreteIndexed(self, attributeIndex: int, attributeValue: int,
+                                         parameter: RandomForestParameter, isStump: bool):
         childrenData = self.__data.divideWithRespectToIndexedAtribute(attributeIndex, attributeValue)
         self.__children.append(DecisionNode(childrenData.get(0), DecisionCondition(attributeIndex, DiscreteIndexedAttribute("", attributeValue, self.__data.get(0).getAttribute(attributeIndex).getMaxIndex())), parameter, isStump))
         self.__children.append(DecisionNode(childrenData.get(1), DecisionCondition(attributeIndex, DiscreteIndexedAttribute("", -1, self.__data.get(0).getAttribute(attributeIndex).getMaxIndex())), parameter, isStump))
@@ -195,10 +196,15 @@ class DecisionNode(object):
     splitValue : float    
         Split value is used for partitioning.
     """
-    def createChildrenForContinuous(self, attributeIndex: int, splitValue: float, parameter: RandomForestParameter, isStump: bool):
+    def createChildrenForContinuous(self, attributeIndex: int, splitValue: float, parameter: RandomForestParameter,
+                                    isStump: bool):
         childrenData = self.__data.divideWithRespectToContinuousAttribute(attributeIndex, splitValue)
-        self.__children.append(DecisionNode(childrenData.get(0), DecisionCondition(attributeIndex, ContinuousAttribute(splitValue), "<"), parameter, isStump))
-        self.__children.append(DecisionNode(childrenData.get(0), DecisionCondition(attributeIndex, ContinuousAttribute(splitValue), ">"), parameter, isStump))
+        self.__children.append(DecisionNode(childrenData.get(0),
+                                            DecisionCondition(attributeIndex, ContinuousAttribute(splitValue), "<"),
+                                            parameter, isStump))
+        self.__children.append(DecisionNode(childrenData.get(0),
+                                            DecisionCondition(attributeIndex, ContinuousAttribute(splitValue), ">"),
+                                            parameter, isStump))
 
     """
     The prune method takes a DecisionTree and an InstanceList as inputs. It checks the classification performance

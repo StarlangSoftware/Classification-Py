@@ -11,9 +11,9 @@ class EuclidianDistance(DistanceMetric):
         result = 0
         for i in range(instance1.attributeSize()):
             if isinstance(instance1.getAttribute(i), DiscreteAttribute) and \
-                isinstance(instance2.getAttribute(i), DiscreteAttribute):
+                    isinstance(instance2.getAttribute(i), DiscreteAttribute):
                 if instance1.getAttribute(i).getValue() is not None and \
-                    instance1.getAttribute(i).getValue() != instance2.getAttribute(i).getValue():
+                        instance1.getAttribute(i).getValue() != instance2.getAttribute(i).getValue():
                     result += 1
             else:
                 if isinstance(instance1.getAttribute(i), ContinuousAttribute) and \

@@ -36,4 +36,5 @@ class AutoEncoder(Classifier):
         Error rate.
     """
     def test(self, testSet: InstanceList) -> Performance:
-        return self.model.testAutoEncoder(testSet)
+        if isinstance(self.model, AutoEncoderModel):
+            return self.model.testAutoEncoder(testSet)

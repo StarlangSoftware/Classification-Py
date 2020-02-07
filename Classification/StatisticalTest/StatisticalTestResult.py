@@ -13,7 +13,8 @@ class StatisticalTestResult(object):
 
     def oneTailed(self, alpha: float) -> StatisticalTestResultType:
         if self.__onlyTwoTailed:
-            raise StatisticalTestNotApplicable("One tailed option is not available for this test. The distribution is one tailed distribution.")
+            raise StatisticalTestNotApplicable("One tailed option is not available for this test. The distribution is "
+                                               "one tailed distribution.")
         if self.__pValue < alpha:
             return StatisticalTestResultType.REJECT
         else:
