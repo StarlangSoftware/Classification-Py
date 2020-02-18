@@ -9,31 +9,31 @@ class BootstrapRun(MultipleRun):
 
     __numberOfBootstraps: int
 
-    """
-    Constructor for BootstrapRun class. Basically sets the number of bootstrap runs.
-
-    PARAMETERS
-    ----------
-    numberOfBootstraps : int
-        Number of bootstrap runs.
-    """
     def __init__(self, numberOfBootstraps: int):
+        """
+        Constructor for BootstrapRun class. Basically sets the number of bootstrap runs.
+
+        PARAMETERS
+        ----------
+        numberOfBootstraps : int
+            Number of bootstrap runs.
+        """
         self.__numberOfBootstraps = numberOfBootstraps
 
-    """
-    Execute the bootstrap run with the given classifier on the given data set using the given parameters.
-
-    PARAMETERS
-    ----------
-    experiment : Experiment
-        Experiment to be run.
-        
-    RETURNS
-    -------
-    ExperimentPerformance
-        An ExperimentPerformance instance.
-    """
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
+        """
+        Execute the bootstrap run with the given classifier on the given data set using the given parameters.
+
+        PARAMETERS
+        ----------
+        experiment : Experiment
+            Experiment to be run.
+
+        RETURNS
+        -------
+        ExperimentPerformance
+            An ExperimentPerformance instance.
+        """
         result = ExperimentPerformance()
         for i in range(self.__numberOfBootstraps):
             bootstrap = Bootstrap(experiment.getDataSet().getInstances(), i + experiment.getParameter().getSeed())

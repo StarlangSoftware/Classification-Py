@@ -5,48 +5,48 @@ class ContinuousAttribute(Attribute):
 
     __value: float
 
-    """
-    Constructor for a continuous attribute.
-
-    PARAMETERS
-    ----------
-    value : str
-        Value of the attribute.
-    """
     def __init__(self, value: float):
+        """
+        Constructor for a continuous attribute.
+
+        PARAMETERS
+        ----------
+        value : str
+            Value of the attribute.
+        """
         self.__value = value
 
-    """
-    Accessor method for value.
-
-    RETURNS
-    -------
-    float
-        value
-    """
     def getValue(self) -> float:
+        """
+        Accessor method for value.
+
+        RETURNS
+        -------
+        float
+            value
+        """
         return self.__value
 
-    """
-    Mutator method for value
-
-    PARAMETERS
-    ----------
-    value : float
-        New value of value.
-    """
     def setValue(self, value: float):
+        """
+        Mutator method for value
+
+        PARAMETERS
+        ----------
+        value : float
+            New value of value.
+        """
         self.__value = value
 
-    """
-    Converts value to {@link String}.
-
-    RETURNS
-    -------
-    str
-        String representation of value.
-    """
     def __str__(self) -> str:
+        """
+        Converts value to {@link String}.
+
+        RETURNS
+        -------
+        str
+            String representation of value.
+        """
         return self.__value.__str__()
 
     def continuousAttributeSize(self) -> int:

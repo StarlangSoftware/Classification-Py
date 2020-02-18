@@ -5,17 +5,21 @@ from Classification.Performance.ClassificationPerformance import ClassificationP
 
 class ValidatedModel(Model):
 
-    """
-    The testClassifier method takes an InstanceList as an input and returns an accuracy value as
-    ClassificationPerformance.
+    def testClassifier(self, data: InstanceList) -> ClassificationPerformance:
+        """
+        The testClassifier method takes an InstanceList as an input and returns an accuracy value as
+        ClassificationPerformance.
 
-    PARAMETERS
-    ----------
-    data : InstanceList
-        InstanceList to test.
-     * @return Accuracy value as {@link ClassificationPerformance}.
-    """
-    def testClassifier(self, data: InstanceList):
+        PARAMETERS
+        ----------
+        data : InstanceList
+            InstanceList to test.
+
+        RETURNS
+        -------
+        ClassificationPerformance
+            Accuracy value as ClassificationPerformance.
+        """
         total = data.size()
         count = 0
         for i in range(data.size()):

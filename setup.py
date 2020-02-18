@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='NlpToolkit-Classification',
-    version='1.0.4',
+    version='1.0.5',
     packages=['Classification', 'Classification.Model', 'Classification.Model.DecisionTree', 'Classification.Filter',
               'Classification.DataSet', 'Classification.Instance', 'Classification.Attribute',
               'Classification.Parameter', 'Classification.Classifier', 'Classification.Experiment',

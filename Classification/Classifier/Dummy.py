@@ -6,14 +6,16 @@ from Classification.Parameter.Parameter import Parameter
 
 class Dummy(Classifier):
 
-    """
-    Training algorithm for the dummy classifier. Actually dummy classifier returns the maximum occurring class in
-    the training data, there is no training.
-
-    PARAMETERS
-    ----------
-    trainSet: InstanceList
-        Training data given to the algorithm.
-    """
     def train(self, trainSet: InstanceList, parameters: Parameter):
+        """
+        Training algorithm for the dummy classifier. Actually dummy classifier returns the maximum occurring class in
+        the training data, there is no training.
+
+        PARAMETERS
+        ----------
+        trainSet: InstanceList
+            Training data given to the algorithm.
+        parameters: Parameter
+            Parameter of the Dummy algorithm.
+        """
         self.model = DummyModel(trainSet)

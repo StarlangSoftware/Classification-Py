@@ -6,13 +6,13 @@ from Classification.Parameter.Parameter import Parameter
 
 class RandomClassifier(Classifier):
 
-    """
-    Training algorithm for random classifier.
-
-    PARAMETERS
-    ----------
-    trainSet : InstanceList
-        Training data given to the algorithm.
-    """
     def train(self, trainSet: InstanceList, parameters: Parameter):
+        """
+        Training algorithm for random classifier.
+
+        PARAMETERS
+        ----------
+        trainSet : InstanceList
+            Training data given to the algorithm.
+        """
         self.model = RandomModel(list(trainSet.classDistribution().keys()))

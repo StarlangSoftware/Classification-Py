@@ -12,32 +12,32 @@ class DeepNetworkModel(NeuralNetworkModel):
     __weights: list
     __hiddenLayerSize: int
 
-    """
-    Constructor that takes two InstanceList train set and validation set and DeepNetworkParameter as
-    inputs. First it sets the class labels, their sizes as K and the size of the continuous attributes as d of given
-    train set and allocates weights and sets the best weights. At each epoch, it shuffles the train set and loops
-    through the each item of that train set, it multiplies the weights Matrix with input Vector than applies the sigmoid
-    function and stores the result as hidden and add bias. Then updates weights and at the end it compares the
-    performance of these weights with validation set. It updates the bestClassificationPerformance and bestWeights
-    according to the current situation. At the end it updates the learning rate via etaDecrease value and finishes with
-    clearing the weights.
-
-    PARAMETERS
-    ----------
-    trainSet : InstanceList
-        InstanceList to be used as trainSet.
-    validationSet : InstanceList
-        InstanceList to be used as validationSet.
-    parameters : DeepNetworkParameter
-        DeepNetworkParameter input.
-    """
     def __init__(self, trainSet: InstanceList, validationSet: InstanceList, parameters: DeepNetworkParameter):
+        """
+        Constructor that takes two InstanceList train set and validation set and DeepNetworkParameter as
+        inputs. First it sets the class labels, their sizes as K and the size of the continuous attributes as d of given
+        train set and allocates weights and sets the best weights. At each epoch, it shuffles the train set and loops
+        through the each item of that train set, it multiplies the weights Matrix with input Vector than applies the
+        sigmoid function and stores the result as hidden and add bias. Then updates weights and at the end it compares
+        the performance of these weights with validation set. It updates the bestClassificationPerformance and
+        bestWeights according to the current situation. At the end it updates the learning rate via etaDecrease value
+        and finishes with clearing the weights.
+
+        PARAMETERS
+        ----------
+        trainSet : InstanceList
+            InstanceList to be used as trainSet.
+        validationSet : InstanceList
+            InstanceList to be used as validationSet.
+        parameters : DeepNetworkParameter
+            DeepNetworkParameter input.
+        """
         super().__init__(trainSet)
         deltaWeights = []
         hidden = []
         hiddenBiased = []
-        self.allocateWeights(parameters)
-        bestWeights = self.setBestWeights()
+        self.__allocateWeights(parameters)
+        bestWeights = self.__setBestWeights()
         bestClassificationPerformance = ClassificationPerformance(0.0)
         epoch = parameters.getEpoch()
         learningRate = parameters.getLearningRate()
@@ -72,23 +72,23 @@ class DeepNetworkModel(NeuralNetworkModel):
             currentClassificationPerformance = self.testClassifier(validationSet)
             if currentClassificationPerformance.getAccuracy() > bestClassificationPerformance.getAccuracy():
                 bestClassificationPerformance = currentClassificationPerformance
-                bestWeights = self.setBestWeights()
+                bestWeights = self.__setBestWeights()
             learningRate *= parameters.getEtaDecrease()
         self.__weights.clear()
         for m in bestWeights:
             self.__weights.append(m)
 
-    """
-    The allocateWeights method takes DeepNetworkParameters as an input. First it adds random weights to the list
-    of Matrix} weights' first layer. Then it loops through the layers and adds random weights till the last layer.
-    At the end it adds random weights to the last layer and also sets the hiddenLayerSize value.
+    def __allocateWeights(self, parameters: DeepNetworkParameter):
+        """
+        The allocateWeights method takes DeepNetworkParameters as an input. First it adds random weights to the list
+        of Matrix} weights' first layer. Then it loops through the layers and adds random weights till the last layer.
+        At the end it adds random weights to the last layer and also sets the hiddenLayerSize value.
 
-    PARAMETERS
-    ----------
-    parameters : DeepNetworkParameter
-        DeepNetworkParameter input.
-    """
-    def allocateWeights(self, parameters: DeepNetworkParameter):
+        PARAMETERS
+        ----------
+        parameters : DeepNetworkParameter
+            DeepNetworkParameter input.
+        """
         self.__weights = []
         self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(0), self.d + 1))
         for i in range(parameters.layerSize() - 1):
@@ -98,26 +98,26 @@ class DeepNetworkModel(NeuralNetworkModel):
                                                         parameters.getHiddenNodes(parameters.layerSize() - 1) + 1))
         self.__hiddenLayerSize = parameters.layerSize()
 
-    """
-    The setBestWeights method creates a list of Matrix as bestWeights and clones the values of weights list
-    into this newly created list.
+    def __setBestWeights(self) -> list:
+        """
+        The setBestWeights method creates a list of Matrix as bestWeights and clones the values of weights list
+        into this newly created list.
 
-    RETURNS
-    -------
-    list
-    A list clones from the weights ArrayList.
-    """
-    def setBestWeights(self) -> list:
+        RETURNS
+        -------
+        list
+        A list clones from the weights ArrayList.
+        """
         bestWeights = []
         for m in self.__weights:
             bestWeights.append(copy.deepcopy(m))
         return bestWeights
 
-    """
-    The calculateOutput method loops size of the weights times and calculate one hidden layer at a time and adds bias 
-    term. At the end it updates the output y value.
-    """
     def calculateOutput(self):
+        """
+        The calculateOutput method loops size of the weights times and calculate one hidden layer at a time and adds
+        bias term. At the end it updates the output y value.
+        """
         hiddenBiased = None
         for i in range(len(self.__weights) - 1):
             if i == 0:

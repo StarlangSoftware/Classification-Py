@@ -11,15 +11,18 @@ import math
 
 class Lda(Classifier):
 
-    """
-    Training algorithm for the linear discriminant analysis classifier (Introduction to Machine Learning, Alpaydin, 2015).
-
-    PARAMETERS
-    ----------
-    trainSet : InstanceList
-        Training data given to the algorithm.
-    """
     def train(self, trainSet: InstanceList, parameters: Parameter):
+        """
+        Training algorithm for the linear discriminant analysis classifier (Introduction to Machine Learning, Alpaydin,
+        2015).
+
+        PARAMETERS
+        ----------
+        trainSet : InstanceList
+            Training data given to the algorithm.
+        parameters : Parameter
+            Parameter of the Lda algorithm.
+        """
         w0 = {}
         w = {}
         priorDistribution = trainSet.classDistribution()

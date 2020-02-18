@@ -10,17 +10,17 @@ from Classification.Parameter.Parameter import Parameter
 
 class NaiveBayes(Classifier):
 
-    """
-    Training algorithm for Naive Bayes algorithm with a continuous data set.
-
-    PARAMETERS
-    ----------
-    priorDistribution : DiscreteDistribution
-        Probability distribution of classes P(C_i)
-    classLists : Partition
-        Instances are divided into K lists, where each list contains only instances from a single class
-    """
     def trainContinuousVersion(self, priorDistribution: DiscreteDistribution, classLists: Partition):
+        """
+        Training algorithm for Naive Bayes algorithm with a continuous data set.
+
+        PARAMETERS
+        ----------
+        priorDistribution : DiscreteDistribution
+            Probability distribution of classes P(C_i)
+        classLists : Partition
+            Instances are divided into K lists, where each list contains only instances from a single class
+        """
         classMeans = {}
         classDeviations = {}
         for i in range(classLists.size()):
@@ -30,35 +30,38 @@ class NaiveBayes(Classifier):
             standardDeviationVector = classLists.get(i).standardDeviation().toVector()
             classDeviations[classLabel] = standardDeviationVector
         self.model = NaiveBayesModel(priorDistribution)
-        self.model.initForContinuous(classMeans, classDeviations)
+        if isinstance(self.model, NaiveBayesModel):
+            self.model.initForContinuous(classMeans, classDeviations)
 
-    """
-    Training algorithm for Naive Bayes algorithm with a discrete data set.
-
-    PARAMETERS
-    ----------
-    priorDistribution : DiscreteDistribution
-        Probability distribution of classes P(C_i)
-    classLists : Partition
-        Instances are divided into K lists, where each list contains only instances from a single class
-    """
     def trainDiscreteVersion(self, priorDistribution: DiscreteDistribution, classLists: Partition):
+        """
+        Training algorithm for Naive Bayes algorithm with a discrete data set.
+
+        PARAMETERS
+        ----------
+        priorDistribution : DiscreteDistribution
+            Probability distribution of classes P(C_i)
+        classLists : Partition
+            Instances are divided into K lists, where each list contains only instances from a single class
+        """
         classAttributeDistributions = {}
         for i in range(classLists.size()):
-            classAttributeDistributions[classLists.get(i).getClassLabel()] = classLists.get(i).allAttributesDistribution()
+            classAttributeDistributions[classLists.get(i).getClassLabel()] = \
+                classLists.get(i).allAttributesDistribution()
         self.model = NaiveBayesModel(priorDistribution)
-        self.model.initForDiscrete(classAttributeDistributions)
+        if isinstance(self.model, NaiveBayesModel):
+            self.model.initForDiscrete(classAttributeDistributions)
 
-    """
-    Training algorithm for Naive Bayes algorithm. It basically calls trainContinuousVersion for continuous data sets,
-    trainDiscreteVersion for discrete data sets.
-
-    PARAMETERS
-    ----------
-    trainSet : InstanceList
-        Training data given to the algorithm
-    """
     def train(self, trainSet: InstanceList, parameters: Parameter):
+        """
+        Training algorithm for Naive Bayes algorithm. It basically calls trainContinuousVersion for continuous data
+        sets, trainDiscreteVersion for discrete data sets.
+
+        PARAMETERS
+        ----------
+        trainSet : InstanceList
+            Training data given to the algorithm
+        """
         priorDistribution = trainSet.classDistribution()
         classLists = trainSet.divideIntoClasses()
         if isinstance(classLists.get(0).get(0).getAttribute(0), DiscreteAttribute):

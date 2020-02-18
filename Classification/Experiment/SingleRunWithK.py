@@ -13,15 +13,15 @@ class SingleRunWithK(SingleRun):
 
     __K: int
 
-    """
-    Constructor for SingleRunWithK class. Basically sets K parameter of the K-fold cross-validation.
-
-    PARAMETERS
-    ----------
-    K : int
-        K of the K-fold cross-validation.
-    """
     def __init__(self, K: int):
+        """
+        Constructor for SingleRunWithK class. Basically sets K parameter of the K-fold cross-validation.
+
+        PARAMETERS
+        ----------
+        K : int
+            K of the K-fold cross-validation.
+        """
         self.__K = K
 
     def runExperiment(self, classifier: Classifier, parameter: Parameter, crossValidation: CrossValidation):
@@ -29,19 +29,21 @@ class SingleRunWithK(SingleRun):
         testSet = InstanceList(crossValidation.getTestFold(0))
         return classifier.singleRun(parameter, trainSet, testSet)
 
-    """
-    Execute Single K-fold cross-validation with the given classifier on the given data set using the given parameters.
-
-    PARAMETERS
-    -----
-    experiment : Experiment
-        Experiment to be run.
-        
-    RETURNS
-    -------
-    Performance
-        A Performance instance.
-    """
     def execute(self, experiment: Experiment) -> Performance:
-        crossValidation = KFoldCrossValidation(experiment.getDataSet().getInstances(), self.__K, experiment.getParameter().getSeed())
+        """
+        Execute Single K-fold cross-validation with the given classifier on the given data set using the given
+        parameters.
+
+        PARAMETERS
+        -----
+        experiment : Experiment
+            Experiment to be run.
+
+        RETURNS
+        -------
+        Performance
+            A Performance instance.
+        """
+        crossValidation = KFoldCrossValidation(experiment.getDataSet().getInstances(), self.__K,
+                                               experiment.getParameter().getSeed())
         return self.runExperiment(experiment.getClassifier(), experiment.getParameter(), crossValidation)

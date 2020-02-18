@@ -8,7 +8,7 @@ import math
 
 class Pairedt(PairedTest):
 
-    def testStatistic(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance):
+    def __testStatistic(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance):
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
             raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
                                                "experiments in both algorithms.")
@@ -27,6 +27,6 @@ class Pairedt(PairedTest):
         return math.sqrt(classifier1.numberOfExperiments()) * mean / standardDeviation
 
     def compare(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance) -> StatisticalTestResult:
-        statistic = self.testStatistic(classifier1, classifier2)
+        statistic = self.__testStatistic(classifier1, classifier2)
         degreeOfFreedom = classifier1.numberOfExperiments() - 1
         return StatisticalTestResult(Distribution.tDistribution(statistic, degreeOfFreedom), False)

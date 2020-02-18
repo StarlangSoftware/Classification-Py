@@ -8,7 +8,7 @@ import math
 
 class Combined5x2t(PairedTest):
 
-    def testStatistic(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance):
+    def __testStatistic(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance):
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
             raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
                                                "experiments in both algorithms.")
@@ -31,6 +31,6 @@ class Combined5x2t(PairedTest):
         return numerator / denominator
 
     def compare(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance) -> StatisticalTestResult:
-        statistic = self.testStatistic(classifier1, classifier2)
+        statistic = self.__testStatistic(classifier1, classifier2)
         degreeOfFreedom = classifier1.numberOfExperiments() // 2
         return StatisticalTestResult(Distribution.tDistribution(statistic, degreeOfFreedom), False)

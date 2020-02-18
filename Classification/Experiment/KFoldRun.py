@@ -13,15 +13,15 @@ class KFoldRun(MultipleRun):
 
     K: int
 
-    """
-    Constructor for KFoldRun class. Basically sets K parameter of the K-fold cross-validation.
-
-    PARAMETERS
-    ----------
-    K : int
-        K of the K-fold cross-validation.
-    """
     def __init__(self, K: int):
+        """
+        Constructor for KFoldRun class. Basically sets K parameter of the K-fold cross-validation.
+
+        PARAMETERS
+        ----------
+        K : int
+            K of the K-fold cross-validation.
+        """
         self.K = K
 
     def runExperiment(self, classifier: Classifier, parameter: Parameter, experimentPerformance: ExperimentPerformance,
@@ -32,20 +32,20 @@ class KFoldRun(MultipleRun):
             classifier.train(trainSet, parameter)
             experimentPerformance.add(classifier.test(testSet))
 
-    """
-    Execute K-fold cross-validation with the given classifier on the given data set using the given parameters.
-
-    PARAMETERS
-    ----------
-    experiment : Experiment
-        Experiment to be run.
-        
-    RETURNS
-    -------
-    ExperimentPerformance
-        An ExperimentPerformance instance.
-    """
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
+        """
+        Execute K-fold cross-validation with the given classifier on the given data set using the given parameters.
+
+        PARAMETERS
+        ----------
+        experiment : Experiment
+            Experiment to be run.
+
+        RETURNS
+        -------
+        ExperimentPerformance
+            An ExperimentPerformance instance.
+        """
         result = ExperimentPerformance()
         crossValidation = KFoldCrossValidation(experiment.getDataSet().getInstances(), self.K, experiment.getParameter()
                                                .getSeed())

@@ -5,37 +5,37 @@ class DiscreteAttribute(Attribute):
 
     __value: str
 
-    """
-    Constructor for a discrete attribute.
-
-    PARAMETERS
-    ----------
-    value : str
-        Value of the attribute.
-    """
     def __init__(self, value: str):
+        """
+        Constructor for a discrete attribute.
+
+        PARAMETERS
+        ----------
+        value : str
+            Value of the attribute.
+        """
         self.__value = value
 
-    """
-    Accessor method for value.
-
-    RETURNS
-    -------
-    str
-        value
-    """
     def getValue(self) -> str:
+        """
+        Accessor method for value.
+
+        RETURNS
+        -------
+        str
+            value
+        """
         return self.__value
 
-    """
-    Converts value to String.
-
-    RETURNS
-    -------
-    str
-        String representation of value.
-    """
     def __str__(self) -> str:
+        """
+        Converts value to String.
+
+        RETURNS
+        -------
+        str
+            String representation of value.
+        """
         if self.__value == ",":
             return "comma"
         return self.__value

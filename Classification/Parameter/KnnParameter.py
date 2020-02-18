@@ -6,29 +6,29 @@ class KnnParameter(KMeansParameter):
 
     __k: int
 
-    """
-    Parameters of the K-nearest neighbor classifier.
-
-    PARAMETERS
-    ----------
-    seed : int
-        Seed is used for random number generation.
-    k : int
-        Parameter of the K-nearest neighbor algorithm.
-    distanceMetric : DistanceMetric
-        Used to calculate the distance between two instances.
-    """
     def __init__(self, seed: int, k: int, distanceMetric=EuclidianDistance()):
+        """
+        Parameters of the K-nearest neighbor classifier.
+
+        PARAMETERS
+        ----------
+        seed : int
+            Seed is used for random number generation.
+        k : int
+            Parameter of the K-nearest neighbor algorithm.
+        distanceMetric : DistanceMetric
+            Used to calculate the distance between two instances.
+        """
         super().__init__(seed, distanceMetric)
         self.__k = k
 
-    """
-    Accessor for the k.
-
-    RETURNS
-    -------
-    int
-        Value of the k.
-    """
     def getK(self) -> int:
+        """
+        Accessor for the k.
+
+        RETURNS
+        -------
+        int
+            Value of the k.
+        """
         return self.__k

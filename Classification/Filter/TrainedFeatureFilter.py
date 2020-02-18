@@ -10,13 +10,13 @@ class TrainedFeatureFilter(FeatureFilter):
     def train(self):
         pass
 
-    """
-    Constructor that sets the dataSet.
-
-    PARAMETERS
-    ----------
-    dataSet : DataSet
-        DataSet that will bu used.
-    """
     def __init__(self, dataSet: DataSet):
+        """
+        Constructor that sets the dataSet.
+
+        PARAMETERS
+        ----------
+        dataSet : DataSet
+            DataSet that will bu used.
+        """
         super().__init__(dataSet)

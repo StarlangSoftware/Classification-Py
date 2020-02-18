@@ -15,33 +15,31 @@ class DataSet(object):
     __instances: InstanceList
     __definition: DataDefinition
 
-    """
-    Constructor for generating a new DataSet with given DataDefinition.
-
-    PARAMETERS
-    ----------
-    definition : DataDefinition
-        Data definition of the data set.
-    """
-
     def __init__(self, definition=None):
+        """
+        Constructor for generating a new DataSet with given DataDefinition.
+
+        PARAMETERS
+        ----------
+        definition : DataDefinition
+            Data definition of the data set.
+        """
         self.__definition = definition
         self.__instances = InstanceList()
 
-    """
-    Constructor for generating a new DataSet from given File.
-
-    PARAMETERS
-    ----------
-    fileName : str 
-        File to generate DataSet from.
-    """
-
     def initWithFile(self, fileName: str):
+        """
+        Constructor for generating a new DataSet from given File.
+
+        PARAMETERS
+        ----------
+        fileName : str
+            File to generate DataSet from.
+        """
         self.__instances = InstanceList()
         self.__definition = DataDefinition()
-        input = open(fileName, 'r', encoding='utf8')
-        lines = input.readlines()
+        inputFile = open(fileName, 'r', encoding='utf8')
+        lines = inputFile.readlines()
         i = 0
         for line in lines:
             attributes = line.split(",")
@@ -69,41 +67,38 @@ class DataSet(object):
                 self.__instances.add(instance)
             i = i + 1
 
-    """
-    Constructor for generating a new DataSet with a DataDefinition, from a File by using a separator.
-
-    PARAMETERS
-    ----------
-    definition : DataDefinition
-        Data definition of the data set.
-    separator : str 
-        Separator character which separates the attribute values in the data file.
-    fileName : str  
-        Name of the data set file.
-    """
-
     def initWithDefinitionAndFile(self, definition: DataDefinition, separator: str, fileName: str):
+        """
+        Constructor for generating a new DataSet with a DataDefinition, from a File by using a separator.
+
+        PARAMETERS
+        ----------
+        definition : DataDefinition
+            Data definition of the data set.
+        separator : str
+            Separator character which separates the attribute values in the data file.
+        fileName : str
+            Name of the data set file.
+        """
         self.__definition = definition
-        self.__instances = InstanceList()
-        self.__instances.initWithDefinitionAndFile(definition, separator, fileName)
+        self.__instances = InstanceList(definition, separator, fileName)
 
-    """
-    Checks the correctness of the attribute type, for instance, if the attribute of given instance is a Binary 
-    attribute, and the attribute type of the corresponding item of the data definition is also a Binary attribute, it 
-    then returns true, and false otherwise.
+    def __checkDefinition(self, instance: Instance) -> bool:
+        """
+        Checks the correctness of the attribute type, for instance, if the attribute of given instance is a Binary
+        attribute, and the attribute type of the corresponding item of the data definition is also a Binary attribute,
+        it then returns true, and false otherwise.
 
-    PARAMETERS
-    ----------
-    instance : Instance
-        Instance to checks the attribute type.
-        
-    RETURNS
-    -------
-    bool
-        true if attribute types of given Instance and data definition matches.
-    """
+        PARAMETERS
+        ----------
+        instance : Instance
+            Instance to checks the attribute type.
 
-    def checkDefinition(self, instance: Instance) -> bool:
+        RETURNS
+        -------
+        bool
+            true if attribute types of given Instance and data definition matches.
+        """
         for i in range(instance.attributeSize()):
             if isinstance(instance.getAttribute(i), BinaryAttribute):
                 if self.__definition.getAttributeType(i) is not AttributeType.BINARY:
@@ -119,17 +114,16 @@ class DataSet(object):
                     return False
         return True
 
-    """
-    Adds the attribute types according to given Instance. For instance, if the attribute type of given Instance
-    is a Discrete type, it than adds a discrete attribute type to the list of attribute types.
+    def __setDefinition(self, instance: Instance):
+        """
+        Adds the attribute types according to given Instance. For instance, if the attribute type of given Instance
+        is a Discrete type, it than adds a discrete attribute type to the list of attribute types.
 
-    PARAMETERS
-    ----------
-    instance : Instance
-        Instance input.
-    """
-
-    def setDefinition(self, instance: Instance):
+        PARAMETERS
+        ----------
+        instance : Instance
+            Instance input.
+        """
         attributeTypes = []
         for i in range(instance.attributeSize()):
             if isinstance(instance.getAttribute(i), BinaryAttribute):
@@ -142,98 +136,91 @@ class DataSet(object):
                 attributeTypes.append(AttributeType.CONTINUOUS)
         self.__definition = DataDefinition(attributeTypes)
 
-    """
-    Returns the size of the InstanceList.
-
-    RETURNS
-    -------
-    int
-        Size of the InstanceList.
-    """
-
     def sampleSize(self) -> int:
+        """
+        Returns the size of the InstanceList.
+
+        RETURNS
+        -------
+        int
+            Size of the InstanceList.
+        """
         return self.__instances.size()
 
-    """
-    Returns the size of the class label distribution of InstanceList.
-
-    RETURNS
-    -------
-    int
-        Size of the class label distribution of InstanceList.
-    """
-
     def classCount(self) -> int:
+        """
+        Returns the size of the class label distribution of InstanceList.
+
+        RETURNS
+        -------
+        int
+            Size of the class label distribution of InstanceList.
+        """
         return len(self.__instances.classDistribution())
 
-    """
-    Returns the number of attribute types at DataDefinition list.
-
-    RETURNS
-    -------
-    int
-        The number of attribute types at DataDefinition list.
-    """
-
     def attributeCount(self) -> int:
+        """
+        Returns the number of attribute types at DataDefinition list.
+
+        RETURNS
+        -------
+        int
+            The number of attribute types at DataDefinition list.
+        """
         return self.__definition.attributeCount()
 
-    """
-    Returns the number of discrete attribute types at DataDefinition list.
-
-    RETURNS
-    -------
-    int
-        The number of discrete attribute types at DataDefinition list.
-    """
-
     def discreteAttributeCount(self) -> int:
+        """
+        Returns the number of discrete attribute types at DataDefinition list.
+
+        RETURNS
+        -------
+        int
+            The number of discrete attribute types at DataDefinition list.
+        """
         return self.__definition.discreteAttributeCount()
 
-    """
-    Returns the number of continuous attribute types at DataDefinition list.
-
-    RETURNS
-    -------
-    int
-        The number of continuous attribute types at DataDefinition list.
-    """
-
     def continuousAttributeCount(self) -> int:
+        """
+        Returns the number of continuous attribute types at DataDefinition list.
+
+        RETURNS
+        -------
+        int
+            The number of continuous attribute types at DataDefinition list.
+        """
         return self.__definition.continuousAttributeCount()
 
-    """
-    Returns the accumulated String of class labels of the InstanceList.
-
-    RETURNS
-    -------
-    str
-        The accumulated String of class labels of the InstanceList.
-    """
-
     def getClasses(self) -> str:
+        """
+        Returns the accumulated String of class labels of the InstanceList.
+
+        RETURNS
+        -------
+        str
+            The accumulated String of class labels of the InstanceList.
+        """
         classLabels = self.__instances.getDistinctClassLabels()
         result = classLabels[0]
         for i in range(len(classLabels)):
             result = result + ";" + classLabels[i]
         return result
 
-    """
-    Returns the general information about the given data set such as the number of instances, distinct class labels,
-    attributes, discrete and continuous attributes.
-
-    PARAMETERS
-    ----------
-    dataSetName : str
-        Data set name.
-        
-    RETURNS
-    -------
-    str
-        General information about the given data set.
-    """
-
     def info(self, dataSetName: str) -> str:
+        """
+        Returns the general information about the given data set such as the number of instances, distinct class labels,
+        attributes, discrete and continuous attributes.
+
+        PARAMETERS
+        ----------
+        dataSetName : str
+            Data set name.
+
+        RETURNS
+        -------
+        str
+            General information about the given data set.
+        """
         result = "DATASET: " + dataSetName + "\n"
         result = result + "Number of instances: " + self.sampleSize().__str__() + "\n"
         result = result + "Number of distinct class labels: " + self.classCount().__str__() + "\n"
@@ -243,113 +230,106 @@ class DataSet(object):
         result = result + "Class labels: " + self.getClasses()
         return result
 
-    """
-    Adds a new instance to the InstanceList.
-
-    PARAMETERS
-    ----------
-    current : Instance
-        Instance to add.
-    """
-
     def addInstance(self, current: Instance):
+        """
+        Adds a new instance to the InstanceList.
+
+        PARAMETERS
+        ----------
+        current : Instance
+            Instance to add.
+        """
         if self.__definition is None:
-            self.setDefinition(current)
+            self.__setDefinition(current)
             self.__instances.add(current)
-        elif self.checkDefinition(current):
+        elif self.__checkDefinition(current):
             self.__instances.add(current)
-
-    """
-    Adds all the instances of given instance list to the InstanceList.
-
-    PARAMETERS
-    ----------
-    instanceList : list
-        InstanceList to add instances from.
-    """
 
     def addInstanceList(self, instanceList: list):
+        """
+        Adds all the instances of given instance list to the InstanceList.
+
+        PARAMETERS
+        ----------
+        instanceList : list
+            InstanceList to add instances from.
+        """
+
         for instance in instanceList:
             self.addInstance(instance)
 
-    """
-    Returns the instances of InstanceList.
-
-    RETURNS
-    -------
-    list
-        The instances of InstanceList.
-    """
-
     def getInstances(self) -> list:
+        """
+        Returns the instances of InstanceList.
+
+        RETURNS
+        -------
+        list
+            The instances of InstanceList.
+        """
         return self.__instances.getInstances()
 
-    """
-    Returns instances of the items at the list of instance lists from the partitions.
-
-    RETURNS
-    -------
-    list
-        Instances of the items at the list of instance lists from the partitions.
-    """
-
     def getClassInstances(self) -> list:
+        """
+        Returns instances of the items at the list of instance lists from the partitions.
+
+        RETURNS
+        -------
+        list
+            Instances of the items at the list of instance lists from the partitions.
+        """
         return self.__instances.divideIntoClasses().getLists()
 
-    """
-    Accessor for the InstanceList.
-
-    RETURNS
-    -------
-    InstanceList
-        The InstanceList.
-    """
-
     def getInstanceList(self) -> InstanceList:
+        """
+        Accessor for the InstanceList.
+
+        RETURNS
+        -------
+        InstanceList
+            The InstanceList.
+        """
         return self.__instances
 
-    """
-    Accessor for the data definition.
-
-    RETURNS
-    -------
-    DataDefinition
-        The data definition.
-    """
-
     def getDataDefinition(self) -> DataDefinition:
+        """
+        Accessor for the data definition.
+
+        RETURNS
+        -------
+        DataDefinition
+            The data definition.
+        """
         return self.__definition
 
-    """
-    Return a subset generated via the given FeatureSubSet.
-
-    PARAMETERS
-    ----------
-    featureSubSet : FeatureSubSet
-        FeatureSubSet input.
-        
-    RETURNS
-    -------
-    FeatureSubSet
-        Subset generated via the given FeatureSubSet.
-    """
-
     def getSubSetOfFeatures(self, featureSubSet: FeatureSubSet) -> DataSet:
+        """
+        Return a subset generated via the given FeatureSubSet.
+
+        PARAMETERS
+        ----------
+        featureSubSet : FeatureSubSet
+            FeatureSubSet input.
+
+        RETURNS
+        -------
+        FeatureSubSet
+            Subset generated via the given FeatureSubSet.
+        """
         result = DataSet(self.__definition.getSubSetOfFeatures(featureSubSet))
         for i in range(self.__instances.size()):
             result.addInstance(self.__instances.get(i).getSubSetOfFeatures(featureSubSet))
         return result
 
-    """
-    Print out the instances of InstanceList as a String.
-
-    PARAMETERS
-    ----------
-    outFileName : str
-        File name to write the output.
-    """
-
     def writeToFile(self, outFileName: str):
+        """
+        Print out the instances of InstanceList as a String.
+
+        PARAMETERS
+        ----------
+        outFileName : str
+            File name to write the output.
+        """
         outfile = open(outFileName, "w")
         for i in range(self.__instances.size()):
             outfile.write(self.__instances.get(i).__str__() + "\n")

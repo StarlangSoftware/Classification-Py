@@ -6,16 +6,15 @@ from Classification.Parameter.KnnParameter import KnnParameter
 
 class Knn(Classifier):
 
-    """
-    Training algorithm for K-nearest neighbor classifier.
-
-    PARAMETERS
-    ----------
-    trainSet : InstanceList
-        Training data given to the algorithm.
-    parameters : KnnParameter
-        K: k parameter of the K-nearest neighbor algorithm
-        distanceMetric: distance metric used to calculate the distance between two instances.
-    """
     def train(self, trainSet: InstanceList, parameters: KnnParameter):
+        """
+        Training algorithm for K-nearest neighbor classifier.
+
+        PARAMETERS
+        ----------
+        trainSet : InstanceList
+            Training data given to the algorithm.
+        parameters : KnnParameter
+            Parameters of the Knn algorithm.
+        """
         self.model = KnnModel(trainSet, parameters.getK(), parameters.getDistanceMetric())

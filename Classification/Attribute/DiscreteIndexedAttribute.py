@@ -6,43 +6,43 @@ class DiscreteIndexedAttribute(DiscreteAttribute):
     __index: int
     __maxIndex: int
 
-    """
-    Constructor for a discrete attribute.
-
-    PARAMETERS
-    ----------
-    value : str
-        Value of the attribute.
-    index : int
-        Index of the attribute.
-    maxIndex : int
-        Maximum index of the attribute.
-    """
     def __init__(self, value: str, index: int, maxIndex: int):
+        """
+        Constructor for a discrete attribute.
+
+        PARAMETERS
+        ----------
+        value : str
+            Value of the attribute.
+        index : int
+            Index of the attribute.
+        maxIndex : int
+            Maximum index of the attribute.
+        """
         super().__init__(value)
         self.__index = index
         self.__maxIndex = maxIndex
 
-    """
-    Accessor method for index.
-
-    RETURNS
-    -------
-    int
-        index.
-    """
     def getIndex(self) -> int:
+        """
+        Accessor method for index.
+
+        RETURNS
+        -------
+        int
+            index.
+        """
         return self.__index
 
-    """
-    Accessor method for maxIndex.
-    
-    RETURNS
-    -------
-    int
-        maxIndex.
-    """
     def getMaxIndex(self) -> int:
+        """
+        Accessor method for maxIndex.
+
+        RETURNS
+        -------
+        int
+            maxIndex.
+        """
         return self.__maxIndex
 
     def continuousAttributeSize(self) -> int:

@@ -7,7 +7,7 @@ import math
 
 class Sign(PairedTest):
 
-    def binomial(self, m: int, n: int) -> int:
+    def __binomial(self, m: int, n: int) -> int:
         if n == 0 or m == n:
             return 1
         else:
@@ -30,5 +30,5 @@ class Sign(PairedTest):
         if total == 0:
             raise StatisticalTestNotApplicable("Variance is 0.")
         for i in range(plus + 1):
-            pValue += self.binomial(total, i) / math.pow(2, total)
+            pValue += self.__binomial(total, i) / math.pow(2, total)
         return StatisticalTestResult(pValue, False)

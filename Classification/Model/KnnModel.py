@@ -13,38 +13,38 @@ class KnnModel(Model):
     __k: int
     __distanceMetric: DistanceMetric
 
-    """
-    Constructor that sets the data InstanceList, k value and the DistanceMetric.
-
-    PARAMETERS
-    ----------
-    data : InstanceList
-        InstanceList input.
-    k : int
-        K value.
-    distanceMetric : DistanceMetric
-        DistanceMetric input.
-    """
     def __init__(self, data: InstanceList, k: int, distanceMetric: DistanceMetric):
+        """
+        Constructor that sets the data InstanceList, k value and the DistanceMetric.
+
+        PARAMETERS
+        ----------
+        data : InstanceList
+            InstanceList input.
+        k : int
+            K value.
+        distanceMetric : DistanceMetric
+            DistanceMetric input.
+        """
         self.__data = data
         self.__k = k
         self.__distanceMetric = distanceMetric
 
-    """
-    The predict method takes an Instance as an input and finds the nearest neighbors of given instance. Then
-    it returns the first possible class label as the predicted class.
-
-    PARAMETERS
-    ----------
-    instance : Instance
-        Instance to make prediction.
-        
-    RETURNS
-    -------
-    str
-        The first possible class label as the predicted class.
-    """
     def predict(self, instance: Instance) -> str:
+        """
+        The predict method takes an Instance as an input and finds the nearest neighbors of given instance. Then
+        it returns the first possible class label as the predicted class.
+
+        PARAMETERS
+        ----------
+        instance : Instance
+            Instance to make prediction.
+
+        RETURNS
+        -------
+        str
+            The first possible class label as the predicted class.
+        """
         nearestNeighbors = self.nearestNeighbors(instance)
         if isinstance(instance, CompositeInstance) and nearestNeighbors.size() == 0:
             predictedClass = instance.getPossibleClassLabels()[0]
@@ -62,23 +62,23 @@ class KnnModel(Model):
                 return 0
         return compare
 
-    """
-    The nearestNeighbors method takes an Instance as an input. First it gets the possible class labels, then loops
-    through the data InstanceList and creates new list of KnnInstances and adds the corresponding data with
-    the distance between data and given instance. After sorting this newly created list, it loops k times and
-    returns the first k instances as an InstanceList.
-
-    PARAMETERS
-    ----------
-    instance : Instance
-        Instance to find nearest neighbors
-        
-    RETURNS
-    -------
-    InstanceList
-        The first k instances which are nearest to the given instance as an InstanceList.
-    """
     def nearestNeighbors(self, instance: Instance) -> InstanceList:
+        """
+        The nearestNeighbors method takes an Instance as an input. First it gets the possible class labels, then loops
+        through the data InstanceList and creates new list of KnnInstances and adds the corresponding data with
+        the distance between data and given instance. After sorting this newly created list, it loops k times and
+        returns the first k instances as an InstanceList.
+
+        PARAMETERS
+        ----------
+        instance : Instance
+            Instance to find nearest neighbors
+
+        RETURNS
+        -------
+        InstanceList
+            The first k instances which are nearest to the given instance as an InstanceList.
+        """
         result = InstanceList()
         instances = []
         possibleClassLabels = []
