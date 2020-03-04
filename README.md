@@ -10,3 +10,7 @@
 6. Multi Layer Perceptron: Well-known multilayer perceptron classification algorithm.
 7. Naive Bayes: Classic Naive Bayes classifier where each feature is assumed to be Gaussian distributed and each feature is independent from other features.
 8. RandomForest: Random Forest method improves bagging idea with randomizing features at each decision node and called these random decision trees as weak learners. In the prediction time, these weak learners are combined using committee-based procedures.
+
+---------------------------------
+You can also see either [Java](https://github.com/olcaytaner/Classification) 
+or [C++](https://github.com/olcaytaner/Classification-CPP) repository.
