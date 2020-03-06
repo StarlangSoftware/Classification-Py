@@ -18,8 +18,7 @@ You can also see either [Java](https://github.com/olcaytaner/Classification)
 or [C++](https://github.com/olcaytaner/Classification-CPP) repository.
 ## Requirements
 
-* [Python 2.8 or higher](#python)
-* [Maven](#maven)
+* [Python 3.7 or higher](#python)
 * [Git](#git)
 
 ### Python 
@@ -29,13 +28,6 @@ To check if you have a compatible version of Python installed, use the following
     python -V
     
 You can find the latest version of Python [here](https://www.python.org/downloads/).
-
-### Maven
-To check if you have Maven installed, use the following command:
-
-    mvn --version
-    
-To install Maven, you can follow the instructions [here](https://maven.apache.org/install.html).      
 
 ### Git
 
@@ -48,7 +40,7 @@ Use Git for cloning the code to your local or below line for Ubuntu:
 
 	git clone <your-fork-git-link>
 
-A directory called DataStructure will be created. Or you can use below link for exploring the code:
+A directory called Classification will be created. Or you can use below link for exploring the code:
 
 	git clone https://github.com/olcaytaner/Classification-Py.git
 
@@ -60,7 +52,7 @@ Steps for opening the cloned project:
 * Select **File | Open** from main menu
 * Choose `Classification-Py` file
 * Select open as project option
-* Couple of seconds, dependencies with Maven will be downloaded. 
+* Couple of seconds, dependencies will be downloaded. 
 
 
 ## Compile
