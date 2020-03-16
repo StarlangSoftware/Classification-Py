@@ -72,11 +72,11 @@ Detailed Description
 
 Algoritmaları eğitmek için
 
-	void train(InstanceList trainSet, Parameter parameters)
+	train(self, trainSet: InstanceList, parameters: Parameter)
 
 Eğitilen modeli bir veri örneği üstünde sınamak için
 
-	String predict(Instance instance)
+	predict(self, instance: Instance) -> str
 
 Karar ağacı algoritması C45 sınıfında
 
