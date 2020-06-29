@@ -90,23 +90,3 @@ class Classifier(object):
             Model.
         """
         return self.model
-
-    @staticmethod
-    def getMaximum(classLabels: list) -> str:
-        """
-        Given an array of class labels, returns the maximum occurred one.
-
-        PARAMETERS
-        ----------
-        classLabels : list
-            An array of class labels.
-
-        RETURNS
-        -------
-        str
-            The class label that occurs most in the array of class labels (mod of class label list).
-        """
-        frequencies = CounterHashMap()
-        for label in classLabels:
-            frequencies.put(label)
-        return frequencies.max()

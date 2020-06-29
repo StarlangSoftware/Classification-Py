@@ -24,5 +24,6 @@ class RandomForest(Classifier):
         forest = []
         for i in range(forestSize):
             bootstrap = trainSet.bootstrap(i)
-            forest.append(DecisionTree(DecisionNode(InstanceList(bootstrap.getSample()), None, parameters, False)))
+            tree = DecisionTree(DecisionNode(InstanceList(bootstrap.getSample()), None, parameters, False))
+            forest.append(tree)
         self.model = TreeEnsembleModel(forest)

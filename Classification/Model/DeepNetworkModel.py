@@ -90,12 +90,12 @@ class DeepNetworkModel(NeuralNetworkModel):
             DeepNetworkParameter input.
         """
         self.__weights = []
-        self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(0), self.d + 1))
+        self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(0), self.d + 1, parameters.getSeed()))
         for i in range(parameters.layerSize() - 1):
             self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(i + 1),
-                                                            parameters.getHiddenNodes(i) + 1))
+                                                            parameters.getHiddenNodes(i) + 1, parameters.getSeed()))
         self.__weights.append(self.allocateLayerWeights(self.K,
-                                                        parameters.getHiddenNodes(parameters.layerSize() - 1) + 1))
+                                                        parameters.getHiddenNodes(parameters.layerSize() - 1) + 1, parameters.getSeed()))
         self.__hiddenLayerSize = parameters.layerSize()
 
     def __setBestWeights(self) -> list:

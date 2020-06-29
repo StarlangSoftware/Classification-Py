@@ -73,7 +73,7 @@ class ConfusionMatrix:
         """
         result = 0
         for actualClass in self.__matrix:
-            result += self.__matrix[actualClass]
+            result += self.__matrix[actualClass].sumOfCounts()
         return result
 
     def trace(self) -> float:

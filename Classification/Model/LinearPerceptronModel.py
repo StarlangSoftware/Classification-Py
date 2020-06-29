@@ -32,7 +32,7 @@ class LinearPerceptronModel(NeuralNetworkModel):
             Linear perceptron parameters; learningRate, etaDecrease, crossValidationRatio, epoch.
         """
         super().__init__(trainSet)
-        self.W = self.allocateLayerWeights(self.K, self.d + 1)
+        self.W = self.allocateLayerWeights(self.K, self.d + 1, parameters.getSeed())
         bestW = copy.deepcopy(self.W)
         bestClassificationPerformance = ClassificationPerformance(0.0)
         epoch = parameters.getEpoch()

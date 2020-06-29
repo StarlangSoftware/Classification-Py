@@ -9,13 +9,14 @@ from Classification.Attribute.ContinuousAttribute import ContinuousAttribute
 from Classification.Attribute.DiscreteAttribute import DiscreteAttribute
 from Classification.Attribute.BinaryAttribute import BinaryAttribute
 from Classification.Attribute.DiscreteIndexedAttribute import DiscreteIndexedAttribute
+from Classification.InstanceList.Partition import Partition
 
 
 class DataSet(object):
     __instances: InstanceList
     __definition: DataDefinition
 
-    def __init__(self, definition=None):
+    def __init__(self, definition: DataDefinition = None, separator: str = None, fileName: str = None):
         """
         Constructor for generating a new DataSet with given DataDefinition.
 
@@ -23,9 +24,16 @@ class DataSet(object):
         ----------
         definition : DataDefinition
             Data definition of the data set.
+        separator : str
+            Separator character which separates the attribute values in the data file.
+        fileName : str
+            Name of the data set file.
         """
         self.__definition = definition
-        self.__instances = InstanceList()
+        if separator is None:
+            self.__instances = InstanceList()
+        else:
+            self.__instances = InstanceList(definition, separator, fileName)
 
     def initWithFile(self, fileName: str):
         """
@@ -66,22 +74,6 @@ class DataSet(object):
             if instance.attributeSize() == self.__definition.attributeCount():
                 self.__instances.add(instance)
             i = i + 1
-
-    def initWithDefinitionAndFile(self, definition: DataDefinition, separator: str, fileName: str):
-        """
-        Constructor for generating a new DataSet with a DataDefinition, from a File by using a separator.
-
-        PARAMETERS
-        ----------
-        definition : DataDefinition
-            Data definition of the data set.
-        separator : str
-            Separator character which separates the attribute values in the data file.
-        fileName : str
-            Name of the data set file.
-        """
-        self.__definition = definition
-        self.__instances = InstanceList(definition, separator, fileName)
 
     def __checkDefinition(self, instance: Instance) -> bool:
         """
@@ -202,7 +194,7 @@ class DataSet(object):
         """
         classLabels = self.__instances.getDistinctClassLabels()
         result = classLabels[0]
-        for i in range(len(classLabels)):
+        for i in range(1, len(classLabels)):
             result = result + ";" + classLabels[i]
         return result
 
@@ -278,7 +270,7 @@ class DataSet(object):
         list
             Instances of the items at the list of instance lists from the partitions.
         """
-        return self.__instances.divideIntoClasses().getLists()
+        return Partition(self.__instances).getLists()
 
     def getInstanceList(self) -> InstanceList:
         """

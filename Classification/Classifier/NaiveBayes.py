@@ -63,7 +63,7 @@ class NaiveBayes(Classifier):
             Training data given to the algorithm
         """
         priorDistribution = trainSet.classDistribution()
-        classLists = trainSet.divideIntoClasses()
+        classLists = Partition(trainSet)
         if isinstance(classLists.get(0).get(0).getAttribute(0), DiscreteAttribute):
             self.trainDiscreteVersion(priorDistribution, classLists)
         else:

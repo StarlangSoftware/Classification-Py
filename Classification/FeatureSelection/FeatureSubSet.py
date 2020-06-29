@@ -8,23 +8,16 @@ class FeatureSubSet(object):
 
         PARAMETERS
         ----------
-        indexList : list
+        indexList
             An ArrayList consists of integer indices.
         """
         if indexList is None:
-            indexList = []
-        self.__indexList = indexList
-
-    def initWithNumberOfFeatures(self, numberOfFeatures: int):
-        """
-        A constructor that takes number of features as input and initializes indexList with these numbers.
-
-        PARAMETERS
-        ----------
-        numberOfFeatures : int
-            Indicates the indices of indexList.
-        """
-        self.__indexList = [i for i in range(numberOfFeatures)]
+            self.__indexList = []
+        else:
+            if isinstance(indexList, list):
+                self.__indexList = indexList
+            elif isinstance(indexList, int):
+                self.__indexList = [i for i in range(indexList)]
 
     def size(self) -> int:
         """
@@ -89,4 +82,4 @@ class FeatureSubSet(object):
         index : int
             Index of the item that will be removed.
         """
-        self.__indexList.remove(index)
+        self.__indexList.pop(index)

@@ -5,7 +5,7 @@ class ClassificationPerformance(Performance):
 
     __accuracy: float
 
-    def initWithBoth(self, accuracy: float, errorRate: float = -1):
+    def __init__(self, accuracy: float, errorRate: float = -1):
         """
         A constructor that sets the accuracy and errorRate via given input.
 

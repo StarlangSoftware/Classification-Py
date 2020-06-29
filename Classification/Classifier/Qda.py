@@ -3,13 +3,14 @@ from copy import deepcopy
 
 from Classification.Classifier.Classifier import Classifier
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.QdaModel import QdaModel
 from Classification.Parameter.Parameter import Parameter
 
 import math
 
 
-class Lda(Classifier):
+class Qda(Classifier):
 
     def train(self, trainSet: InstanceList, parameters: Parameter):
         """
@@ -24,8 +25,7 @@ class Lda(Classifier):
         w0 = {}
         w = {}
         W = {}
-        priorDistribution = trainSet.classDistribution()
-        classLists = trainSet.divideIntoClasses()
+        classLists = Partition(trainSet)
         priorDistribution = trainSet.classDistribution()
         for i in range(classLists.size()):
             Ci = classLists.get(i).getClassLabel()

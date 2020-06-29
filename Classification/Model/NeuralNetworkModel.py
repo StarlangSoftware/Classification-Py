@@ -36,7 +36,7 @@ class NeuralNetworkModel(ValidatedModel):
         self.K = len(self.classLabels)
         self.d = trainSet.get(0).continuousAttributeSize()
 
-    def allocateLayerWeights(self, row: int, column: int) -> Matrix:
+    def allocateLayerWeights(self, row: int, column: int, seed: int) -> Matrix:
         """
         The allocateLayerWeights method returns a new Matrix with random weights.
 
@@ -46,13 +46,15 @@ class NeuralNetworkModel(ValidatedModel):
             Number of rows.
         column : int
             Number of columns.
+        seed : int
+            Seed for initialization of random function.
 
         RETURNS
         -------
         Matrix
             Matrix with random weights.
         """
-        matrix = Matrix(row, column, -0.01, +0.01)
+        matrix = Matrix(row, column, -0.01, +0.01, seed)
         return matrix
 
     def normalizeOutput(self, o: Vector) -> Vector:
@@ -72,10 +74,16 @@ class NeuralNetworkModel(ValidatedModel):
         """
         total = 0.0
         values = []
-        for i in range(len(values)):
-            total += math.exp(o.getValue(i))
-        for i in range(len(values)):
-            values.append(math.exp(o.getValue(i)) / total)
+        for i in range(o.size()):
+            if o.getValue(i) > 500:
+                total += math.exp(500)
+            else:
+                total += math.exp(o.getValue(i))
+        for i in range(o.size()):
+            if o.getValue(i) > 500:
+                values.append(math.exp(500) / total)
+            else:
+                values.append(math.exp(o.getValue(i)) / total)
         return Vector(values)
 
     def createInputVector(self, instance: Instance):
@@ -157,7 +165,7 @@ class NeuralNetworkModel(ValidatedModel):
         ----------
         instance : Instance
             Instance is used to get class labels.
-        input : Vector
+        inputVector : Vector
             Vector to multiply weights.
         weights : Matrix
             Matrix of weights

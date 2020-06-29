@@ -12,7 +12,7 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
 
     __V: Matrix
 
-    def __allocateWeights(self, H: int):
+    def __allocateWeights(self, H: int, seed: int):
         """
         The allocateWeights method allocates layers' weights of Matrix W and V.
 
@@ -21,8 +21,8 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
         H : int
             Integer value for weights.
         """
-        self.W = self.allocateLayerWeights(H, self.d + 1)
-        self.__V = self.allocateLayerWeights(self.K, H + 1)
+        self.W = self.allocateLayerWeights(H, self.d + 1, seed)
+        self.__V = self.allocateLayerWeights(self.K, H + 1, seed)
 
     def __init__(self, trainSet: InstanceList, validationSet: InstanceList, parameters: MultiLayerPerceptronParameter):
         """
@@ -42,7 +42,7 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
             hiddenNodes.
         """
         super().initWithTrainSet(trainSet)
-        self.__allocateWeights(parameters.getHiddenNodes())
+        self.__allocateWeights(parameters.getHiddenNodes(), parameters.getSeed())
         bestW = copy.deepcopy(self.W)
         bestV = copy.deepcopy(self.__V)
         bestClassificationPerformance = ClassificationPerformance(0.0)
@@ -73,3 +73,9 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
             learningRate *= parameters.getEtaDecrease()
         self.W = bestW
         self.__V = bestV
+
+    def calculateOutput(self):
+        """
+        The calculateOutput method calculates the forward single hidden layer by using Matrices W and V.
+        """
+        self.calculateForwardSingleHiddenLayer(self.W, self.__V)

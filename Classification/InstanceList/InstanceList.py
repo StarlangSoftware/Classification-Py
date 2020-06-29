@@ -1,8 +1,8 @@
 from __future__ import annotations
 import random
 import math
+from functools import cmp_to_key
 
-from Classification.Classifier.Classifier import Classifier
 from Classification.DataSet.DataDefinition import DataDefinition
 from Classification.Instance.Instance import Instance
 from Classification.Attribute.AttributeType import AttributeType
@@ -11,13 +11,13 @@ from Classification.Attribute.BinaryAttribute import BinaryAttribute
 from Classification.Attribute.ContinuousAttribute import ContinuousAttribute
 from Sampling.Bootstrap import Bootstrap
 from Classification.Instance.CompositeInstance import CompositeInstance
-from Classification.InstanceList.Partition import Partition
-from Classification.InstanceList.InstanceListOfSameClass import InstanceListOfSameClass
 from Classification.Attribute.Attribute import Attribute
 from Classification.Attribute.DiscreteIndexedAttribute import DiscreteIndexedAttribute
 from Math.DiscreteDistribution import DiscreteDistribution
 from Math.Vector import Vector
 from Math.Matrix import Matrix
+
+from Classification.Model.Model import Model
 
 
 class InstanceList(object):
@@ -59,8 +59,8 @@ class InstanceList(object):
                     file = open(fileName, 'r', encoding='utf8')
                     lines = file.readlines()
                     for line in lines:
-                        attributeList = line.split(separator)
-                        if len(attributeList) == listOrDefinition.attributeCount():
+                        attributeList = line.strip().split(separator)
+                        if len(attributeList) == listOrDefinition.attributeCount() + 1:
                             current = Instance(attributeList[len(attributeList) - 1])
                             for i in range(len(attributeList) - 1):
                                 if listOrDefinition.getAttributeType(i) is AttributeType.DISCRETE:
@@ -122,9 +122,9 @@ class InstanceList(object):
         return self.list[index]
 
     def makeComparator(self, attributeIndex: int):
-        def compare(instanceA, instanceB):
-            result1 = instanceA.getAttribute(attributeIndex)
-            result2 = instanceB.getAttribute(attributeIndex)
+        def compare(instanceA: Instance, instanceB: Instance):
+            result1 = instanceA.getAttribute(attributeIndex).getValue()
+            result2 = instanceB.getAttribute(attributeIndex).getValue()
             if result1 < result2:
                 return -1
             elif result1 > result2:
@@ -142,7 +142,7 @@ class InstanceList(object):
         attributeIndex : int
             index of the attribute.
         """
-        self.list.sort(key=self.makeComparator(attributeIndex))
+        self.list.sort(key=cmp_to_key(self.makeComparator(attributeIndex)))
 
     def sort(self):
         """
@@ -159,7 +159,8 @@ class InstanceList(object):
         seed : int
             Seed is used for random number generation.
         """
-        random.shuffle(self.list, seed)
+        random.seed(seed)
+        random.shuffle(self.list)
 
     def bootstrap(self, seed: int) -> Bootstrap:
         """
@@ -226,24 +227,6 @@ class InstanceList(object):
                     possibleClassLabels.append(instance.getClassLabel())
         return possibleClassLabels
 
-    def divideIntoClasses(self) -> Partition:
-        """
-        Divides the instances in the instance list into partitions so that all instances of a class are grouped in a
-        single partition.
-
-        RETURNS
-        -------
-        Partition
-            Groups of instances according to their class labels.
-        """
-        classLabels = self.getDistinctClassLabels()
-        result = Partition()
-        for classLabel in classLabels:
-            result.add(InstanceListOfSameClass(classLabel))
-        for instance in self.list:
-            result.get(classLabels.index(instance.getClassLabel())).add(instance)
-        return result
-
     def getAttributeValueList(self, attributeIndex: int) -> list:
         """
         Extracts distinct discrete values of a given attribute as an array of strings.
@@ -263,151 +246,6 @@ class InstanceList(object):
             if not instance.getAttribute(attributeIndex).getValue() in valueList:
                 valueList.append(instance.getAttribute(attributeIndex).getValue())
         return valueList
-
-    def stratifiedPartition(self, ratio: float, seed: int) -> Partition:
-        """
-        Creates a stratified partition of the current instance list. In a stratified partition, the percentage of each
-        class is preserved. For example, let's say there are three classes in the instance list, and let the percentages
-        of these classes be %20, %30, and %50; then the percentages of these classes in the stratified partitions are
-        the same, that is, %20, %30, and %50.
-
-        PARAMETERS
-        ----------
-        ratio : float
-            Ratio of the stratified partition. Ratio is between 0 and 1. If the ratio is 0.2, then 20 percent of the
-            instances are put in the first group, 80 percent of the instances are put in the second group.
-        seed : int
-            seed is used as a random number.
-
-        RETURNS
-        -------
-        Partition
-            2 group stratified partition of the instances in this instance list.
-        """
-        partition = Partition()
-        partition.add(InstanceList())
-        partition.add(InstanceList())
-        distribution = self.classDistribution()
-        counts = [0] * len(distribution)
-        randomArray = [i for i in range(self.size())]
-        random.shuffle(randomArray, seed)
-        for i in range(self.size()):
-            instance = self.list[randomArray[i]]
-            classIndex = distribution.getIndex(instance.getClassLabel())
-            if counts[classIndex] < self.size() * ratio * distribution.getProbability(instance.getClassLabel()):
-                partition.get(0).add(instance)
-            else:
-                partition.get(1).add(instance)
-            counts[classIndex] = counts[classIndex] + 1
-        return partition
-
-    def partition(self, ratio: float, seed: int) -> Partition:
-        """
-        Creates a partition of the current instance list.
-
-        PARAMETERS
-        ----------
-        ratio : float
-            Ratio of the stratified partition. Ratio is between 0 and 1. If the ratio is 0.2, then 20 percent of the
-            instances are put in the first group, 80 percent of the instances are put in the second group.
-        seed : int
-            seed is used as a random number.
-
-        RETURNS
-        -------
-        Partition
-            2 group stratified partition of the instances in this instance list.
-        """
-        partition = Partition()
-        partition.add(InstanceList())
-        partition.add(InstanceList())
-        random.shuffle(self.list, seed)
-        for i in range(self.size()):
-            instance = self.list[i]
-            if i < self.size() * ratio:
-                partition.get(0).add(instance)
-            else:
-                partition.get(1).add(instance)
-        return partition
-
-    def divideWithRespectToDiscreteAttribute(self, attributeIndex: int) -> Partition:
-        """
-        Creates a partition depending on the distinct values of a discrete attribute. If the discrete attribute has 4
-        distinct values, the resulting partition will have 4 groups, where each group contain instance whose
-        values of that discrete attribute are the same.
-
-        PARAMETERS
-        ----------
-        attributeIndex : int
-            Index of the discrete attribute.
-
-        RETURNS
-        -------
-        Partition
-            L groups of instances, where L is the number of distinct values of the discrete attribute with index
-            attributeIndex.
-        """
-        valueList = self.getAttributeValueList(attributeIndex)
-        result = Partition()
-        for _ in valueList:
-            result.add(InstanceList())
-        for instance in self.list:
-            result.get(valueList.index(instance.getAttribute(attributeIndex).getValue())).add(instance)
-        return result
-
-    def divideWithRespectToIndexedAtribute(self, attributeIndex: int, attributeValue: int) -> Partition:
-        """
-        Creates a partition depending on the distinct values of a discrete indexed attribute.
-
-        PARAMETERS
-        ----------
-        attributeIndex : int
-            Index of the discrete indexed attribute.
-        attributeValue : int
-            Value of the attribute.
-
-        RETURNS
-        -------
-        Partition
-            L groups of instances, where L is the number of distinct values of the discrete indexed attribute with index
-            attributeIndex and value attributeValue.
-        """
-        result = Partition()
-        result.add(InstanceList())
-        result.add(InstanceList())
-        for instance in self.list:
-            if instance.getAttribute(attributeIndex).getIndex() == attributeIndex:
-                result.get(0).add(instance)
-            else:
-                result.get(1).add(instance)
-        return result
-
-    def divideWithRespectToContinuousAttribute(self, attributeIndex: int, splitValue: float) -> Partition:
-        """
-        Creates a two group partition depending on the values of a continuous attribute. If the value of the attribute
-        is less than splitValue, the instance is forwarded to the first group, else it is forwarded to the second group.
-
-        PARAMETERS
-        ----------
-        attributeIndex : int
-            Index of the discrete indexed attribute.
-        splitValue : float
-            Threshold to divide instances
-
-        RETURNS
-        -------
-        Partition
-            Two groups of instances as a partition.
-        """
-        result = Partition()
-        result.add(InstanceList())
-        result.add(InstanceList())
-        for instance in self.list:
-            if instance.getAttribute(attributeIndex).getValue() < splitValue:
-                result.get(0).add(instance)
-            else:
-                result.get(1).add(instance)
-        return result
 
     def __attributeAverage(self, index: int) -> Attribute:
         """
@@ -429,7 +267,7 @@ class InstanceList(object):
             values = []
             for instance in self.list:
                 values.append(instance.getAttribute(index).getValue())
-            return DiscreteAttribute(Classifier.getMaximum(values))
+            return DiscreteAttribute(Model.getMaximum(values))
         elif isinstance(self.list[0].getAttribute(index), ContinuousAttribute):
             total = 0.0
             for instance in self.list:
@@ -438,7 +276,7 @@ class InstanceList(object):
         else:
             return None
 
-    def __continuousAttributeAverage(self, index: int) -> list:
+    def continuousAttributeAverage(self, index: int) -> list:
         """
         Calculates the mean of a single attribute for this instance list (m_i).
 
@@ -665,7 +503,7 @@ class InstanceList(object):
         """
         result = []
         for i in range(self.list[0].attributeSize()):
-            result.extend(self.__continuousAttributeAverage(i))
+            result.extend(self.continuousAttributeAverage(i))
         return result
 
     def standardDeviation(self) -> Instance:

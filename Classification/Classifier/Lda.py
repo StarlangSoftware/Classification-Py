@@ -3,6 +3,7 @@ from Math.Vector import Vector
 
 from Classification.Classifier.Classifier import Classifier
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.LdaModel import LdaModel
 from Classification.Parameter.Parameter import Parameter
 
@@ -26,7 +27,7 @@ class Lda(Classifier):
         w0 = {}
         w = {}
         priorDistribution = trainSet.classDistribution()
-        classLists = trainSet.divideIntoClasses()
+        classLists = Partition(trainSet)
         covariance = Matrix(trainSet.get(0).continuousAttributeSize(), trainSet.get(0).continuousAttributeSize())
         for i in range(classLists.size()):
             averageVector = Vector(classLists.get(i).continuousAverage())

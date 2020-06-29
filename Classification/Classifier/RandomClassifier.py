@@ -15,4 +15,4 @@ class RandomClassifier(Classifier):
         trainSet : InstanceList
             Training data given to the algorithm.
         """
-        self.model = RandomModel(list(trainSet.classDistribution().keys()))
+        self.model = RandomModel(list(trainSet.classDistribution().keys()), parameters.getSeed())

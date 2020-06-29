@@ -2,6 +2,7 @@ from Sampling.KFoldCrossValidation import KFoldCrossValidation
 
 from Classification.Experiment.Experiment import Experiment
 from Classification.Experiment.KFoldRunSeparateTest import KFoldRunSeparateTest
+from Classification.InstanceList.Partition import Partition
 from Classification.Performance.ExperimentPerformance import ExperimentPerformance
 
 
@@ -41,7 +42,7 @@ class MxKFoldRunSeparateTest(KFoldRunSeparateTest):
         """
         result = ExperimentPerformance()
         instanceList = experiment.getDataSet().getInstanceList()
-        partition = instanceList.partition(0.25, experiment.getParameter().getSeed())
+        partition = Partition(instanceList, 0.25, experiment.getParameter().getSeed(), True)
         for j in range(self.M):
             crossValidation = KFoldCrossValidation(partition.get(1).getInstances(), self.K, experiment.getParameter().
                                                    getSeed())

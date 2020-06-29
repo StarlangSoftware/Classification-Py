@@ -3,11 +3,12 @@ from Classification.Instance.Instance import Instance
 from Classification.Model.Model import Model
 import random
 
+
 class RandomModel(Model):
 
     __classLabels: list
 
-    def __init__(self, classLabels: list):
+    def __init__(self, classLabels: list, seed: int):
         """
         A constructor that sets the class labels.
 
@@ -15,8 +16,11 @@ class RandomModel(Model):
         ----------
         classLabels : list
             A List of class labels.
+        seed: int
+            Seed of the random function
         """
         self.__classLabels = classLabels
+        random.seed(seed)
 
     def predict(self, instance: Instance) -> str:
         """
@@ -40,5 +44,5 @@ class RandomModel(Model):
             return possibleClassLabels[index]
         else:
             size = len(self.__classLabels)
-            index = random.randint(0, size)
+            index = random.randrange(size)
             return self.__classLabels[index]

@@ -2,6 +2,7 @@ from Sampling.StratifiedKFoldCrossValidation import StratifiedKFoldCrossValidati
 
 from Classification.Experiment.Experiment import Experiment
 from Classification.Experiment.KFoldRunSeparateTest import KFoldRunSeparateTest
+from Classification.InstanceList.Partition import Partition
 from Classification.Performance.ExperimentPerformance import ExperimentPerformance
 
 
@@ -35,8 +36,8 @@ class StratifiedKFoldRunSeparateTest(KFoldRunSeparateTest):
         """
         result = ExperimentPerformance()
         instanceList = experiment.getDataSet().getInstanceList()
-        partition = instanceList.partition(0.25, experiment.getParameter().getSeed())
-        crossValidation = StratifiedKFoldCrossValidation(partition.get(1).divideIntoClasses().getLists(), self.K,
+        partition = Partition(instanceList, 0.25, experiment.getParameter().getSeed(), True)
+        crossValidation = StratifiedKFoldCrossValidation(Partition(partition.get(1)).getLists(), self.K,
                                                          experiment.getParameter().getSeed())
         self.runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation,
                            partition.get(0))

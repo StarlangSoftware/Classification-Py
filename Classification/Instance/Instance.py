@@ -152,7 +152,7 @@ class Instance(object):
         """
         result = []
         for attribute in self.__attributes:
-            result.append(attribute.continuousAttributes())
+            result.extend(attribute.continuousAttributes())
         return result
 
     def getClassLabel(self) -> str:
@@ -212,5 +212,5 @@ class Instance(object):
         """
         values = []
         for attribute in self.__attributes:
-            values.append(attribute.continuousAttributes())
+            values.extend(attribute.continuousAttributes())
         return Vector(values)

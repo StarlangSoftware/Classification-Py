@@ -85,7 +85,7 @@ class ExperimentPerformance:
         float
             The errorRate at given index of results list.
         """
-        return self.__results[index]
+        return self.__results[index].getErrorRate()
 
     def getAccuracy(self, index: int) -> float:
         """

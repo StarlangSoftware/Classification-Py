@@ -1,5 +1,6 @@
 from Classification.Classifier.Classifier import Classifier
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.DecisionTree.DecisionNode import DecisionNode
 from Classification.Model.DecisionTree.DecisionTree import DecisionTree
 from Classification.Parameter.C45Parameter import C45Parameter
@@ -20,7 +21,7 @@ class C45(Classifier):
             Parameter of the C45 algorithm.
         """
         if parameters.isPrune():
-            partition = trainSet.stratifiedPartition(parameters.getCrossValidationRatio(), parameters.getSeed())
+            partition = Partition(trainSet, parameters.getCrossValidationRatio(), parameters.getSeed(), True)
             tree = DecisionTree(DecisionNode(partition.get(1)))
             tree.prune(partition.get(0))
         else:

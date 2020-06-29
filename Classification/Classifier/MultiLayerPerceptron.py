@@ -1,5 +1,6 @@
 from Classification.Classifier.Classifier import Classifier
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.MultiLayerPerceptronModel import MultiLayerPerceptronModel
 from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPerceptronParameter
 
@@ -19,5 +20,5 @@ class MultiLayerPerceptron(Classifier):
         parameters : MultiLayerPerceptronParameter
             Parameters of the multilayer perceptron.
         """
-        partition = trainSet.stratifiedPartition(parameters.getCrossValidationRatio(), parameters.getSeed())
+        partition = Partition(trainSet, parameters.getCrossValidationRatio(), parameters.getSeed(), True)
         self.model = MultiLayerPerceptronModel(partition.get(1), partition.get(0), parameters)

@@ -35,7 +35,7 @@ class AutoEncoderModel(NeuralNetworkModel):
         """
         super().__init__(trainSet)
         self.K = trainSet.get(0).continuousAttributeSize()
-        self.__allocateWeights(parameters.getHiddenNodes())
+        self.__allocateWeights(parameters.getHiddenNodes(), parameters.getSeed())
         bestW = copy.deepcopy(self.__W)
         bestV = copy.deepcopy(self.__V)
         bestPerformance = Performance(1000000000)
@@ -68,7 +68,7 @@ class AutoEncoderModel(NeuralNetworkModel):
         self.__W = bestW
         self.__V = bestV
 
-    def __allocateWeights(self, H: int):
+    def __allocateWeights(self, H: int, seed: int):
         """
         The allocateWeights method takes an integer number and sets layer weights of W and V matrices according to given
         number.
@@ -78,8 +78,8 @@ class AutoEncoderModel(NeuralNetworkModel):
         H : int
             Integer input.
         """
-        self.__W = self.allocateLayerWeights(H, self.d + 1)
-        self.__V = self.allocateLayerWeights(self.K, H + 1)
+        self.__W = self.allocateLayerWeights(H, self.d + 1, seed)
+        self.__V = self.allocateLayerWeights(self.K, H + 1, seed)
 
     def testAutoEncoder(self, data: InstanceList) -> Performance:
         """

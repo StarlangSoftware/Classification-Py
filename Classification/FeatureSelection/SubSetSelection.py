@@ -42,6 +42,7 @@ class SubSetSelection(object):
         for i in range(numberOfFeatures):
             if not current.contains(i):
                 candidate = deepcopy(current)
+                candidate.add(i)
                 currentSubSetList.append(candidate)
 
     def backward(self, currentSubSetList: list, current: FeatureSubSet):

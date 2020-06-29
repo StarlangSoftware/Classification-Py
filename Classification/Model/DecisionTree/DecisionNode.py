@@ -3,23 +3,24 @@ from Math.DiscreteDistribution import DiscreteDistribution
 from Classification.Attribute.ContinuousAttribute import ContinuousAttribute
 from Classification.Attribute.DiscreteAttribute import DiscreteAttribute
 from Classification.Attribute.DiscreteIndexedAttribute import DiscreteIndexedAttribute
-from Classification.Classifier.Classifier import Classifier
 from Classification.Instance.CompositeInstance import CompositeInstance
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.DecisionTree.DecisionCondition import DecisionCondition
-from Classification.Model.DecisionTree.DecisionTree import DecisionTree
+from Classification.Model.Model import Model
 from Classification.Parameter.RandomForestParameter import RandomForestParameter
 import random
 
 
 class DecisionNode(object):
 
-    __children: list
+    children: list
     __data: InstanceList
     __classLabel: str
-    __leaf: bool
+    leaf: bool
     __condition: DecisionCondition
+    EPSILON = 0.0000000001
 
     def __init__(self, data: InstanceList, condition=None, parameter=None, isStump=False):
         """
@@ -58,9 +59,9 @@ class DecisionNode(object):
         bestSplitValue = 0
         self.__condition = condition
         self.__data = data
-        self.__classLabel = Classifier.getMaximum(self.__data.getClassLabels())
-        self.__leaf = True
-        self.__children = []
+        self.__classLabel = Model.getMaximum(self.__data.getClassLabels())
+        self.leaf = True
+        self.children = []
         classLabels = self.__data.getDistinctClassLabels()
         if len(classLabels) == 1:
             return
@@ -68,7 +69,8 @@ class DecisionNode(object):
             return
         indexList = [i for i in range(data.get(0).attributeSize())]
         if parameter is not None and parameter.getAttributeSubsetSize() < data.get(0).attributeSize():
-            random.shuffle(indexList, parameter.getSeed())
+            random.seed(parameter.getSeed())
+            random.shuffle(indexList)
             size = parameter.getAttributeSubsetSize()
         else:
             size = data.get(0).attributeSize()
@@ -82,14 +84,14 @@ class DecisionNode(object):
                     if distribution.getSum() > 0:
                         classDistribution.removeDistribution(distribution)
                         entropy = (classDistribution.entropy() * classDistribution.getSum() + distribution.entropy() * distribution.getSum()) / data.size()
-                        if entropy < bestEntropy:
+                        if entropy + self.EPSILON < bestEntropy:
                             bestEntropy = entropy
                             bestAttribute = index
                             bestSplitValue = k
                         classDistribution.addDistribution(distribution)
             elif isinstance(data.get(0).getAttribute(index), DiscreteAttribute):
                 entropy = self.__entropyForDiscreteAttribute(index)
-                if entropy < bestEntropy:
+                if entropy + self.EPSILON < bestEntropy:
                     bestEntropy = entropy
                     bestAttribute = index
             elif isinstance(data.get(0).getAttribute(index), ContinuousAttribute):
@@ -105,14 +107,14 @@ class DecisionNode(object):
                         splitValue = (previousValue + instance.getAttribute(index).getValue()) / 2
                         previousValue = instance.getAttribute(index).getValue()
                         entropy = (leftDistribution.getSum() / data.size()) * leftDistribution.entropy() + (rightDistribution.getSum() / data.size()) * rightDistribution.entropy()
-                        if entropy < bestEntropy:
+                        if entropy + self.EPSILON < bestEntropy:
                             bestEntropy = entropy
                             bestSplitValue = splitValue
                             bestAttribute = index
                     leftDistribution.removeItem(instance.getClassLabel())
                     rightDistribution.addItem(instance.getClassLabel())
         if bestAttribute != -1:
-            self.__leaf = False
+            self.leaf = False
             if isinstance(data.get(0).getAttribute(bestAttribute), DiscreteIndexedAttribute):
                 self.__createChildrenForDiscreteIndexed(bestAttribute, bestSplitValue, parameter, isStump)
             elif isinstance(data.get(0).getAttribute(bestAttribute), DiscreteAttribute):
@@ -158,9 +160,15 @@ class DecisionNode(object):
         isStump : bool
             Refers to decision trees with only 1 splitting rule.
         """
-        childrenData = self.__data.divideWithRespectToIndexedAtribute(attributeIndex, attributeValue)
-        self.__children.append(DecisionNode(childrenData.get(0), DecisionCondition(attributeIndex, DiscreteIndexedAttribute("", attributeValue, self.__data.get(0).getAttribute(attributeIndex).getMaxIndex())), parameter, isStump))
-        self.__children.append(DecisionNode(childrenData.get(1), DecisionCondition(attributeIndex, DiscreteIndexedAttribute("", -1, self.__data.get(0).getAttribute(attributeIndex).getMaxIndex())), parameter, isStump))
+        childrenData = Partition(self.__data, attributeIndex, attributeValue)
+        self.children.append(
+            DecisionNode(childrenData.get(0),
+                         DecisionCondition(attributeIndex,
+                                           DiscreteIndexedAttribute("", attributeValue, self.__data.get(0).getAttribute(attributeIndex).getMaxIndex())), parameter, isStump))
+        self.children.append(
+            DecisionNode(childrenData.get(1),
+                         DecisionCondition(attributeIndex,
+                                           DiscreteIndexedAttribute("", -1, self.__data.get(0).getAttribute(attributeIndex).getMaxIndex())), parameter, isStump))
 
     def __createChildrenForDiscrete(self, attributeIndex: int, parameter: RandomForestParameter, isStump: bool):
         """
@@ -177,11 +185,11 @@ class DecisionNode(object):
             Refers to decision trees with only 1 splitting rule.
         """
         valueList = self.__data.getAttributeValueList(attributeIndex)
-        childrenData = self.__data.divideWithRespectToDiscreteAttribute(attributeIndex)
+        childrenData = Partition(self.__data, attributeIndex)
         for i in range(len(valueList)):
-            self.__children.append(DecisionNode(childrenData.get(i),
-                                                DecisionCondition(attributeIndex, DiscreteAttribute(valueList[i])),
-                                                parameter, isStump))
+            self.children.append(DecisionNode(childrenData.get(i),
+                                              DecisionCondition(attributeIndex, DiscreteAttribute(valueList[i])),
+                                              parameter, isStump))
 
     def __createChildrenForContinuous(self, attributeIndex: int, splitValue: float, parameter: RandomForestParameter,
                                       isStump: bool):
@@ -200,36 +208,13 @@ class DecisionNode(object):
         splitValue : float
             Split value is used for partitioning.
         """
-        childrenData = self.__data.divideWithRespectToContinuousAttribute(attributeIndex, splitValue)
-        self.__children.append(DecisionNode(childrenData.get(0),
-                                            DecisionCondition(attributeIndex, ContinuousAttribute(splitValue), "<"),
-                                            parameter, isStump))
-        self.__children.append(DecisionNode(childrenData.get(0),
-                                            DecisionCondition(attributeIndex, ContinuousAttribute(splitValue), ">"),
-                                            parameter, isStump))
-
-    def prune(self, tree: DecisionTree, pruneSet: InstanceList):
-        """
-        The prune method takes a DecisionTree and an InstanceList as inputs. It checks the classification performance
-        of given InstanceList before pruning, i.e making a node leaf, and after pruning. If the after performance is
-        better than the before performance it prune the given InstanceList from the tree.
-
-        PARAMETERS
-        ----------
-        tree : DecisionTree
-            DecisionTree that will be pruned if conditions hold.
-        pruneSet : InstanceList
-            Small subset of tree that will be removed from tree.
-        """
-        if self.__leaf:
-            return
-        before = tree.testClassifier(pruneSet)
-        self.__leaf = True
-        after = tree.testClassifier(pruneSet)
-        if after.getAccuracy() < before.getAccuracy():
-            self.__leaf = False
-            for node in self.__children:
-                node.prune(tree, pruneSet)
+        childrenData = Partition(self.__data, attributeIndex, splitValue)
+        self.children.append(DecisionNode(childrenData.get(0),
+                                          DecisionCondition(attributeIndex, ContinuousAttribute(splitValue), "<"),
+                                          parameter, isStump))
+        self.children.append(DecisionNode(childrenData.get(1),
+                                          DecisionCondition(attributeIndex, ContinuousAttribute(splitValue), ">"),
+                                          parameter, isStump))
 
     def predict(self, instance: Instance) -> str:
         """
@@ -250,21 +235,21 @@ class DecisionNode(object):
             possibleClassLabels = instance.getPossibleClassLabels()
             distribution = self.__data.classDistribution()
             predictedClass = distribution.getMaxItemIncludeTheseOnly(possibleClassLabels)
-            if self.__leaf:
+            if self.leaf:
                 return predictedClass
             else:
-                for node in self.__children:
-                    if node.condition.satisfy(instance):
+                for node in self.children:
+                    if node.__condition.satisfy(instance):
                         childPrediction = node.predict(instance)
                         if childPrediction is not None:
                             return childPrediction
                         else:
                             return predictedClass
                 return predictedClass
-        elif self.__leaf:
+        elif self.leaf:
             return self.__classLabel
         else:
-            for node in self.__children:
-                if node.condition.satisfy(instance):
+            for node in self.children:
+                if node.__condition.satisfy(instance):
                     return node.predict(instance)
             return self.__classLabel

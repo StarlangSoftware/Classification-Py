@@ -1,5 +1,6 @@
 from Classification.Classifier.Classifier import Classifier
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.AutoEncoderModel import AutoEncoderModel
 from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPerceptronParameter
 from Classification.Performance.Performance import Performance
@@ -19,7 +20,7 @@ class AutoEncoder(Classifier):
         parameters : MultiLayerPerceptronParameter
             Parameters of the auto encoder.
         """
-        partition = trainSet.stratifiedPartition(0.2, parameters.getSeed())
+        partition = Partition(trainSet, 0.2, parameters.getSeed(), True)
         self.model = AutoEncoderModel(partition.get(1), partition.get(0), parameters)
 
     def test(self, testSet: InstanceList) -> Performance:

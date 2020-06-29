@@ -29,8 +29,7 @@ class Pca(TrainedFeatureFilter):
         super().__init__(dataSet)
         self.__eigenvectors = []
         self.__covarianceExplained = covarianceExplained
-        if numberOfDimensions != -1:
-            self.__numberOfDimensions = numberOfDimensions
+        self.__numberOfDimensions = numberOfDimensions
         self.train()
 
     def __removeUnnecessaryEigenvectors(self):
@@ -42,10 +41,10 @@ class Pca(TrainedFeatureFilter):
         total = 0.0
         currentSum = 0.0
         for eigenvector in self.__eigenvectors:
-            total += eigenvector.eigenvalue()
+            total += eigenvector.getEigenvalue()
         for i in range(len(self.__eigenvectors)):
             if currentSum / total < self.__covarianceExplained:
-                currentSum += self.__eigenvectors[i].eigenValue()
+                currentSum += self.__eigenvectors[i].getEigenvalue()
             else:
                 del self.__eigenvectors[i:]
                 break
@@ -63,7 +62,7 @@ class Pca(TrainedFeatureFilter):
         that averageVector. Then finds the eigenvectors of that covariance matrix and removes its unnecessary
         eigenvectors.
         """
-        averageVector = Vector(self.dataSet.getInstanceList().__continuousAttributeAverage())
+        averageVector = Vector(self.dataSet.getInstanceList().continuousAverage())
         covariance = self.dataSet.getInstanceList().covariance(averageVector)
         self.__eigenvectors = covariance.characteristics()
         if self.__numberOfDimensions != -1:

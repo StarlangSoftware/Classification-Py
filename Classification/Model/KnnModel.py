@@ -1,3 +1,5 @@
+from functools import cmp_to_key
+
 from Classification.Classifier.Classifier import Classifier
 from Classification.DistanceMetric.DistanceMetric import DistanceMetric
 from Classification.Instance.CompositeInstance import CompositeInstance
@@ -49,7 +51,7 @@ class KnnModel(Model):
         if isinstance(instance, CompositeInstance) and nearestNeighbors.size() == 0:
             predictedClass = instance.getPossibleClassLabels()[0]
         else:
-            predictedClass = Classifier.getMaximum(nearestNeighbors.getClassLabels())
+            predictedClass = Model.getMaximum(nearestNeighbors.getClassLabels())
         return predictedClass
 
     def makeComparator(self):
@@ -88,7 +90,7 @@ class KnnModel(Model):
             if not isinstance(instance, CompositeInstance) or self.__data.get(i).getClassLabel() in possibleClassLabels:
                 instances.append(KnnInstance(self.__data.get(i), self.__distanceMetric.distance(self.__data.get(i),
                                                                                                 instance)))
-        instances.sort(key=self.makeComparator())
+        instances.sort(key=cmp_to_key(self.makeComparator()))
         for i in range(min(self.__k, len(instances))):
             result.add(instances[i].instance)
         return result

@@ -1,5 +1,6 @@
 from Classification.Classifier.Classifier import Classifier
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
 from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronParameter
 
@@ -19,5 +20,5 @@ class LinearPerceptron(Classifier):
         parameters : LinearPerceptronParameter
             Parameters of the linear perceptron.
         """
-        partition = trainSet.stratifiedPartition(parameters.getCrossValidationRatio(), parameters.getSeed())
+        partition = Partition(trainSet, parameters.getCrossValidationRatio(), parameters.getSeed(), True)
         self.model = LinearPerceptronModel(partition.get(1), partition.get(0), parameters)

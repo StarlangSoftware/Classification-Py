@@ -24,13 +24,10 @@ class Bagging(Classifier):
         parameters : Parameter
             Parameters of the bagging trees algorithm. ensembleSize returns the number of trees in the bagged forest.
         """
-        partition = trainSet.stratifiedPartition(0.2, parameters.getSeed())
         forestSize = parameters.getEnsembleSize()
         forest = []
         for i in range(forestSize):
-            bootstrapTrain = partition.get(1).bootstrap(i)
-            bootstrapPrune = partition.get(0).bootstrap(i)
-            tree = DecisionTree(DecisionNode(InstanceList(bootstrapTrain.getSample())))
-            tree.prune(InstanceList(bootstrapPrune.getSample()))
+            bootstrap = trainSet.bootstrap(i)
+            tree = DecisionTree(DecisionNode(InstanceList(bootstrap.getSample())))
             forest.append(tree)
         self.model = TreeEnsembleModel(forest)

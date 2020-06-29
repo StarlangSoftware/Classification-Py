@@ -13,8 +13,7 @@ class BackwardSelection(SubSetSelection):
         numberOfFeatures : int
             Indicates the indices of indexList.
         """
-        featureSubSet = FeatureSubSet()
-        super().__init__(featureSubSet.initWithNumberOfFeatures(numberOfFeatures))
+        super().__init__(FeatureSubSet(numberOfFeatures))
 
     def operator(self, current: FeatureSubSet, numberOfFeatures: int) -> list:
         """

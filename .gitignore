@@ -3,3 +3,6 @@
 /dist/
 /NlpToolkit_Classification.egg-info/
 /lib/python3.7/site-packages/
+Classification/__pycache__/__init__.cpython-37.pyc
+Classification/FeatureSelection/__pycache__/__init__.cpython-37.pyc
+Classification/FeatureSelection/__pycache__/FeatureSubSet.cpython-37.pyc
