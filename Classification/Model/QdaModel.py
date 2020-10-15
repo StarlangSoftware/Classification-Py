@@ -7,6 +7,8 @@ from Classification.Model.GaussianModel import GaussianModel
 class QdaModel(GaussianModel):
 
     __W: dict
+    w: dict
+    w0: dict
 
     def __init__(self, priorDistribution: DiscreteDistribution, W: dict, w: dict, w0: dict):
         """

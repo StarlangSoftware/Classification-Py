@@ -2,9 +2,12 @@ from Classification.Instance.CompositeInstance import CompositeInstance
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.Model import Model
+from Math.DiscreteDistribution import DiscreteDistribution
 
 
 class DummyModel(Model):
+
+    distribution: DiscreteDistribution
 
     def __init__(self, trainSet: InstanceList):
         """

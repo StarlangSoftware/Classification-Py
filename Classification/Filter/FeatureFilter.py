@@ -6,6 +6,8 @@ from Classification.Instance.Instance import Instance
 
 class FeatureFilter(object):
 
+    dataSet: DataSet
+
     @abstractmethod
     def convertInstance(self, instance: Instance):
         pass

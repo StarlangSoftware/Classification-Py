@@ -5,6 +5,8 @@ from Classification.Instance.Instance import Instance
 
 class LaryFilter(FeatureFilter):
 
+    attributeDistributions: list
+
     def __init__(self, dataSet: DataSet):
         """
         Constructor that sets the dataSet and all the attributes distributions.

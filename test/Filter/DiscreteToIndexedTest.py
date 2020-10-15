@@ -39,15 +39,15 @@ class DiscreteToIndexedTest(ClassifierTest):
         discreteToIndexed = DiscreteToIndexed(self.car)
         discreteToIndexed.convert()
         c45.train(self.car.getInstanceList(), c45Parameter)
-        self.assertAlmostEqual(0.46, 100 * c45.test(self.car.getInstanceList()).getErrorRate(), 2)
+        self.assertAlmostEqual(3.99, 100 * c45.test(self.car.getInstanceList()).getErrorRate(), 2)
         discreteToIndexed = DiscreteToIndexed(self.tictactoe)
         discreteToIndexed.convert()
         c45.train(self.tictactoe.getInstanceList(), c45Parameter)
-        self.assertAlmostEqual(0.42, 100 * c45.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
+        self.assertAlmostEqual(3.34, 100 * c45.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
         discreteToIndexed = DiscreteToIndexed(self.nursery)
         discreteToIndexed.convert()
         c45.train(self.nursery.getInstanceList(), c45Parameter)
-        self.assertAlmostEqual(0.09, 100 * c45.test(self.nursery.getInstanceList()).getErrorRate(), 2)
+        self.assertAlmostEqual(0.84, 100 * c45.test(self.nursery.getInstanceList()).getErrorRate(), 2)
 
 
 if __name__ == '__main__':

@@ -56,7 +56,7 @@ class DecisionTree(ValidatedModel):
         if node.leaf:
             return
         before = self.testClassifier(pruneSet)
-        node.__leaf = True
+        node.leaf = True
         after = self.testClassifier(pruneSet)
         if after.getAccuracy() < before.getAccuracy():
             node.leaf = False
