@@ -8,10 +8,10 @@ setup(
               'Classification.Parameter', 'Classification.Classifier', 'Classification.Experiment',
               'Classification.Performance', 'Classification.InstanceList', 'Classification.DistanceMetric',
               'Classification.StatisticalTest', 'Classification.FeatureSelection'],
-    url='https://github.com/olcaytaner/Classification-Py',
+    url='https://github.com/StarlangSoftware/Classification-Py',
     license='',
     author='olcaytaner',
-    author_email='olcaytaner@isikun.edu.tr',
+    author_email='olcay.yildiz@ozyegin.edu.tr',
     description='Classification library',
     install_requires=['NlpToolkit-Math', 'NlpToolkit-DataStructure', 'NlpToolkit-Sampling']
 )
