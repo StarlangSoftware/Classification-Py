@@ -1,3 +1,48 @@
+Machine Learning
+============
+
+Machine learning is about optimization. In learning via optimization, we define an error function (loss function) on the model and try to optimize it, i.e., try to find the optimal parameters of the model by optimization techniques borrowed from optimization literature. 
+
+Machine learning is about algorithms. In decision/regression trees, we need to write a recursive-learning algorithm to classify the data arriving at each decision node, and we also need to write a recursive code to generate the decision tree structure.
+
+Machine learning is about statistics. We usually assume Gaussian noise on the data, we assume multivariate normal distribution on class covariance matrices in quadratic discriminant analysis, and we use cross-validation or bootstrapping to generate multiple training sets. 
+
+Machine learning is about models. In decision trees, the data structure is a binary/L-ary tree depending on the type of the features and the decision function used.
+
+Machine learning is about performance metrics. In classification, we use accuracy if we want to get a crude estimate on the performance of the classifier. If we need more details on pairwise classes, confusion matrix comes in handy. If the dataset has two classes, more metrics follow: precision, recall, true positive rate, false positive rate, F-measure, etc. 
+
+What is machine learning about? Like defining an elephant, we need the combination of all of these topics to define machine learning: we start machine learning by assuming a certain model on the data, use algorithmic and/or optimization and/or statistical techniques to learn the parameters of that model (which is sometimes defined as curve fitting), and use performance metrics to evaluate our model/algorithm/classifier.
+
+# Algorithms
+
+## Nearest Neighbor
+
+The most commonly used representative of nonparametric algorithms is the nearest neighbor. The assumption of nearest neighbor is simple, the world does not change much, i.e., similar things perform similarly. Therefore, we only need to store the dataset itself and make the decision on the test instance based on the similarity of it to the instances in the dataset. In other words, the class label of an instance is strongly influenced by its nearby instances.
+
+## Parametric Classification
+
+If the class distributions are assumed to follow Gaussian density, we obtain our first parametric classifier, namely, quadratic discriminant. The number of parameters, i.e., the model complexity is Kd + Kd (d + 1) / 2, the first part is for class means and the second part for class covariance matrices.
+
+We can assume a single shared covariance matrix for all classes. In this case, simplifying the function reduces to our second classifier, namely, linear discriminant. The model complexity is Kd + d (d + 1) / 2, where the first part is for class means and the second part for shared covariance matrix.
+
+When we assume all off-diagonals of the shared covariance matrix are zero; we get the naive Bayes classifier. The model complexity is Kd + d, where the first part is for class means and the second part for the diagonal of the shared covariance matrix.
+
+We further reduce by taking priors equal and a single covariance value s. In this case, we get the nearest mean classifier and the model complexity is only Kd + 1.
+
+## Decision Trees
+
+Decision trees have a tree-based structure where each non-leaf node m implements a decision function, f<sub>m</sub>(x), and each leaf node corresponds to a class decision. Second, they are one of most interpretable learning algorithms available. When written as a set of IF-THEN rules, the decision tree can be transformed into a human-readable format, which then can be modified and/or validated by human experts in their corresponding domains.
+
+## Kernel Machines
+
+Kernel machines, in other words, support vector machines, are maximum margin methods, where the model is written as a weighted sum of support vectors. Kernel machines are discriminative methods, i.e., they are only interested in the instances across the class boundaries in classification, or instances across the regressor in regression. For obtaining the optimal separating hyperplane, kernel machines try to maximize separability, or margin, and write the problem as a quadratic optimization problem, whose solution gives us support vectors.
+
+## Neural Networks
+
+Artificial neural networks (ANN) take their inspiration from the brain. The brain consists of billions of neurons and these neurons are interconnected and work in parallel, which makes the brain a powerful computing machine. Each neuron is connected through synapses to thousands of neurons and the firing of a neuron depends on those synapses.
+
+There are three types of neurons (units) in ANN. Each unit except the input unit takes an input and calculates an output. Input units represent a single input feature x<sub>i</sub> or the bias = +1. Hidden units calculate an intermediate output from its inputs. They first combine their inputs linearly and then use nonlinear activation functions to map that linear combination to a nonlinear space. Output units calculate the output of the ANN.
+
 For Developers
 ============
 
