@@ -253,3 +253,12 @@ class DecisionNode(object):
                 if node.__condition.satisfy(instance):
                     return node.predict(instance)
             return self.__classLabel
+
+    def predictProbabilityDistribution(self, instance: Instance) -> dict:
+        if self.leaf:
+            return self.__data.classDistribution().getProbabilityDistribution()
+        else:
+            for node in self.children:
+                if node.__condition.satisfy(instance):
+                    return node.predictProbabilityDistribution(instance)
+            return self.__data.classDistribution().getProbabilityDistribution()

@@ -225,3 +225,9 @@ class NeuralNetworkModel(ValidatedModel):
             return self.predictWithCompositeInstance(instance.getPossibleClassLabels())
         else:
             return self.classLabels[self.y.maxIndex()]
+
+    def predictProbability(self, instance: Instance) -> dict:
+        result = {}
+        for i in range(len(self.classLabels)):
+            result[self.classLabels[i]] = self.y.getValue(i)
+        return result

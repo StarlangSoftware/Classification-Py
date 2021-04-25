@@ -38,3 +38,9 @@ class TreeEnsembleModel(Model):
         for tree in self.__forest:
             distribution.addItem(tree.predict(instance))
         return distribution.getMaxItem()
+
+    def predictProbability(self, instance: Instance) -> dict:
+        distribution = DiscreteDistribution()
+        for tree in self.__forest:
+            distribution.addItem(tree.predict(instance))
+        return distribution.getProbabilityDistribution()

@@ -54,6 +54,10 @@ class KnnModel(Model):
             predictedClass = Model.getMaximum(nearestNeighbors.getClassLabels())
         return predictedClass
 
+    def predictProbability(self, instance: Instance) -> dict:
+        nearestNeighbors = self.nearestNeighbors(instance)
+        return nearestNeighbors.classDistribution().getProbabilityDistribution()
+
     def makeComparator(self):
         def compare(instanceA: KnnInstance, instanceB: KnnInstance):
             if instanceA.distance < instanceB.distance:

@@ -40,6 +40,9 @@ class DecisionTree(ValidatedModel):
             predictedClass = instance.getPossibleClassLabels()
         return predictedClass
 
+    def predictProbability(self, instance: Instance) -> dict:
+        return self.__root.predictProbabilityDistribution(instance)
+
     def pruneNode(self, node: DecisionNode, pruneSet: InstanceList):
         """
         The prune method takes a DecisionNode and an InstanceList as inputs. It checks the classification performance

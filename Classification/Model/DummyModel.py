@@ -40,3 +40,6 @@ class DummyModel(Model):
             return self.distribution.getMaxItemIncludeTheseOnly(possibleClassLabels)
         else:
             return self.distribution.getMaxItem()
+
+    def predictProbability(self, instance: Instance) -> dict:
+        return self.distribution.getProbabilityDistribution()

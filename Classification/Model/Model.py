@@ -24,6 +24,10 @@ class Model(object):
         """
         pass
 
+    @abstractmethod
+    def predictProbability(self, instance: Instance) -> dict:
+        pass
+
     @staticmethod
     def getMaximum(classLabels: list) -> str:
         """
