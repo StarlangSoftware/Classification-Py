@@ -227,6 +227,8 @@ class NeuralNetworkModel(ValidatedModel):
             return self.classLabels[self.y.maxIndex()]
 
     def predictProbability(self, instance: Instance) -> dict:
+        self.createInputVector(instance)
+        self.calculateOutput()
         result = {}
         for i in range(len(self.classLabels)):
             result[self.classLabels[i]] = self.y.getValue(i)
