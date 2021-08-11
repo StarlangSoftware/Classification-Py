@@ -4,6 +4,7 @@ from Math.Vector import Vector
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.NeuralNetworkModel import NeuralNetworkModel
+from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPerceptronParameter
 import copy
 
@@ -46,7 +47,7 @@ class AutoEncoderModel(NeuralNetworkModel):
             for j in range(trainSet.size()):
                 self.createInputVector(trainSet.get(j))
                 self.r = trainSet.get(j).toVector()
-                hidden = self.calculateHidden(self.x, self.__W)
+                hidden = self.calculateHidden(self.x, self.__W, ActivationFunction.SIGMOID)
                 hiddenBiased = hidden.biased()
                 self.y = self.__V.multiplyWithVectorFromRight(hiddenBiased)
                 rMinusY = self.r.difference(self.y)
@@ -121,11 +122,11 @@ class AutoEncoderModel(NeuralNetworkModel):
             Predicted value.
         """
         self.createInputVector(instance)
-        self.calculateForwardSingleHiddenLayer(self.__W, self.__V)
+        self.calculateForwardSingleHiddenLayer(self.__W, self.__V, ActivationFunction.SIGMOID)
         return self.y
 
     def calculateOutput(self):
         """
         The calculateOutput method calculates a forward single hidden layer.
         """
-        self.calculateForwardSingleHiddenLayer(self.__W, self.__V)
+        self.calculateForwardSingleHiddenLayer(self.__W, self.__V, ActivationFunction.SIGMOID)

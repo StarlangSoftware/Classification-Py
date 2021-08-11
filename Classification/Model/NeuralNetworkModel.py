@@ -10,6 +10,8 @@ from Classification.Model.ValidatedModel import ValidatedModel
 
 import math
 
+from Classification.Parameter.ActivationFunction import ActivationFunction
+
 
 class NeuralNetworkModel(ValidatedModel):
     classLabels: list
@@ -99,7 +101,7 @@ class NeuralNetworkModel(ValidatedModel):
         self.x = instance.toVector()
         self.x.insert(0, 1.0)
 
-    def calculateHidden(self, input: Vector, weights: Matrix) -> Vector:
+    def calculateHidden(self, input: Vector, weights: Matrix, activationFunction: ActivationFunction) -> Vector:
         """
         The calculateHidden method takes a {@link Vector} input and {@link Matrix} weights, It multiplies the weights
         Matrix with given input Vector than applies the sigmoid function and returns the result.
@@ -110,6 +112,8 @@ class NeuralNetworkModel(ValidatedModel):
             Vector to multiply weights.
         weights : Matrix
             Matrix is multiplied with input Vector.
+        activationFunction : ActivationFunction
+            Activation function
 
         RETURNS
         -------
@@ -117,7 +121,12 @@ class NeuralNetworkModel(ValidatedModel):
             Result of sigmoid function.
         """
         z = weights.multiplyWithVectorFromRight(input)
-        z.sigmoid()
+        if activationFunction == ActivationFunction.SIGMOID:
+            z.sigmoid()
+        elif activationFunction == ActivationFunction.TANH:
+            z.tanh()
+        elif activationFunction == ActivationFunction.RELU:
+            z.relu()
         return z
 
     def calculateOneMinusHidden(self, hidden: Vector) -> Vector:
@@ -139,7 +148,7 @@ class NeuralNetworkModel(ValidatedModel):
         one.initAllSame(hidden.size(), 1.0)
         return one.difference(hidden)
 
-    def calculateForwardSingleHiddenLayer(self, W: Matrix, V: Matrix):
+    def calculateForwardSingleHiddenLayer(self, W: Matrix, V: Matrix, activationFunction: ActivationFunction):
         """
         The calculateForwardSingleHiddenLayer method takes two matrices W and V. First it multiplies W with x, then
         multiplies V with the result of the previous multiplication.
@@ -150,8 +159,10 @@ class NeuralNetworkModel(ValidatedModel):
             Matrix to multiply with x.
         V : Matrix
             Matrix to multiply.
+        activationFunction : ActivationFunction
+            Activation function
         """
-        hidden = self.calculateHidden(self.x, W)
+        hidden = self.calculateHidden(self.x, W, activationFunction)
         hiddenBiased = hidden.biased()
         self.y = V.multiplyWithVectorFromRight(hiddenBiased)
 

@@ -1,7 +1,9 @@
 from Math.Matrix import Matrix
+from Math.Vector import Vector
 
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
+from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPerceptronParameter
 import copy
 
@@ -11,6 +13,7 @@ from Classification.Performance.ClassificationPerformance import ClassificationP
 class MultiLayerPerceptronModel(LinearPerceptronModel):
 
     __V: Matrix
+    __activationFunction: ActivationFunction
 
     def __allocateWeights(self, H: int, seed: int):
         """
@@ -42,6 +45,7 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
             hiddenNodes.
         """
         super().initWithTrainSet(trainSet)
+        self.__activationFunction = parameters.getActivationFunction()
         self.__allocateWeights(parameters.getHiddenNodes(), parameters.getSeed())
         bestW = copy.deepcopy(self.W)
         bestV = copy.deepcopy(self.__V)
@@ -52,14 +56,23 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
             trainSet.shuffle(parameters.getSeed())
             for j in range(trainSet.size()):
                 self.createInputVector(trainSet.get(j))
-                hidden = self.calculateHidden(self.x, self.W)
+                hidden = self.calculateHidden(self.x, self.W, self.__activationFunction)
                 hiddenBiased = hidden.biased()
                 rMinusY = self.calculateRMinusY(trainSet.get(j), hiddenBiased, self.__V)
                 deltaV = Matrix(rMinusY, hiddenBiased)
-                oneMinusHidden = self.calculateOneMinusHidden(hidden)
                 tmph = self.__V.multiplyWithVectorFromLeft(rMinusY)
                 tmph.remove(0)
-                tmpHidden = oneMinusHidden.elementProduct(hidden.elementProduct(tmph))
+                if self.__activationFunction == ActivationFunction.SIGMOID:
+                    oneMinusHidden = self.calculateOneMinusHidden(hidden)
+                    activationDerivative = oneMinusHidden.elementProduct(hidden)
+                elif self.__activationFunction == ActivationFunction.TANH:
+                    one = Vector(hidden.size(), 1.0)
+                    hidden.tanh()
+                    activationDerivative = one.difference(hidden.elementProduct(hidden))
+                elif self.__activationFunction == ActivationFunction.RELU:
+                    hidden.reluDerivative()
+                    activationDerivative = hidden
+                tmpHidden = tmph.elementProduct(activationDerivative)
                 deltaW = Matrix(tmpHidden, self.x)
                 deltaV.multiplyWithConstant(learningRate)
                 self.__V.add(deltaV)
@@ -78,4 +91,4 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
         """
         The calculateOutput method calculates the forward single hidden layer by using Matrices W and V.
         """
-        self.calculateForwardSingleHiddenLayer(self.W, self.__V)
+        self.calculateForwardSingleHiddenLayer(self.W, self.__V, self.__activationFunction)
