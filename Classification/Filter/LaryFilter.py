@@ -14,7 +14,7 @@ class LaryFilter(FeatureFilter):
         PARAMETERS
         ----------
         dataSet : DataSet
-            DataSet that will bu used.
+            DataSet that will be used.
         """
         super().__init__(dataSet)
         self.attributeDistributions = dataSet.getInstanceList().allAttributesDistribution()
@@ -27,7 +27,7 @@ class LaryFilter(FeatureFilter):
         PARAMETERS
         ----------
         instance : Instance
-            Instance to removes attributes from.
+            Instance to remove attributes from.
         size : int
             Size of the given instance.
         """
