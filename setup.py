@@ -17,7 +17,7 @@ setup(
     author='olcaytaner',
     author_email='olcay.yildiz@ozyegin.edu.tr',
     description='Classification library',
-    install_requires=['NlpToolkit-Math', 'NlpToolkit-DataStructure', 'NlpToolkit-Sampling'],
+    install_requires=['NlpToolkit-Math', 'NlpToolkit-DataStructure', 'NlpToolkit-Sampling', 'NlpToolkit-Util'],
     long_description=long_description,
     long_description_content_type='text/markdown'
 )

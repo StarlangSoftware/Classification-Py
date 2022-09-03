@@ -1,5 +1,7 @@
 import random
 
+from Util.RandomArray import RandomArray
+
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.InstanceList.InstanceListOfSameClass import InstanceListOfSameClass
 
@@ -35,9 +37,7 @@ class Partition(object):
                     if stratified:
                         distribution = instanceList.classDistribution()
                         counts = [0] * len(distribution)
-                        randomArray = [i for i in range(instanceList.size())]
-                        random.seed(seed)
-                        random.shuffle(randomArray)
+                        randomArray = RandomArray.indexArray(instanceList.size(), seed)
                         for i in range(instanceList.size()):
                             instance = instanceList.get(randomArray[i])
                             classIndex = distribution.getIndex(instance.getClassLabel())

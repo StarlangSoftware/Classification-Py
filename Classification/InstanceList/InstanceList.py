@@ -58,6 +58,7 @@ class InstanceList(object):
                     self.list = []
                     file = open(fileName, 'r', encoding='utf8')
                     lines = file.readlines()
+                    file.close()
                     for line in lines:
                         attributeList = line.strip().split(separator)
                         if len(attributeList) == listOrDefinition.attributeCount() + 1:

@@ -1,4 +1,5 @@
 from Math.DiscreteDistribution import DiscreteDistribution
+from Util.RandomArray import RandomArray
 
 from Classification.Attribute.ContinuousAttribute import ContinuousAttribute
 from Classification.Attribute.DiscreteAttribute import DiscreteAttribute
@@ -67,12 +68,11 @@ class DecisionNode(object):
             return
         if isStump and condition is not None:
             return
-        indexList = [i for i in range(data.get(0).attributeSize())]
         if parameter is not None and parameter.getAttributeSubsetSize() < data.get(0).attributeSize():
-            random.seed(parameter.getSeed())
-            random.shuffle(indexList)
+            indexList = RandomArray.indexArray(data.get(0).attributeSize(), parameter.getSeed())
             size = parameter.getAttributeSubsetSize()
         else:
+            indexList = [i for i in range(data.get(0).attributeSize())]
             size = data.get(0).attributeSize()
         classDistribution = data.classDistribution()
         bestEntropy = data.classDistribution().entropy()
