@@ -7,7 +7,9 @@ from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPer
 
 class MultiLayerPerceptron(Classifier):
 
-    def train(self, trainSet: InstanceList, parameters: MultiLayerPerceptronParameter):
+    def train(self,
+              trainSet: InstanceList,
+              parameters: MultiLayerPerceptronParameter):
         """
         Training algorithm for the multilayer perceptron algorithm. 20 percent of the data is separated as
         cross-validation data used for selecting the best weights. 80 percent of the data is used for training the
@@ -20,5 +22,10 @@ class MultiLayerPerceptron(Classifier):
         parameters : MultiLayerPerceptronParameter
             Parameters of the multilayer perceptron.
         """
-        partition = Partition(trainSet, parameters.getCrossValidationRatio(), parameters.getSeed(), True)
-        self.model = MultiLayerPerceptronModel(partition.get(1), partition.get(0), parameters)
+        partition = Partition(instanceList=trainSet,
+                              ratio=parameters.getCrossValidationRatio(),
+                              seed=parameters.getSeed(),
+                              stratified=True)
+        self.model = MultiLayerPerceptronModel(trainSet=partition.get(1),
+                                               validationSet=partition.get(0),
+                                               parameters=parameters)

@@ -8,7 +8,9 @@ from Classification.Parameter.C45Parameter import C45Parameter
 
 class C45(Classifier):
 
-    def train(self, trainSet: InstanceList, parameters: C45Parameter):
+    def train(self,
+              trainSet: InstanceList,
+              parameters: C45Parameter):
         """
         Training algorithm for C4.5 univariate decision tree classifier. 20 percent of the data are left aside for
         pruning 80 percent of the data is used for constructing the tree.
@@ -21,7 +23,10 @@ class C45(Classifier):
             Parameter of the C45 algorithm.
         """
         if parameters.isPrune():
-            partition = Partition(trainSet, parameters.getCrossValidationRatio(), parameters.getSeed(), True)
+            partition = Partition(instanceList=trainSet,
+                                  ratio=parameters.getCrossValidationRatio(),
+                                  seed=parameters.getSeed(),
+                                  stratified=True)
             tree = DecisionTree(DecisionNode(partition.get(1)))
             tree.prune(partition.get(0))
         else:

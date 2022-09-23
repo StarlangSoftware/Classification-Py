@@ -19,7 +19,9 @@ class MahalanobisDistance(DistanceMetric):
         """
         self.__covarianceInverse = covarianceInverse
 
-    def distance(self, instance1: Instance, instance2: Instance) -> float:
+    def distance(self,
+                 instance1: Instance,
+                 instance2: Instance) -> float:
         """
         Calculates Mahalanobis distance between two instances. (x^(1) - x^(2)) S (x^(1) - x^(2))^T
 

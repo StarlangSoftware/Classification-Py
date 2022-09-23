@@ -15,7 +15,10 @@ class LinearPerceptronModel(NeuralNetworkModel):
     def initWithTrainSet(self, trainSet: InstanceList):
         super().__init__(trainSet)
 
-    def __init__(self, trainSet: InstanceList, validationSet: InstanceList, parameters: LinearPerceptronParameter):
+    def __init__(self,
+                 trainSet: InstanceList,
+                 validationSet: InstanceList,
+                 parameters: LinearPerceptronParameter):
         """
         Constructor that takes InstanceLists as trainsSet and validationSet. Initially it allocates layer weights,
         then creates an input vector by using given trainSet and finds error. Via the validationSet it finds the
@@ -32,25 +35,27 @@ class LinearPerceptronModel(NeuralNetworkModel):
             Linear perceptron parameters; learningRate, etaDecrease, crossValidationRatio, epoch.
         """
         super().__init__(trainSet)
-        self.W = self.allocateLayerWeights(self.K, self.d + 1, parameters.getSeed())
-        bestW = copy.deepcopy(self.W)
-        bestClassificationPerformance = ClassificationPerformance(0.0)
+        self.W = self.allocateLayerWeights(row=self.K,
+                                           column=self.d + 1,
+                                           seed=parameters.getSeed())
+        best_w = copy.deepcopy(self.W)
+        best_classification_performance = ClassificationPerformance(0.0)
         epoch = parameters.getEpoch()
-        learningRate = parameters.getLearningRate()
+        learning_rate = parameters.getLearningRate()
         for i in range(epoch):
             trainSet.shuffle(parameters.getSeed())
             for j in range(trainSet.size()):
                 self.createInputVector(trainSet.get(j))
-                rMinusY = self.calculateRMinusY(trainSet.get(j), self.x, self.W)
-                deltaW = Matrix(rMinusY, self.x)
-                deltaW.multiplyWithConstant(learningRate)
-                self.W.add(deltaW)
-            currentClassificationPerformance = self.testClassifier(validationSet)
-            if currentClassificationPerformance.getAccuracy() > bestClassificationPerformance.getAccuracy():
-                bestClassificationPerformance = currentClassificationPerformance
-                bestW = copy.deepcopy(self.W)
-            learningRate *= parameters.getEtaDecrease()
-        self.W = bestW
+                r_minus_y = self.calculateRMinusY(trainSet.get(j), self.x, self.W)
+                delta_w = Matrix(r_minus_y, self.x)
+                delta_w.multiplyWithConstant(learning_rate)
+                self.W.add(delta_w)
+            current_classification_performance = self.testClassifier(validationSet)
+            if current_classification_performance.getAccuracy() > best_classification_performance.getAccuracy():
+                best_classification_performance = current_classification_performance
+                best_w = copy.deepcopy(self.W)
+            learning_rate *= parameters.getEtaDecrease()
+        self.W = best_w
 
     def calculateOutput(self):
         """

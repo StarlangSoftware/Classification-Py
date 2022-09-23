@@ -16,7 +16,9 @@ class Classifier(object):
     model: Model
 
     @abstractmethod
-    def train(self, trainSet: InstanceList, parameters: Parameter):
+    def train(self,
+              trainSet: InstanceList,
+              parameters: Parameter):
         pass
 
     def discreteCheck(self, instance: Instance) -> bool:
@@ -52,14 +54,17 @@ class Classifier(object):
         Performance
             The accuracy (and error) of the model as an instance of Performance class.
         """
-        classLabels = testSet.getUnionOfPossibleClassLabels()
-        confusion = ConfusionMatrix(classLabels)
+        class_labels = testSet.getUnionOfPossibleClassLabels()
+        confusion = ConfusionMatrix(class_labels)
         for i in range(testSet.size()):
             instance = testSet.get(i)
             confusion.classify(instance.getClassLabel(), self.model.predict(instance))
         return DetailedClassificationPerformance(confusion)
 
-    def singleRun(self, parameter: Parameter, trainSet: InstanceList, testSet: InstanceList) -> Performance:
+    def singleRun(self,
+                  parameter: Parameter,
+                  trainSet: InstanceList,
+                  testSet: InstanceList) -> Performance:
         """
         Runs current classifier with the given train and test data.
 

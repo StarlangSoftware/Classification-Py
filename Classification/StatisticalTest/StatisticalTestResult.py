@@ -5,14 +5,16 @@ from Classification.StatisticalTest.StatisticalTestResultType import Statistical
 class StatisticalTestResult(object):
 
     __pValue: float
-    __onlyTwoTailed: bool
+    __only_two_tailed: bool
 
-    def __init__(self, pValue: float, onlyTwoTailed: bool):
+    def __init__(self,
+                 pValue: float,
+                 onlyTwoTailed: bool):
         self.__pValue = pValue
-        self.__onlyTwoTailed = onlyTwoTailed
+        self.__only_two_tailed = onlyTwoTailed
 
     def oneTailed(self, alpha: float) -> StatisticalTestResultType:
-        if self.__onlyTwoTailed:
+        if self.__only_two_tailed:
             raise StatisticalTestNotApplicable("One tailed option is not available for this test. The distribution is "
                                                "one tailed distribution.")
         if self.__pValue < alpha:
@@ -21,7 +23,7 @@ class StatisticalTestResult(object):
             return StatisticalTestResultType.FAILED_TO_REJECT
 
     def twoTailed(self, alpha: float) -> StatisticalTestResultType:
-        if self.__onlyTwoTailed:
+        if self.__only_two_tailed:
             if self.__pValue < alpha:
                 return StatisticalTestResultType.REJECT
             else:

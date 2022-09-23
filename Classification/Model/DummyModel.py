@@ -36,8 +36,8 @@ class DummyModel(Model):
             The entry of distribution which has the maximum value.
         """
         if isinstance(instance, CompositeInstance):
-            possibleClassLabels = instance.getPossibleClassLabels()
-            return self.distribution.getMaxItemIncludeTheseOnly(possibleClassLabels)
+            possible_class_labels = instance.getPossibleClassLabels()
+            return self.distribution.getMaxItemIncludeTheseOnly(possible_class_labels)
         else:
             return self.distribution.getMaxItem()
 

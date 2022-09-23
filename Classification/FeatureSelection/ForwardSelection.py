@@ -10,7 +10,9 @@ class ForwardSelection(SubSetSelection):
         """
         super().__init__(FeatureSubSet())
 
-    def operator(self, current: FeatureSubSet, numberOfFeatures: int) -> list:
+    def operator(self,
+                 current: FeatureSubSet,
+                 numberOfFeatures: int) -> list:
         """
         The operator method calls forward method which starts with having no feature in the model. In each iteration,
         it keeps adding the features that are not currently listed.
@@ -28,5 +30,7 @@ class ForwardSelection(SubSetSelection):
             List of FeatureSubSets created from forward.
         """
         result = []
-        self.forward(result, current, numberOfFeatures)
+        self.forward(currentSubSetList=result,
+                     current=current,
+                     numberOfFeatures=numberOfFeatures)
         return result

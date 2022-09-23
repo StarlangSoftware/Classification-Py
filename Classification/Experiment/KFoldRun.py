@@ -24,13 +24,16 @@ class KFoldRun(MultipleRun):
         """
         self.K = K
 
-    def runExperiment(self, classifier: Classifier, parameter: Parameter, experimentPerformance: ExperimentPerformance,
+    def runExperiment(self,
+                      classifier: Classifier,
+                      parameter: Parameter,
+                      experimentPerformance: ExperimentPerformance,
                       crossValidation: CrossValidation):
         for i in range(self.K):
-            trainSet = InstanceList(crossValidation.getTrainFold(i))
-            testSet = InstanceList(crossValidation.getTestFold(i))
-            classifier.train(trainSet, parameter)
-            experimentPerformance.add(classifier.test(testSet))
+            train_set = InstanceList(crossValidation.getTrainFold(i))
+            test_set = InstanceList(crossValidation.getTestFold(i))
+            classifier.train(train_set, parameter)
+            experimentPerformance.add(classifier.test(test_set))
 
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
         """
@@ -47,7 +50,11 @@ class KFoldRun(MultipleRun):
             An ExperimentPerformance instance.
         """
         result = ExperimentPerformance()
-        crossValidation = KFoldCrossValidation(experiment.getDataSet().getInstances(), self.K, experiment.getParameter()
-                                               .getSeed())
-        self.runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation)
+        crossValidation = KFoldCrossValidation(instanceList=experiment.getDataSet().getInstances(),
+                                               K=self.K,
+                                               seed=experiment.getParameter().getSeed())
+        self.runExperiment(classifier=experiment.getClassifier(),
+                           parameter=experiment.getParameter(),
+                           experimentPerformance=result,
+                           crossValidation=crossValidation)
         return result

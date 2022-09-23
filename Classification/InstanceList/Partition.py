@@ -1,5 +1,3 @@
-import random
-
 from Util.RandomArray import RandomArray
 
 from Classification.InstanceList.InstanceList import InstanceList
@@ -8,9 +6,13 @@ from Classification.InstanceList.InstanceListOfSameClass import InstanceListOfSa
 
 class Partition(object):
 
-    __multilist: list
+    __multi_list: list
 
-    def __init__(self, instanceList: InstanceList = None, ratio=None, seed=None, stratified: bool = None):
+    def __init__(self,
+                 instanceList: InstanceList = None,
+                 ratio=None,
+                 seed=None,
+                 stratified: bool = None):
         """
         Divides the instances in the instance list into partitions so that all instances of a class are grouped in a
         single partition.
@@ -22,14 +24,14 @@ class Partition(object):
         seed
             seed is used as a random number.
         """
-        self.__multilist = []
+        self.__multi_list = []
         if instanceList is not None:
             if ratio is None:
-                classLabels = instanceList.getDistinctClassLabels()
-                for classLabel in classLabels:
-                    self.add(InstanceListOfSameClass(classLabel))
+                class_labels = instanceList.getDistinctClassLabels()
+                for class_label in class_labels:
+                    self.add(InstanceListOfSameClass(class_label))
                 for instance in instanceList.getInstances():
-                    self.get(classLabels.index(instance.getClassLabel())).add(instance)
+                    self.get(class_labels.index(instance.getClassLabel())).add(instance)
             else:
                 if isinstance(ratio, float):
                     self.add(InstanceList())
@@ -37,16 +39,16 @@ class Partition(object):
                     if stratified:
                         distribution = instanceList.classDistribution()
                         counts = [0] * len(distribution)
-                        randomArray = RandomArray.indexArray(instanceList.size(), seed)
+                        random_array = RandomArray.indexArray(instanceList.size(), seed)
                         for i in range(instanceList.size()):
-                            instance = instanceList.get(randomArray[i])
-                            classIndex = distribution.getIndex(instance.getClassLabel())
-                            if counts[classIndex] < instanceList.size() * ratio * \
+                            instance = instanceList.get(random_array[i])
+                            class_index = distribution.getIndex(instance.getClassLabel())
+                            if counts[class_index] < instanceList.size() * ratio * \
                                     distribution.getProbability(instance.getClassLabel()):
                                 self.get(0).add(instance)
                             else:
                                 self.get(1).add(instance)
-                            counts[classIndex] = counts[classIndex] + 1
+                            counts[class_index] = counts[class_index] + 1
                     else:
                         instanceList.shuffle(seed)
                         for i in range(self.size()):
@@ -56,28 +58,28 @@ class Partition(object):
                             else:
                                 self.get(1).add(instance)
                 elif isinstance(ratio, int):
-                    attributeIndex = ratio
+                    attribute_index = ratio
                     if seed is None:
-                        valueList = instanceList.getAttributeValueList(attributeIndex)
+                        valueList = instanceList.getAttributeValueList(attribute_index)
                         for _ in valueList:
                             self.add(InstanceList())
                         for instance in instanceList.getInstances():
-                            self.get(valueList.index(instance.getAttribute(attributeIndex).getValue())).add(instance)
+                            self.get(valueList.index(instance.getAttribute(attribute_index).getValue())).add(instance)
                     elif isinstance(seed, int):
-                        attributeValue = seed
+                        attribute_value = seed
                         self.add(InstanceList())
                         self.add(InstanceList())
                         for instance in instanceList.getInstances():
-                            if instance.getAttribute(attributeIndex).getIndex() == attributeValue:
+                            if instance.getAttribute(attribute_index).getIndex() == attribute_value:
                                 self.get(0).add(instance)
                             else:
                                 self.get(1).add(instance)
                     elif isinstance(seed, float):
-                        splitValue = seed
+                        split_value = seed
                         self.add(InstanceList())
                         self.add(InstanceList())
                         for instance in instanceList.getInstances():
-                            if instance.getAttribute(attributeIndex).getValue() < splitValue:
+                            if instance.getAttribute(attribute_index).getValue() < split_value:
                                 self.get(0).add(instance)
                             else:
                                 self.get(1).add(instance)
@@ -91,7 +93,7 @@ class Partition(object):
         _list : InstanceList
             Instance list to add.
         """
-        self.__multilist.append(_list)
+        self.__multi_list.append(_list)
 
     def size(self) -> int:
         """
@@ -102,7 +104,7 @@ class Partition(object):
         int
             The size of the list of instance lists.
         """
-        return len(self.__multilist)
+        return len(self.__multi_list)
 
     def get(self, index: int) -> InstanceList:
         """
@@ -118,7 +120,7 @@ class Partition(object):
         InstanceList
             Instance list at given index of list of instance lists.
         """
-        return self.__multilist[index]
+        return self.__multi_list[index]
 
     def getLists(self) -> list:
         """
@@ -130,6 +132,6 @@ class Partition(object):
             Instances of the items at the list of instance lists.
         """
         result = []
-        for instanceList in self.__multilist:
-            result.append(instanceList.getInstances())
+        for instance_list in self.__multi_list:
+            result.append(instance_list.getInstances())
         return result

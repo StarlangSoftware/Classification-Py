@@ -8,7 +8,7 @@ import math
 class ExperimentPerformance:
 
     __results: list
-    __containsDetails: bool
+    __contains_details: bool
     __classification: bool
 
     def __init__(self):
@@ -16,7 +16,7 @@ class ExperimentPerformance:
         A constructor which creates a new list of Performance as results.
         """
         self.__results = []
-        self.__containsDetails = True
+        self.__contains_details = True
         self.__classification = True
 
     def __gt__(self, other) -> bool:
@@ -39,9 +39,10 @@ class ExperimentPerformance:
         fileName : str
             String input.
         """
-        self.__containsDetails = False
+        self.__contains_details = False
         inputFile = open(fileName, "r", encoding='utf8')
         lines = inputFile.readlines()
+        inputFile.close()
         for line in lines:
             self.__results.append(Performance(float(line)))
 
@@ -55,7 +56,7 @@ class ExperimentPerformance:
             Performance input.
         """
         if not isinstance(performance, DetailedClassificationPerformance):
-            self.__containsDetails = False
+            self.__contains_details = False
         if not isinstance(performance, ClassificationPerformance):
             self.__classification = False
         self.__results.append(performance)
@@ -114,10 +115,10 @@ class ExperimentPerformance:
         Performance
             A new Performance with the mean of the summation of errorRates.
         """
-        sumError = 0
+        sum_error = 0
         for performance in self.__results:
-            sumError += performance.getErrorRate()
-        return Performance(sumError / len(self.__results))
+            sum_error += performance.getErrorRate()
+        return Performance(sum_error / len(self.__results))
 
     def meanClassificationPerformance(self) -> ClassificationPerformance:
         """
@@ -132,10 +133,10 @@ class ExperimentPerformance:
         """
         if len(self.__results) == 0 or not self.__classification:
             return None
-        sumAccuracy = 0
+        sum_accuracy = 0
         for performance in self.__results:
-            sumAccuracy += performance.getAccuracy()
-        return ClassificationPerformance(sumAccuracy / len(self.__results))
+            sum_accuracy += performance.getAccuracy()
+        return ClassificationPerformance(sum_accuracy / len(self.__results))
 
     def meanDetailedPerformance(self) -> DetailedClassificationPerformance:
         """
@@ -148,12 +149,12 @@ class ExperimentPerformance:
         DetailedCassificationPerformance
             A new DetailedClassificationPerformance with the ConfusionMatrix sum.
         """
-        if len(self.__results) == 0 or not self.__containsDetails:
+        if len(self.__results) == 0 or not self.__contains_details:
             return None
-        sumMatrix = self.__results[0].getConfusionMatrix()
+        sum_matrix = self.__results[0].getConfusionMatrix()
         for i in range(1, len(self.__results)):
-            sumMatrix.addConfusionMatrix(self.__results[i].getConfusionMatrix())
-        return DetailedClassificationPerformance(sumMatrix)
+            sum_matrix.addConfusionMatrix(self.__results[i].getConfusionMatrix())
+        return DetailedClassificationPerformance(sum_matrix)
 
     def standardDeviationPerformance(self) -> Performance:
         """
@@ -165,11 +166,11 @@ class ExperimentPerformance:
         Performance
             A new Performance with the standard deviation.
         """
-        sumErrorRate = 0
-        averagePerformance = self.meanPerformance()
+        sum_error_rate = 0
+        average_performance = self.meanPerformance()
         for performance in self.__results:
-            sumErrorRate += math.pow(performance.getErrorRate() - averagePerformance.getErrorRate(), 2)
-        return Performance(math.sqrt(sumErrorRate / (len(self.__results) - 1)))
+            sum_error_rate += math.pow(performance.getErrorRate() - average_performance.getErrorRate(), 2)
+        return Performance(math.sqrt(sum_error_rate / (len(self.__results) - 1)))
 
     def standardDeviationClassificationPerformance(self) -> ClassificationPerformance:
         """
@@ -183,13 +184,13 @@ class ExperimentPerformance:
         """
         if len(self.__results) == 0 or not self.__classification:
             return None
-        sumAccuracy = 0
-        sumErrorRate = 0
-        averageClassificationPerformance = self.meanClassificationPerformance()
+        sum_accuracy = 0
+        sum_error_rate = 0
+        average_classification_performance = self.meanClassificationPerformance()
         for performance in self.__results:
-            sumAccuracy += math.pow(performance.getAccuracy() - averageClassificationPerformance.getAccuracy(), 2)
-            sumErrorRate += math.pow(performance.getErrorRate() - averageClassificationPerformance.getErrorRate(), 2)
-        return ClassificationPerformance(math.sqrt(sumAccuracy / (len(self.__results) - 1)))
+            sum_accuracy += math.pow(performance.getAccuracy() - average_classification_performance.getAccuracy(), 2)
+            sum_error_rate += math.pow(performance.getErrorRate() - average_classification_performance.getErrorRate(), 2)
+        return ClassificationPerformance(math.sqrt(sum_accuracy / (len(self.__results) - 1)))
 
     def isBetter(self, experimentPerformance: ExperimentPerformance) -> bool:
         """

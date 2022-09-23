@@ -4,11 +4,17 @@ from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronP
 
 class DeepNetworkParameter(LinearPerceptronParameter):
 
-    __hiddenLayers: list
-    __activationFunction: ActivationFunction
+    __hidden_layers: list
+    __activation_function: ActivationFunction
 
-    def __init__(self, seed: int, learningRate: float, etaDecrease: float, crossValidationRatio: float, epoch: int,
-                 hiddenLayers: list, activationFunction: ActivationFunction):
+    def __init__(self,
+                 seed: int,
+                 learningRate: float,
+                 etaDecrease: float,
+                 crossValidationRatio: float,
+                 epoch: int,
+                 hiddenLayers: list,
+                 activationFunction: ActivationFunction):
         """
         Parameters of the deep network classifier.
 
@@ -30,8 +36,8 @@ class DeepNetworkParameter(LinearPerceptronParameter):
             Activation function.
         """
         super().__init__(seed, learningRate, etaDecrease, crossValidationRatio, epoch)
-        self.__hiddenLayers = hiddenLayers
-        self.__activationFunction = activationFunction
+        self.__hidden_layers = hiddenLayers
+        self.__activation_function = activationFunction
 
     def layerSize(self) -> int:
         """
@@ -42,7 +48,7 @@ class DeepNetworkParameter(LinearPerceptronParameter):
         int
             The size of the hiddenLayers {@link ArrayList}.
         """
-        return len(self.__hiddenLayers)
+        return len(self.__hidden_layers)
 
     def getHiddenNodes(self, layerIndex: int) -> int:
         """
@@ -59,7 +65,7 @@ class DeepNetworkParameter(LinearPerceptronParameter):
         int
             The element at the layerIndex of hiddenLayers list.
         """
-        return self.__hiddenLayers[layerIndex]
+        return self.__hidden_layers[layerIndex]
 
     def getActivationFunction(self) -> ActivationFunction:
         """
@@ -70,4 +76,4 @@ class DeepNetworkParameter(LinearPerceptronParameter):
         int
             The activation function.
         """
-        return self.__activationFunction
+        return self.__activation_function

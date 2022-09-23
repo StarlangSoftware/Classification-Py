@@ -119,7 +119,7 @@ class DataDefinition(object):
         DataDefinition
             DataDefinition with new subset of attribute types.
         """
-        newAttributeTypes = []
+        new_attribute_types = []
         for i in range(featureSubSet.size()):
-            newAttributeTypes.append(self.__attributeTypes[featureSubSet.get(i)])
-        return DataDefinition(newAttributeTypes)
+            new_attribute_types.append(self.__attributeTypes[featureSubSet.get(i)])
+        return DataDefinition(new_attribute_types)

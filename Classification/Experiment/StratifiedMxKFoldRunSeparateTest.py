@@ -10,7 +10,9 @@ class StratifiedMxKFoldRunSeparateTest(StratifiedKFoldRunSeparateTest):
 
     M: int
 
-    def __init__(self, M: int, K: int):
+    def __init__(self,
+                 M: int,
+                 K: int):
         """
         Constructor for StratifiedMxKFoldRunSeparateTest class. Basically sets K parameter of the K-fold
         cross-validation and M for the number of times.
@@ -28,10 +30,17 @@ class StratifiedMxKFoldRunSeparateTest(StratifiedKFoldRunSeparateTest):
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
         result = ExperimentPerformance()
         for j in range(self.M):
-            instanceList = experiment.getDataSet().getInstanceList()
-            partition = Partition(instanceList, 0.25, experiment.getParameter().getSeed(), True)
-            crossValidation = StratifiedKFoldCrossValidation(Partition(partition.get(1)).getLists(), self.K,
-                                                             experiment.getParameter().getSeed())
-            self.runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation,
-                               partition.get(0))
+            instance_list = experiment.getDataSet().getInstanceList()
+            partition = Partition(instanceList=instance_list,
+                                  ratio=0.25,
+                                  seed=experiment.getParameter().getSeed(),
+                                  stratified=True)
+            cross_validation = StratifiedKFoldCrossValidation(instanceLists=Partition(partition.get(1)).getLists(),
+                                                             K=self.K,
+                                                             seed=experiment.getParameter().getSeed())
+            self.runExperimentSeparate(classifier=experiment.getClassifier(),
+                               parameter=experiment.getParameter(),
+                               experimentPerformance=result,
+                               crossValidation=cross_validation,
+                               testSet=partition.get(0))
         return result

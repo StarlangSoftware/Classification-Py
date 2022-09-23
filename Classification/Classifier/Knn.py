@@ -6,7 +6,9 @@ from Classification.Parameter.KnnParameter import KnnParameter
 
 class Knn(Classifier):
 
-    def train(self, trainSet: InstanceList, parameters: KnnParameter):
+    def train(self,
+              trainSet: InstanceList,
+              parameters: KnnParameter):
         """
         Training algorithm for K-nearest neighbor classifier.
 
@@ -17,4 +19,6 @@ class Knn(Classifier):
         parameters : KnnParameter
             Parameters of the Knn algorithm.
         """
-        self.model = KnnModel(trainSet, parameters.getK(), parameters.getDistanceMetric())
+        self.model = KnnModel(data=trainSet,
+                              k=parameters.getK(),
+                              distanceMetric=parameters.getDistanceMetric())

@@ -7,7 +7,9 @@ import math
 
 class EuclidianDistance(DistanceMetric):
 
-    def distance(self, instance1: Instance, instance2: Instance) -> float:
+    def distance(self,
+                 instance1: Instance,
+                 instance2: Instance) -> float:
         result = 0
         for i in range(instance1.attributeSize()):
             if isinstance(instance1.getAttribute(i), DiscreteAttribute) and \

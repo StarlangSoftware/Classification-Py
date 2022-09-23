@@ -14,7 +14,7 @@ from Classification.Parameter.ActivationFunction import ActivationFunction
 
 
 class NeuralNetworkModel(ValidatedModel):
-    classLabels: list
+    class_labels: list
     K: int
     d: int
     x: Vector
@@ -34,11 +34,14 @@ class NeuralNetworkModel(ValidatedModel):
         trainSet : InstanceList
             InstanceList to use as train set.
         """
-        self.classLabels = trainSet.getDistinctClassLabels()
-        self.K = len(self.classLabels)
+        self.class_labels = trainSet.getDistinctClassLabels()
+        self.K = len(self.class_labels)
         self.d = trainSet.get(0).continuousAttributeSize()
 
-    def allocateLayerWeights(self, row: int, column: int, seed: int) -> Matrix:
+    def allocateLayerWeights(self,
+                             row: int,
+                             column: int,
+                             seed: int) -> Matrix:
         """
         The allocateLayerWeights method returns a new Matrix with random weights.
 
@@ -56,7 +59,11 @@ class NeuralNetworkModel(ValidatedModel):
         Matrix
             Matrix with random weights.
         """
-        matrix = Matrix(row, column, -0.01, +0.01, seed)
+        matrix = Matrix(row=row,
+                        col=column,
+                        minValue=-0.01,
+                        maxValue=+0.01,
+                        seed=seed)
         return matrix
 
     def normalizeOutput(self, o: Vector) -> Vector:
@@ -163,8 +170,8 @@ class NeuralNetworkModel(ValidatedModel):
             Activation function
         """
         hidden = self.calculateHidden(self.x, W, activationFunction)
-        hiddenBiased = hidden.biased()
-        self.y = V.multiplyWithVectorFromRight(hiddenBiased)
+        hidden_biased = hidden.biased()
+        self.y = V.multiplyWithVectorFromRight(hidden_biased)
 
     def calculateRMinusY(self, instance: Instance, inputVector: Vector, weights: Matrix) -> Vector:
         """
@@ -187,7 +194,7 @@ class NeuralNetworkModel(ValidatedModel):
             Difference between newly created Vector and normalized output.
         """
         r = Vector()
-        r.initAllZerosExceptOne(self.K, self.classLabels.index(instance.getClassLabel()), 1.0)
+        r.initAllZerosExceptOne(self.K, self.class_labels.index(instance.getClassLabel()), 1.0)
         o = weights.multiplyWithVectorFromRight(inputVector)
         y = self.normalizeOutput(o)
         return r.difference(y)
@@ -207,13 +214,13 @@ class NeuralNetworkModel(ValidatedModel):
         str
             The class label which has the maximum value of y.
         """
-        predictedClass = possibleClassLabels[0]
+        predicted_class = possibleClassLabels[0]
         maxY = -100000000
-        for i in range(len(self.classLabels)):
-            if self.classLabels[i] in possibleClassLabels and self.y.getValue(i) > maxY:
+        for i in range(len(self.class_labels)):
+            if self.class_labels[i] in possibleClassLabels and self.y.getValue(i) > maxY:
                 maxY = self.y.getValue(i)
-                predictedClass = self.classLabels[i]
-        return predictedClass
+                predicted_class = self.class_labels[i]
+        return predicted_class
 
     def predict(self, instance: Instance) -> str:
         """
@@ -235,12 +242,12 @@ class NeuralNetworkModel(ValidatedModel):
         if isinstance(instance, CompositeInstance):
             return self.predictWithCompositeInstance(instance.getPossibleClassLabels())
         else:
-            return self.classLabels[self.y.maxIndex()]
+            return self.class_labels[self.y.maxIndex()]
 
     def predictProbability(self, instance: Instance) -> dict:
         self.createInputVector(instance)
         self.calculateOutput()
         result = {}
-        for i in range(len(self.classLabels)):
-            result[self.classLabels[i]] = self.y.getValue(i)
+        for i in range(len(self.class_labels)):
+            result[self.class_labels[i]] = self.y.getValue(i)
         return result

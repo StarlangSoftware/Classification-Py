@@ -15,7 +15,9 @@ class BackwardSelection(SubSetSelection):
         """
         super().__init__(FeatureSubSet(numberOfFeatures))
 
-    def operator(self, current: FeatureSubSet, numberOfFeatures: int) -> list:
+    def operator(self,
+                 current: FeatureSubSet,
+                 numberOfFeatures: int) -> list:
         """
         The operator method calls backward method which starts with all the features and removes the least significant
         feature at each iteration.

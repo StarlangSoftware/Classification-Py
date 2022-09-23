@@ -9,10 +9,12 @@ from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
 
 class Instance(object):
 
-    __classLabel: str
+    __class_label: str
     __attributes: list
 
-    def __init__(self, classLabel: str, attributes=None):
+    def __init__(self,
+                 classLabel: str,
+                 attributes=None):
         """
         Constructor for a single instance. Given the attributes and class label, it generates a new instance.
 
@@ -25,17 +27,17 @@ class Instance(object):
         """
         if attributes is None:
             attributes = []
-        self.__classLabel = classLabel
+        self.__class_label = classLabel
         self.__attributes = attributes
 
     def __lt__(self, other):
-        return self.__classLabel < other.classLabel
+        return self.__class_label < other.classLabel
 
     def __gt__(self, other):
-        return self.__classLabel > other.classLabel
+        return self.__class_label > other.classLabel
 
     def __eq__(self, other):
-        return self.__classLabel == other.classLabel
+        return self.__class_label == other.classLabel
 
     def addDiscreteAttribute(self, value: str):
         """
@@ -164,7 +166,7 @@ class Instance(object):
         str
             Class label of the instance.
         """
-        return self.__classLabel
+        return self.__class_label
 
     def __str__(self) -> str:
         """
@@ -178,7 +180,7 @@ class Instance(object):
         result = ""
         for attribute in self.__attributes:
             result = result + attribute.__str__() + ","
-        result = result + self.__classLabel
+        result = result + self.__class_label
         return result
 
     def getSubSetOfFeatures(self, featureSubSet: FeatureSubSet) -> Instance:
@@ -196,7 +198,7 @@ class Instance(object):
         Instance
             result Instance.
         """
-        result = Instance(self.__classLabel)
+        result = Instance(self.__class_label)
         for i in range(featureSubSet.size()):
             result.addAttribute(self.__attributes[featureSubSet.get(i)])
         return result

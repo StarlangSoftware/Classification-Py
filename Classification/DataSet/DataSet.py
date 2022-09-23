@@ -16,7 +16,10 @@ class DataSet(object):
     __instances: InstanceList
     __definition: DataDefinition
 
-    def __init__(self, definition: DataDefinition = None, separator: str = None, fileName: str = None):
+    def __init__(self,
+                 definition: DataDefinition = None,
+                 separator: str = None,
+                 fileName: str = None):
         """
         Constructor for generating a new DataSet with given DataDefinition.
 
@@ -33,7 +36,9 @@ class DataSet(object):
         if separator is None:
             self.__instances = InstanceList()
         else:
-            self.__instances = InstanceList(definition, separator, fileName)
+            self.__instances = InstanceList(listOrDefinition=definition,
+                                            separator=separator,
+                                            fileName=fileName)
 
     def initWithFile(self, fileName: str):
         """
@@ -46,8 +51,9 @@ class DataSet(object):
         """
         self.__instances = InstanceList()
         self.__definition = DataDefinition()
-        inputFile = open(fileName, 'r', encoding='utf8')
-        lines = inputFile.readlines()
+        input_file = open(fileName, 'r', encoding='utf8')
+        lines = input_file.readlines()
+        input_file.close()
         i = 0
         for line in lines:
             attributes = line.split(",")
@@ -116,17 +122,17 @@ class DataSet(object):
         instance : Instance
             Instance input.
         """
-        attributeTypes = []
+        attribute_types = []
         for i in range(instance.attributeSize()):
             if isinstance(instance.getAttribute(i), BinaryAttribute):
-                attributeTypes.append(AttributeType.BINARY)
+                attribute_types.append(AttributeType.BINARY)
             elif isinstance(instance.getAttribute(i), DiscreteIndexedAttribute):
-                attributeTypes.append(AttributeType.DISCRETE_INDEXED)
+                attribute_types.append(AttributeType.DISCRETE_INDEXED)
             elif isinstance(instance.getAttribute(i), DiscreteAttribute):
-                attributeTypes.append(AttributeType.DISCRETE)
+                attribute_types.append(AttributeType.DISCRETE)
             elif isinstance(instance.getAttribute(i), ContinuousAttribute):
-                attributeTypes.append(AttributeType.CONTINUOUS)
-        self.__definition = DataDefinition(attributeTypes)
+                attribute_types.append(AttributeType.CONTINUOUS)
+        self.__definition = DataDefinition(attribute_types)
 
     def sampleSize(self) -> int:
         """
@@ -192,10 +198,10 @@ class DataSet(object):
         str
             The accumulated String of class labels of the InstanceList.
         """
-        classLabels = self.__instances.getDistinctClassLabels()
-        result = classLabels[0]
-        for i in range(1, len(classLabels)):
-            result = result + ";" + classLabels[i]
+        class_labels = self.__instances.getDistinctClassLabels()
+        result = class_labels[0]
+        for i in range(1, len(class_labels)):
+            result = result + ";" + class_labels[i]
         return result
 
     def info(self, dataSetName: str) -> str:
@@ -322,7 +328,7 @@ class DataSet(object):
         outFileName : str
             File name to write the output.
         """
-        outfile = open(outFileName, "w")
+        out_file = open(outFileName, "w")
         for i in range(self.__instances.size()):
-            outfile.write(self.__instances.get(i).__str__() + "\n")
-        outfile.close()
+            out_file.write(self.__instances.get(i).__str__() + "\n")
+        out_file.close()

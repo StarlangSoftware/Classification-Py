@@ -43,31 +43,31 @@ class DataSetTest(unittest.TestCase):
         self.chess = DataSet(dataDefinition, ",", "../../datasets/chess.data")
 
     def test_SampleSize(self):
-        self.assertEquals(150, self.iris.sampleSize())
-        self.assertEquals(345, self.bupa.sampleSize())
-        self.assertEquals(366, self.dermatology.sampleSize())
-        self.assertEquals(1728, self.car.sampleSize())
-        self.assertEquals(958, self.tictactoe.sampleSize())
-        self.assertEquals(12960, self.nursery.sampleSize())
-        self.assertEquals(28056, self.chess.sampleSize())
+        self.assertEqual(150, self.iris.sampleSize())
+        self.assertEqual(345, self.bupa.sampleSize())
+        self.assertEqual(366, self.dermatology.sampleSize())
+        self.assertEqual(1728, self.car.sampleSize())
+        self.assertEqual(958, self.tictactoe.sampleSize())
+        self.assertEqual(12960, self.nursery.sampleSize())
+        self.assertEqual(28056, self.chess.sampleSize())
 
     def test_ClassCount(self):
-        self.assertEquals(3, self.iris.classCount())
-        self.assertEquals(2, self.bupa.classCount())
-        self.assertEquals(6, self.dermatology.classCount())
-        self.assertEquals(4, self.car.classCount())
-        self.assertEquals(2, self.tictactoe.classCount())
-        self.assertEquals(5, self.nursery.classCount())
-        self.assertEquals(18, self.chess.classCount())
+        self.assertEqual(3, self.iris.classCount())
+        self.assertEqual(2, self.bupa.classCount())
+        self.assertEqual(6, self.dermatology.classCount())
+        self.assertEqual(4, self.car.classCount())
+        self.assertEqual(2, self.tictactoe.classCount())
+        self.assertEqual(5, self.nursery.classCount())
+        self.assertEqual(18, self.chess.classCount())
 
     def test_GetClasses(self):
-        self.assertEquals("Iris-setosa;Iris-versicolor;Iris-virginica", self.iris.getClasses())
-        self.assertEquals("1;2", self.bupa.getClasses())
-        self.assertEquals("2;1;3;5;4;6", self.dermatology.getClasses())
-        self.assertEquals("unacc;acc;vgood;good", self.car.getClasses())
-        self.assertEquals("positive;negative", self.tictactoe.getClasses())
-        self.assertEquals("recommend;priority;not_recom;very_recom;spec_prior", self.nursery.getClasses())
-        self.assertEquals("draw;zero;one;two;three;four;five;six;seven;eight;nine;ten;eleven;twelve;thirteen;fourteen;fifteen;sixteen",
+        self.assertEqual("Iris-setosa;Iris-versicolor;Iris-virginica", self.iris.getClasses())
+        self.assertEqual("1;2", self.bupa.getClasses())
+        self.assertEqual("2;1;3;5;4;6", self.dermatology.getClasses())
+        self.assertEqual("unacc;acc;vgood;good", self.car.getClasses())
+        self.assertEqual("positive;negative", self.tictactoe.getClasses())
+        self.assertEqual("recommend;priority;not_recom;very_recom;spec_prior", self.nursery.getClasses())
+        self.assertEqual("draw;zero;one;two;three;four;five;six;seven;eight;nine;ten;eleven;twelve;thirteen;fourteen;fifteen;sixteen",
                           self.chess.getClasses())
 
 

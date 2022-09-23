@@ -23,11 +23,15 @@ class KFoldRunSeparateTest(KFoldRun):
         """
         super().__init__(K)
 
-    def runExperiment(self, classifier: Classifier, parameter: Parameter, experimentPerformance: ExperimentPerformance,
-                      crossValidation: CrossValidation, testSet: InstanceList):
+    def runExperimentSeparate(self,
+                      classifier: Classifier,
+                      parameter: Parameter,
+                      experimentPerformance: ExperimentPerformance,
+                      crossValidation: CrossValidation,
+                      testSet: InstanceList):
         for i in range(self.K):
-            trainSet = InstanceList(crossValidation.getTrainFold(i))
-            classifier.train(trainSet, parameter)
+            train_set = InstanceList(crossValidation.getTrainFold(i))
+            classifier.train(train_set, parameter)
             experimentPerformance.add(classifier.test(testSet))
 
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
@@ -46,10 +50,17 @@ class KFoldRunSeparateTest(KFoldRun):
             An ExperimentPerformance instance.
         """
         result = ExperimentPerformance()
-        instanceList = experiment.getDataSet().getInstanceList()
-        partition = Partition(instanceList, 0.25, experiment.getParameter().getSeed(), True)
-        crossValidation = KFoldCrossValidation(partition.get(1).getInstances(), self.K, experiment.getParameter().
-                                               getSeed())
-        self.runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation,
-                           partition.get(0))
+        instance_list = experiment.getDataSet().getInstanceList()
+        partition = Partition(instanceList=instance_list,
+                              ratio=0.25,
+                              seed=experiment.getParameter().getSeed(),
+                              stratified=True)
+        cross_validation = KFoldCrossValidation(instanceList=partition.get(1).getInstances(),
+                                               K=self.K,
+                                               seed=experiment.getParameter().getSeed())
+        self.runExperimentSeparate(classifier=experiment.getClassifier(),
+                           parameter=experiment.getParameter(),
+                           experimentPerformance=result,
+                           crossValidation=cross_validation,
+                           testSet=partition.get(0))
         return result

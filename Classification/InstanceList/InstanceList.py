@@ -24,7 +24,10 @@ class InstanceList(object):
 
     list: list
 
-    def __init__(self, listOrDefinition = None, separator: str = None, fileName: str = None):
+    def __init__(self,
+                 listOrDefinition = None,
+                 separator: str = None,
+                 fileName: str = None):
         """
         Constructor for an instance list with a given data definition, data file and a separator character. Each
         instance must be stored in a separate line separated with the character separator. The last item must be the
@@ -60,17 +63,17 @@ class InstanceList(object):
                     lines = file.readlines()
                     file.close()
                     for line in lines:
-                        attributeList = line.strip().split(separator)
-                        if len(attributeList) == listOrDefinition.attributeCount() + 1:
-                            current = Instance(attributeList[len(attributeList) - 1])
-                            for i in range(len(attributeList) - 1):
+                        attribute_list = line.strip().split(separator)
+                        if len(attribute_list) == listOrDefinition.attributeCount() + 1:
+                            current = Instance(attribute_list[len(attribute_list) - 1])
+                            for i in range(len(attribute_list) - 1):
                                 if listOrDefinition.getAttributeType(i) is AttributeType.DISCRETE:
-                                    current.addAttribute(DiscreteAttribute(attributeList[i]))
+                                    current.addAttribute(DiscreteAttribute(attribute_list[i]))
                                 elif listOrDefinition.getAttributeType(i) is AttributeType.BINARY:
                                     current.addAttribute(
-                                        BinaryAttribute(attributeList[i] in ["True", "true", "Yes", "yes", "y", "Y"]))
+                                        BinaryAttribute(attribute_list[i] in ["True", "true", "Yes", "yes", "y", "Y"]))
                                 elif listOrDefinition.getAttributeType(i) is AttributeType.CONTINUOUS:
-                                    current.addAttribute(ContinuousAttribute(float(attributeList[i])))
+                                    current.addAttribute(ContinuousAttribute(float(attribute_list[i])))
                             self.list.append(current)
 
     def add(self, instance: Instance):
@@ -188,10 +191,10 @@ class InstanceList(object):
         list
             A list of class labels.
         """
-        classLabels = []
+        class_labels = []
         for instance in self.list:
-            classLabels.append(instance.getClassLabel())
-        return classLabels
+            class_labels.append(instance.getClassLabel())
+        return class_labels
 
     def getDistinctClassLabels(self) -> list:
         """
@@ -202,11 +205,11 @@ class InstanceList(object):
         list
             A list of distinct class labels.
         """
-        classLabels = []
+        class_labels = []
         for instance in self.list:
-            if not instance.getClassLabel() in classLabels:
-                classLabels.append(instance.getClassLabel())
-        return classLabels
+            if not instance.getClassLabel() in class_labels:
+                class_labels.append(instance.getClassLabel())
+        return class_labels
 
     def getUnionOfPossibleClassLabels(self) -> list:
         """
@@ -217,16 +220,16 @@ class InstanceList(object):
         list
             A list of distinct class labels.
         """
-        possibleClassLabels = []
+        possible_class_labels = []
         for instance in self.list:
             if isinstance(instance, CompositeInstance):
-                for possibleClassLabel in instance.getPossibleClassLabels():
-                    if possibleClassLabel not in possibleClassLabels:
-                        possibleClassLabels.append(possibleClassLabel)
+                for possible_class_label in instance.getPossibleClassLabels():
+                    if possible_class_label not in possible_class_labels:
+                        possible_class_labels.append(possible_class_label)
             else:
-                if not instance.getClassLabel() in possibleClassLabels:
-                    possibleClassLabels.append(instance.getClassLabel())
-        return possibleClassLabels
+                if not instance.getClassLabel() in possible_class_labels:
+                    possible_class_labels.append(instance.getClassLabel())
+        return possible_class_labels
 
     def getAttributeValueList(self, attributeIndex: int) -> list:
         """
@@ -242,11 +245,11 @@ class InstanceList(object):
         list
             An list of distinct values of a discrete attribute.
         """
-        valueList = []
+        value_list = []
         for instance in self.list:
-            if not instance.getAttribute(attributeIndex).getValue() in valueList:
-                valueList.append(instance.getAttribute(attributeIndex).getValue())
-        return valueList
+            if not instance.getAttribute(attributeIndex).getValue() in value_list:
+                value_list.append(instance.getAttribute(attributeIndex).getValue())
+        return value_list
 
     def __attributeAverage(self, index: int) -> Attribute:
         """
@@ -292,11 +295,11 @@ class InstanceList(object):
             The mean value of the instances as an attribute.
         """
         if isinstance(self.list[0].getAttribute(index), DiscreteIndexedAttribute):
-            maxIndexSize = self.list[0].getAttribute(index).getMaxIndex()
-            values = [0.0] * maxIndexSize
+            max_index_size = self.list[0].getAttribute(index).getMaxIndex()
+            values = [0.0] * max_index_size
             for instance in self.list:
-                valueIndex = instance.getAttribute(index).getIndex()
-                values[valueIndex] = values[valueIndex] + 1
+                value_index = instance.getAttribute(index).getIndex()
+                values[value_index] = values[value_index] + 1
             for i in range(len(values)):
                 values[i] = values[i] / len(self.list)
             return values
@@ -351,18 +354,18 @@ class InstanceList(object):
             The standard deviation of the instances as an attribute.
         """
         if isinstance(self.list[0].getAttribute(index), DiscreteIndexedAttribute):
-            maxIndexSize = self.list[0].getAttribute(index).getMaxIndex()
-            averages = [0.0] * maxIndexSize
+            max_index_size = self.list[0].getAttribute(index).getMaxIndex()
+            averages = [0.0] * max_index_size
             for instance in self.list:
-                valueIndex = instance.getAttribute(index).getIndex()
-                averages[valueIndex] = averages[valueIndex] + 1
+                value_index = instance.getAttribute(index).getIndex()
+                averages[value_index] = averages[value_index] + 1
             for i in range(len(averages)):
                 averages[i] = averages[i] / len(self.list)
-            values = [0.0] * maxIndexSize
+            values = [0.0] * max_index_size
             for instance in self.list:
-                valueIndex = instance.getAttribute(index).getIndex()
-                for i in range(maxIndexSize):
-                    if i == valueIndex:
+                value_index = instance.getAttribute(index).getIndex()
+                for i in range(max_index_size):
+                    if i == value_index:
                         values[i] += math.pow(1 - averages[i], 2)
                     else:
                         values[i] += math.pow(averages[i], 2)
@@ -418,11 +421,11 @@ class InstanceList(object):
             Distribution of the class labels.
         """
         distributions = []
-        valueList = self.getAttributeValueList(attributeIndex)
-        for _ in valueList:
+        value_list = self.getAttributeValueList(attributeIndex)
+        for _ in value_list:
             distributions.append(DiscreteDistribution())
         for instance in self.list:
-            distributions[valueList.index(instance.getAttribute(attributeIndex).getValue())].addItem(instance.
+            distributions[value_list.index(instance.getAttribute(attributeIndex).getValue())].addItem(instance.
                                                                                                      getClassLabel())
         return distributions
 
@@ -551,12 +554,12 @@ class InstanceList(object):
         """
         result = Matrix(self.list[0].continuousAttributeSize(), self.list[0].continuousAttributeSize())
         for instance in self.list:
-            continuousAttributes = instance.continuousAttributes()
+            continuous_attributes = instance.continuousAttributes()
             for i in range(instance.continuousAttributeSize()):
-                xi = continuousAttributes[i]
+                xi = continuous_attributes[i]
                 mi = average.getValue(i)
                 for j in range(instance.continuousAttributeSize()):
-                    xj = continuousAttributes[j]
+                    xj = continuous_attributes[j]
                     mj = average.getValue(j)
                     result.addValue(i, j, (xi - mi) * (xj - mj))
         result.divideByConstant(len(self.list) - 1)

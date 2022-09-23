@@ -8,7 +8,9 @@ from Classification.Performance.Performance import Performance
 
 class AutoEncoder(Classifier):
 
-    def train(self, trainSet: InstanceList, parameters: MultiLayerPerceptronParameter):
+    def train(self,
+              trainSet: InstanceList,
+              parameters: MultiLayerPerceptronParameter):
         """
         Training algorithm for auto encoders. An auto encoder is a neural network which attempts to replicate its input
         at its output.
@@ -20,8 +22,13 @@ class AutoEncoder(Classifier):
         parameters : MultiLayerPerceptronParameter
             Parameters of the auto encoder.
         """
-        partition = Partition(trainSet, 0.2, parameters.getSeed(), True)
-        self.model = AutoEncoderModel(partition.get(1), partition.get(0), parameters)
+        partition = Partition(instanceList=trainSet,
+                              ratio=0.2,
+                              seed=parameters.getSeed(),
+                              stratified=True)
+        self.model = AutoEncoderModel(trainSet=partition.get(1),
+                                      validationSet=partition.get(0),
+                                      parameters=parameters)
 
     def test(self, testSet: InstanceList) -> Performance:
         """

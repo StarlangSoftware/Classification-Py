@@ -22,10 +22,15 @@ class SubSetSelection(object):
         self.initialSubSet = initialSubSet
 
     @abstractmethod
-    def operator(self, current: FeatureSubSet, numberOfFeatures: int) -> list:
+    def operator(self,
+                 current: FeatureSubSet,
+                 numberOfFeatures: int) -> list:
         pass
 
-    def forward(self, currentSubSetList: list, current: FeatureSubSet, numberOfFeatures: int):
+    def forward(self,
+                currentSubSetList: list,
+                current: FeatureSubSet,
+                numberOfFeatures: int):
         """
         The forward method starts with having no feature in the model. In each iteration, it keeps adding the features
         that are not currently listed.
@@ -45,7 +50,9 @@ class SubSetSelection(object):
                 candidate.add(i)
                 currentSubSetList.append(candidate)
 
-    def backward(self, currentSubSetList: list, current: FeatureSubSet):
+    def backward(self,
+                 currentSubSetList: list,
+                 current: FeatureSubSet):
         """
         The backward method starts with all the features and removes the least significant feature at each iteration.
 
@@ -61,7 +68,9 @@ class SubSetSelection(object):
             candidate.remove(i)
             currentSubSetList.append(candidate)
 
-    def execute(self, multipleRun: MultipleRun, experiment: Experiment) -> FeatureSubSet:
+    def execute(self,
+                multipleRun: MultipleRun,
+                experiment: Experiment) -> FeatureSubSet:
         """
         The execute method takes an Experiment and a MultipleRun as inputs. By selecting a candidateList from given
         Experiment it tries to find a FeatureSubSet that gives best performance.
@@ -81,20 +90,20 @@ class SubSetSelection(object):
         processed = set()
         best = self.initialSubSet
         processed.add(best)
-        betterFound = True
-        bestPerformance = None
+        better_found = True
+        best_performance = None
         if best.size() > 0:
-            bestPerformance = multipleRun.execute(experiment.featureSelectedExperiment(best))
-        while betterFound:
-            betterFound = False
-            candidateList = self.operator(best, experiment.getDataSet().getDataDefinition().attributeCount())
-            for candidateSubSet in candidateList:
-                if candidateSubSet not in processed:
-                    if candidateSubSet.size() > 0:
-                        currentPerformance = multipleRun.execute(experiment.featureSelectedExperiment(candidateSubSet))
-                        if bestPerformance is None or currentPerformance.isBetter(bestPerformance):
-                            best = candidateSubSet
-                            bestPerformance = currentPerformance
-                            betterFound = True
-                    processed.add(candidateSubSet)
+            best_performance = multipleRun.execute(experiment.featureSelectedExperiment(best))
+        while better_found:
+            better_found = False
+            candidate_list = self.operator(best, experiment.getDataSet().getDataDefinition().attributeCount())
+            for candidate_sub_set in candidate_list:
+                if candidate_sub_set not in processed:
+                    if candidate_sub_set.size() > 0:
+                        current_performance = multipleRun.execute(experiment.featureSelectedExperiment(candidate_sub_set))
+                        if best_performance is None or current_performance.isBetter(best_performance):
+                            best = candidate_sub_set
+                            best_performance = current_performance
+                            better_found = True
+                    processed.add(candidate_sub_set)
         return best

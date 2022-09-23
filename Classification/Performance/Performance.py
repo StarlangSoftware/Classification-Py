@@ -1,6 +1,6 @@
 class Performance(object):
 
-    errorRate: float
+    error_rate: float
 
     def __init__(self, errorRate: float):
         """
@@ -11,7 +11,7 @@ class Performance(object):
         errorRate : float
             Double input.
         """
-        self.errorRate = errorRate
+        self.error_rate = errorRate
 
     def getErrorRate(self) -> float:
         """
@@ -22,4 +22,4 @@ class Performance(object):
         float
             Double errorRate.
         """
-        return self.errorRate
+        return self.error_rate

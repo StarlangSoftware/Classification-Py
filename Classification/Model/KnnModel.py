@@ -13,9 +13,12 @@ class KnnModel(Model):
 
     __data: InstanceList
     __k: int
-    __distanceMetric: DistanceMetric
+    __distance_metric: DistanceMetric
 
-    def __init__(self, data: InstanceList, k: int, distanceMetric: DistanceMetric):
+    def __init__(self,
+                 data: InstanceList,
+                 k: int,
+                 distanceMetric: DistanceMetric):
         """
         Constructor that sets the data InstanceList, k value and the DistanceMetric.
 
@@ -30,7 +33,7 @@ class KnnModel(Model):
         """
         self.__data = data
         self.__k = k
-        self.__distanceMetric = distanceMetric
+        self.__distance_metric = distanceMetric
 
     def predict(self, instance: Instance) -> str:
         """
@@ -47,16 +50,16 @@ class KnnModel(Model):
         str
             The first possible class label as the predicted class.
         """
-        nearestNeighbors = self.nearestNeighbors(instance)
-        if isinstance(instance, CompositeInstance) and nearestNeighbors.size() == 0:
-            predictedClass = instance.getPossibleClassLabels()[0]
+        nearest_neighbors = self.nearestNeighbors(instance)
+        if isinstance(instance, CompositeInstance) and nearest_neighbors.size() == 0:
+            predicted_class = instance.getPossibleClassLabels()[0]
         else:
-            predictedClass = Model.getMaximum(nearestNeighbors.getClassLabels())
-        return predictedClass
+            predicted_class = Model.getMaximum(nearest_neighbors.getClassLabels())
+        return predicted_class
 
     def predictProbability(self, instance: Instance) -> dict:
-        nearestNeighbors = self.nearestNeighbors(instance)
-        return nearestNeighbors.classDistribution().getProbabilityDistribution()
+        nearest_neighbors = self.nearestNeighbors(instance)
+        return nearest_neighbors.classDistribution().getProbabilityDistribution()
 
     def makeComparator(self):
         def compare(instanceA: KnnInstance, instanceB: KnnInstance):
@@ -87,13 +90,13 @@ class KnnModel(Model):
         """
         result = InstanceList()
         instances = []
-        possibleClassLabels = []
+        possible_class_labels = []
         if isinstance(instance, CompositeInstance):
-            possibleClassLabels = instance.getPossibleClassLabels()
+            possible_class_labels = instance.getPossibleClassLabels()
         for i in range(self.__data.size()):
-            if not isinstance(instance, CompositeInstance) or self.__data.get(i).getClassLabel() in possibleClassLabels:
-                instances.append(KnnInstance(self.__data.get(i), self.__distanceMetric.distance(self.__data.get(i),
-                                                                                                instance)))
+            if not isinstance(instance, CompositeInstance) or self.__data.get(i).getClassLabel() in possible_class_labels:
+                instances.append(KnnInstance(self.__data.get(i), self.__distance_metric.distance(self.__data.get(i),
+                                                                                                 instance)))
         instances.sort(key=cmp_to_key(self.makeComparator()))
         for i in range(min(self.__k, len(instances))):
             result.add(instances[i].instance)

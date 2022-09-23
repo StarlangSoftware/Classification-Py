@@ -9,10 +9,12 @@ from Classification.Model.ValidatedModel import ValidatedModel
 
 class GaussianModel(ValidatedModel):
 
-    priorDistribution: DiscreteDistribution
+    prior_distribution: DiscreteDistribution
 
     @abstractmethod
-    def calculateMetric(self, instance: Instance, Ci: str) -> float:
+    def calculateMetric(self,
+                        instance: Instance,
+                        Ci: str) -> float:
         pass
 
     def predict(self, instance: Instance) -> str:
@@ -31,21 +33,21 @@ class GaussianModel(ValidatedModel):
         str
             The class which has the maximum value of metric.
         """
-        maxMetric = -10000000
+        max_metric = -10000000
         if isinstance(instance, CompositeInstance):
-            predicatedClass = instance.getPossibleClassLabels()[0]
+            predicted_class = instance.getPossibleClassLabels()[0]
             size = len(instance.getPossibleClassLabels())
         else:
-            predicatedClass = self.priorDistribution.getMaxItem()
-            size = len(self.priorDistribution)
+            predicted_class = self.prior_distribution.getMaxItem()
+            size = len(self.prior_distribution)
         for i in range(size):
             if isinstance(instance, CompositeInstance):
                 Ci = instance.getPossibleClassLabels()[i]
             else:
-                Ci = self.priorDistribution.getItem(i)
-            if self.priorDistribution.containsItem(Ci):
+                Ci = self.prior_distribution.getItem(i)
+            if self.prior_distribution.containsItem(Ci):
                 metric = self.calculateMetric(instance, Ci)
-                if metric > maxMetric:
-                    maxMetric = metric
-                    predicatedClass = Ci
-        return predicatedClass
+                if metric > max_metric:
+                    max_metric = metric
+                    predicted_class = Ci
+        return predicted_class

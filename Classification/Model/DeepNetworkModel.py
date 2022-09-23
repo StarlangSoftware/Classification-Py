@@ -12,10 +12,13 @@ from Classification.Performance.ClassificationPerformance import ClassificationP
 class DeepNetworkModel(NeuralNetworkModel):
 
     __weights: list
-    __hiddenLayerSize: int
-    __activationFunction: ActivationFunction
+    __hidden_layer_size: int
+    __activation_function: ActivationFunction
 
-    def __init__(self, trainSet: InstanceList, validationSet: InstanceList, parameters: DeepNetworkParameter):
+    def __init__(self,
+                 trainSet: InstanceList,
+                 validationSet: InstanceList,
+                 parameters: DeepNetworkParameter):
         """
         Constructor that takes two InstanceList train set and validation set and DeepNetworkParameter as
         inputs. First it sets the class labels, their sizes as K and the size of the continuous attributes as d of given
@@ -36,62 +39,62 @@ class DeepNetworkModel(NeuralNetworkModel):
             DeepNetworkParameter input.
         """
         super().__init__(trainSet)
-        deltaWeights = []
+        delta_weights = []
         hidden = []
-        hiddenBiased = []
-        self.__activationFunction = parameters.getActivationFunction()
+        hidden_biased = []
+        self.__activation_function = parameters.getActivationFunction()
         self.__allocateWeights(parameters)
-        bestWeights = self.__setBestWeights()
-        bestClassificationPerformance = ClassificationPerformance(0.0)
+        best_weights = self.__setBestWeights()
+        best_classification_performance = ClassificationPerformance(0.0)
         epoch = parameters.getEpoch()
-        learningRate = parameters.getLearningRate()
+        learning_rate = parameters.getLearningRate()
         for i in range(epoch):
             trainSet.shuffle(parameters.getSeed())
             for j in range(trainSet.size()):
                 self.createInputVector(trainSet.get(j))
                 hidden.clear()
-                hiddenBiased.clear()
-                deltaWeights.clear()
-                for k in range(self.__hiddenLayerSize):
+                hidden_biased.clear()
+                delta_weights.clear()
+                for k in range(self.__hidden_layer_size):
                     if k == 0:
-                        hidden.append(self.calculateHidden(self.x, self.__weights[k], self.__activationFunction))
+                        hidden.append(self.calculateHidden(self.x, self.__weights[k], self.__activation_function))
                     else:
-                        hidden.append(self.calculateHidden(hiddenBiased[k - 1], self.__weights[k], self.__activationFunction))
-                    hiddenBiased.append(hidden[k].biased())
-                rMinusY = self.calculateRMinusY(trainSet.get(j), hiddenBiased[self.__hiddenLayerSize - 1],
+                        hidden.append(self.calculateHidden(hidden_biased[k - 1], self.__weights[k], self.__activation_function))
+                    hidden_biased.append(hidden[k].biased())
+                r_minus_y = self.calculateRMinusY(trainSet.get(j), hidden_biased[self.__hidden_layer_size - 1],
                                                 self.__weights[len(self.__weights) - 1])
-                deltaWeights.insert(0, Matrix(rMinusY, hiddenBiased[self.__hiddenLayerSize - 1]))
+                delta_weights.insert(0, Matrix(r_minus_y, hidden_biased[self.__hidden_layer_size - 1]))
                 for k in range(len(self.__weights) - 2, -1, -1):
                     if k == len(self.__weights) - 2:
-                        tmph = self.__weights[k + 1].multiplyWithVectorFromLeft(rMinusY)
+                        tmp_h = self.__weights[k + 1].multiplyWithVectorFromLeft(r_minus_y)
                     else:
-                        tmph = self.__weights[k + 1].multiplyWithVectorFromLeft(tmpHidden)
-                    tmph.remove(0)
-                    if self.__activationFunction == ActivationFunction.SIGMOID:
-                        oneMinusHidden = self.calculateOneMinusHidden(hidden[k])
-                        activationDerivative = oneMinusHidden.elementProduct(hidden[k])
-                    elif self.__activationFunction == ActivationFunction.TANH:
+                        tmp_h = self.__weights[k + 1].multiplyWithVectorFromLeft(tmp_hidden)
+                    tmp_h.remove(0)
+                    if self.__activation_function == ActivationFunction.SIGMOID:
+                        one_minus_hidden = self.calculateOneMinusHidden(hidden[k])
+                        activation_derivative = one_minus_hidden.elementProduct(hidden[k])
+                    elif self.__activation_function == ActivationFunction.TANH:
                         one = Vector(hidden[k].size(), 1.0)
                         hidden[k].tanh()
-                        activationDerivative = one.difference(hidden[k].elementProduct(hidden[k]))
-                    elif self.__activationFunction == ActivationFunction.RELU:
+                        activation_derivative = one.difference(hidden[k].elementProduct(hidden[k]))
+                    elif self.__activation_function == ActivationFunction.RELU:
                         hidden[k].reluDerivative()
-                        activationDerivative = hidden
-                    tmpHidden = tmph.elementProduct(activationDerivative)
+                        activation_derivative = hidden
+                    tmp_hidden = tmp_h.elementProduct(activation_derivative)
                     if k == 0:
-                        deltaWeights.insert(0, Matrix(tmpHidden, self.x))
+                        delta_weights.insert(0, Matrix(tmp_hidden, self.x))
                     else:
-                        deltaWeights.insert(0, Matrix(tmpHidden, hiddenBiased[k - 1]))
+                        delta_weights.insert(0, Matrix(tmp_hidden, hidden_biased[k - 1]))
                 for k in range(len(self.__weights)):
-                    deltaWeights[k].multiplyWithConstant(learningRate)
-                    self.__weights[k].add(deltaWeights[k])
-            currentClassificationPerformance = self.testClassifier(validationSet)
-            if currentClassificationPerformance.getAccuracy() > bestClassificationPerformance.getAccuracy():
-                bestClassificationPerformance = currentClassificationPerformance
-                bestWeights = self.__setBestWeights()
-            learningRate *= parameters.getEtaDecrease()
+                    delta_weights[k].multiplyWithConstant(learning_rate)
+                    self.__weights[k].add(delta_weights[k])
+            current_classification_performance = self.testClassifier(validationSet)
+            if current_classification_performance.getAccuracy() > best_classification_performance.getAccuracy():
+                best_classification_performance = current_classification_performance
+                best_weights = self.__setBestWeights()
+            learning_rate *= parameters.getEtaDecrease()
         self.__weights.clear()
-        for m in bestWeights:
+        for m in best_weights:
             self.__weights.append(m)
 
     def __allocateWeights(self, parameters: DeepNetworkParameter):
@@ -106,13 +109,17 @@ class DeepNetworkModel(NeuralNetworkModel):
             DeepNetworkParameter input.
         """
         self.__weights = []
-        self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(0), self.d + 1, parameters.getSeed()))
+        self.__weights.append(self.allocateLayerWeights(row=parameters.getHiddenNodes(0),
+                                                        column=self.d + 1,
+                                                        seed=parameters.getSeed()))
         for i in range(parameters.layerSize() - 1):
-            self.__weights.append(self.allocateLayerWeights(parameters.getHiddenNodes(i + 1),
-                                                            parameters.getHiddenNodes(i) + 1, parameters.getSeed()))
-        self.__weights.append(self.allocateLayerWeights(self.K,
-                                                        parameters.getHiddenNodes(parameters.layerSize() - 1) + 1, parameters.getSeed()))
-        self.__hiddenLayerSize = parameters.layerSize()
+            self.__weights.append(self.allocateLayerWeights(row=parameters.getHiddenNodes(i + 1),
+                                                            column=parameters.getHiddenNodes(i) + 1,
+                                                            seed=parameters.getSeed()))
+        self.__weights.append(self.allocateLayerWeights(row=self.K,
+                                                        column=parameters.getHiddenNodes(parameters.layerSize() - 1) + 1,
+                                                        seed=parameters.getSeed()))
+        self.__hidden_layer_size = parameters.layerSize()
 
     def __setBestWeights(self) -> list:
         """
@@ -124,21 +131,21 @@ class DeepNetworkModel(NeuralNetworkModel):
         list
         A list clones from the weights ArrayList.
         """
-        bestWeights = []
+        best_weights = []
         for m in self.__weights:
-            bestWeights.append(copy.deepcopy(m))
-        return bestWeights
+            best_weights.append(copy.deepcopy(m))
+        return best_weights
 
     def calculateOutput(self):
         """
         The calculateOutput method loops size of the weights times and calculate one hidden layer at a time and adds
         bias term. At the end it updates the output y value.
         """
-        hiddenBiased = None
+        hidden_biased = None
         for i in range(len(self.__weights) - 1):
             if i == 0:
-                hidden = self.calculateHidden(self.x, self.__weights[i], self.__activationFunction)
+                hidden = self.calculateHidden(self.x, self.__weights[i], self.__activation_function)
             else:
-                hidden = self.calculateHidden(hiddenBiased, self.__weights[i], self.__activationFunction)
-            hiddenBiased = hidden.biased()
-        self.y = self.__weights[len(self.__weights) - 1].multiplyWithVectorFromRight(hiddenBiased)
+                hidden = self.calculateHidden(hidden_biased, self.__weights[i], self.__activation_function)
+            hidden_biased = hidden.biased()
+        self.y = self.__weights[len(self.__weights) - 1].multiplyWithVectorFromRight(hidden_biased)

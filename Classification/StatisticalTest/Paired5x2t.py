@@ -8,7 +8,9 @@ import math
 
 class Paired5x2t(PairedTest):
 
-    def __testStatistic(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance):
+    def __testStatistic(self,
+                        classifier1: ExperimentPerformance,
+                        classifier2: ExperimentPerformance):
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
             raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
                                                "experiments in both algorithms.")
@@ -28,7 +30,9 @@ class Paired5x2t(PairedTest):
             raise StatisticalTestNotApplicable("Variance is 0.")
         return difference[0] / denominator
 
-    def compare(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance) -> StatisticalTestResult:
+    def compare(self,
+                classifier1: ExperimentPerformance,
+                classifier2: ExperimentPerformance) -> StatisticalTestResult:
         statistic = self.__testStatistic(classifier1, classifier2)
-        degreeOfFreedom = classifier1.numberOfExperiments() // 2
-        return StatisticalTestResult(Distribution.tDistribution(statistic, degreeOfFreedom), False)
+        degree_of_freedom = classifier1.numberOfExperiments() // 2
+        return StatisticalTestResult(Distribution.tDistribution(statistic, degree_of_freedom), False)

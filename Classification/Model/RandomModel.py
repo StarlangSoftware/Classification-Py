@@ -6,7 +6,7 @@ import random
 
 class RandomModel(Model):
 
-    __classLabels: list
+    __class_labels: list
 
     def __init__(self, classLabels: list, seed: int):
         """
@@ -19,7 +19,7 @@ class RandomModel(Model):
         seed: int
             Seed of the random function
         """
-        self.__classLabels = classLabels
+        self.__class_labels = classLabels
         random.seed(seed)
 
     def predict(self, instance: Instance) -> str:
@@ -38,17 +38,17 @@ class RandomModel(Model):
             The class label at the randomly selected index.
         """
         if isinstance(instance, CompositeInstance):
-            possibleClassLabels = instance.getPossibleClassLabels()
-            size = len(possibleClassLabels)
+            possible_class_labels = instance.getPossibleClassLabels()
+            size = len(possible_class_labels)
             index = random.randint(0, size)
-            return possibleClassLabels[index]
+            return possible_class_labels[index]
         else:
-            size = len(self.__classLabels)
+            size = len(self.__class_labels)
             index = random.randrange(size)
-            return self.__classLabels[index]
+            return self.__class_labels[index]
 
     def predictProbability(self, instance: Instance) -> dict:
         result = {}
-        for classLabel in self.__classLabels:
-            result[classLabel] = 1.0 / len(self.__classLabels)
+        for classLabel in self.__class_labels:
+            result[classLabel] = 1.0 / len(self.__class_labels)
         return result

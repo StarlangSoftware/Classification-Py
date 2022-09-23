@@ -7,9 +7,9 @@ import math
 
 class NaiveBayesModel(GaussianModel):
 
-    __classMeans: dict
-    __classDeviations: dict
-    __classAttributeDistributions: dict
+    __class_means: dict
+    __class_deviations: dict
+    __class_attribute_distributions: dict
 
     def __init__(self, priorDistribution: DiscreteDistribution):
         """
@@ -20,9 +20,11 @@ class NaiveBayesModel(GaussianModel):
         priorDistribution : DiscreteDistribution
             DiscreteDistribution input.
         """
-        self.priorDistribution = priorDistribution
+        self.prior_distribution = priorDistribution
 
-    def initForContinuous(self, classMeans: dict, classDeviations: dict):
+    def initForContinuous(self,
+                          classMeans: dict,
+                          classDeviations: dict):
         """
         A constructor that sets the classMeans and classDeviations.
 
@@ -33,9 +35,9 @@ class NaiveBayesModel(GaussianModel):
         classDeviations : dict
             A dict of String and Vector.
         """
-        self.__classMeans = classMeans
-        self.__classDeviations = classDeviations
-        self.__classAttributeDistributions = None
+        self.__class_means = classMeans
+        self.__class_deviations = classDeviations
+        self.__class_attribute_distributions = None
 
     def initForDiscrete(self, classAttributeDistributions: dict):
         """
@@ -46,9 +48,11 @@ class NaiveBayesModel(GaussianModel):
         classAttributeDistributions : dict
             A dict of String and list of DiscreteDistributions.
         """
-        self.__classAttributeDistributions = classAttributeDistributions
+        self.__class_attribute_distributions = classAttributeDistributions
 
-    def calculateMetric(self, instance: Instance, Ci: str) -> float:
+    def calculateMetric(self,
+                        instance: Instance,
+                        Ci: str) -> float:
         """
         The calculateMetric method takes an Instance and a String as inputs and it returns the log likelihood of
         these inputs.
@@ -65,12 +69,14 @@ class NaiveBayesModel(GaussianModel):
         float
             The log likelihood of inputs.
         """
-        if self.__classAttributeDistributions is None:
+        if self.__class_attribute_distributions is None:
             return self.__logLikelihoodContinuous(Ci, instance)
         else:
             return self.__logLikelihoodDiscrete(Ci, instance)
 
-    def __logLikelihoodContinuous(self, classLabel: str, instance: Instance) -> float:
+    def __logLikelihoodContinuous(self,
+                                  classLabel: str,
+                                  instance: Instance) -> float:
         """
         The logLikelihoodContinuous method takes an Instance and a class label as inputs. First it gets the logarithm
         of given class label's probability via prior distribution as logLikelihood. Then it loops times of given
@@ -88,16 +94,18 @@ class NaiveBayesModel(GaussianModel):
         float
             The log likelihood of given class label and Instance.
         """
-        loglikelihood = math.log(self.priorDistribution.getProbability(classLabel))
+        log_likelihood = math.log(self.prior_distribution.getProbability(classLabel))
         for i in range(instance.attributeSize()):
             xi = instance.getAttribute(i).getValue()
-            mi = self.__classMeans[classLabel].getValue(i)
-            si = self.__classDeviations[classLabel].getValue(i)
+            mi = self.__class_means[classLabel].getValue(i)
+            si = self.__class_deviations[classLabel].getValue(i)
             if si != 0:
-                loglikelihood += -0.5 * math.pow((xi - mi) / si, 2)
-        return loglikelihood
+                log_likelihood += -0.5 * math.pow((xi - mi) / si, 2)
+        return log_likelihood
 
-    def __logLikelihoodDiscrete(self, classLabel: str, instance: Instance) -> float:
+    def __logLikelihoodDiscrete(self,
+                                classLabel: str,
+                                instance: Instance) -> float:
         """
         The logLikelihoodDiscrete method takes an Instance and a class label as inputs. First it gets the logarithm
         of given class label's probability via prior distribution as logLikelihood and gets the class attribute
@@ -117,9 +125,9 @@ class NaiveBayesModel(GaussianModel):
         float
             The log likelihood of given class label and Instance.
         """
-        loglikelihood = math.log(self.priorDistribution.getProbability(classLabel))
-        attributeDistributions = self.__classAttributeDistributions.get(classLabel)
+        log_likelihood = math.log(self.prior_distribution.getProbability(classLabel))
+        attribute_distributions = self.__class_attribute_distributions.get(classLabel)
         for i in range(instance.attributeSize()):
             xi = instance.getAttribute(i).getValue()
-            loglikelihood += math.log(attributeDistributions[i].getProbabilityLaplaceSmoothing(xi))
-        return loglikelihood
+            log_likelihood += math.log(attribute_distributions[i].getProbabilityLaplaceSmoothing(xi))
+        return log_likelihood

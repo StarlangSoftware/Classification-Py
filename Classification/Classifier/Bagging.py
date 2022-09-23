@@ -9,7 +9,9 @@ from Classification.Parameter.Parameter import Parameter
 
 class Bagging(Classifier):
 
-    def train(self, trainSet: InstanceList, parameters: BaggingParameter):
+    def train(self,
+              trainSet: InstanceList,
+              parameters: BaggingParameter):
         """
         Bagging bootstrap ensemble method that creates individuals for its ensemble by training each classifier on a
         random redistribution of the training set.
@@ -24,9 +26,9 @@ class Bagging(Classifier):
         parameters : Parameter
             Parameters of the bagging trees algorithm. ensembleSize returns the number of trees in the bagged forest.
         """
-        forestSize = parameters.getEnsembleSize()
+        forest_size = parameters.getEnsembleSize()
         forest = []
-        for i in range(forestSize):
+        for i in range(forest_size):
             bootstrap = trainSet.bootstrap(i)
             tree = DecisionTree(DecisionNode(InstanceList(bootstrap.getSample())))
             forest.append(tree)

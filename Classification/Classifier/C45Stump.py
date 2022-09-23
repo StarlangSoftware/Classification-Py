@@ -7,7 +7,9 @@ from Classification.Parameter.Parameter import Parameter
 
 class C45Stump(Classifier):
 
-    def train(self, trainSet: InstanceList, parameters: Parameter):
+    def train(self,
+              trainSet: InstanceList,
+              parameters: Parameter):
         """
         Training algorithm for C4.5 Stump univariate decision tree classifier.
 
@@ -18,4 +20,5 @@ class C45Stump(Classifier):
         parameters: Parameter
             Parameter of the C45Stump algorithm.
         """
-        self.model = DecisionTree(DecisionNode(trainSet, None, None, True))
+        self.model = DecisionTree(DecisionNode(data=trainSet,
+                                               isStump=True))

@@ -35,15 +35,17 @@ class DecisionTree(ValidatedModel):
         str
             Possible class labels.
         """
-        predictedClass = self.__root.predict(instance)
-        if predictedClass is None and isinstance(instance, CompositeInstance):
-            predictedClass = instance.getPossibleClassLabels()
-        return predictedClass
+        predicted_class = self.__root.predict(instance)
+        if predicted_class is None and isinstance(instance, CompositeInstance):
+            predicted_class = instance.getPossibleClassLabels()
+        return predicted_class
 
     def predictProbability(self, instance: Instance) -> dict:
         return self.__root.predictProbabilityDistribution(instance)
 
-    def pruneNode(self, node: DecisionNode, pruneSet: InstanceList):
+    def pruneNode(self,
+                  node: DecisionNode,
+                  pruneSet: InstanceList):
         """
         The prune method takes a DecisionNode and an InstanceList as inputs. It checks the classification performance
         of given InstanceList before pruning, i.e making a node leaf, and after pruning. If the after performance is

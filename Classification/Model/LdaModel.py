@@ -9,7 +9,10 @@ class LdaModel(GaussianModel):
     w0: dict
     w: dict
 
-    def __init__(self, priorDistribution: DiscreteDistribution, w: dict, w0: dict):
+    def __init__(self,
+                 priorDistribution: DiscreteDistribution,
+                 w: dict,
+                 w0: dict):
         """
         A constructor which sets the priorDistribution, w and w0 according to given inputs.
 
@@ -22,11 +25,13 @@ class LdaModel(GaussianModel):
         w0 : dict
             Dict of String and float.
         """
-        self.priorDistribution = priorDistribution
+        self.prior_distribution = priorDistribution
         self.w = w
         self.w0 = w0
 
-    def calculateMetric(self, instance: Instance, Ci: str) -> float:
+    def calculateMetric(self,
+                        instance: Instance,
+                        Ci: str) -> float:
         """
         The calculateMetric method takes an Instance and a String as inputs. It returns the dot product of given
         Instance and wi plus w0i.

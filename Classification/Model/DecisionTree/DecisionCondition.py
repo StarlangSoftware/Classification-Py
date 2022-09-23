@@ -7,11 +7,14 @@ from Classification.Instance.Instance import Instance
 
 class DecisionCondition(object):
 
-    __attributeIndex: int
+    __attribute_index: int
     __comparison: str
     __value: Attribute
 
-    def __init__(self, attributeIndex: int, value: Attribute, comparison="="):
+    def __init__(self,
+                 attributeIndex: int,
+                 value: Attribute,
+                 comparison="="):
         """
         A constructor that sets attributeIndex and Attribute value. It also assigns equal sign to the comparison
         character.
@@ -23,7 +26,7 @@ class DecisionCondition(object):
         value : Attribute
             The value of the Attribute.
         """
-        self.__attributeIndex = attributeIndex
+        self.__attribute_index = attributeIndex
         self.__comparison = comparison
         self.__value = value
 
@@ -53,14 +56,14 @@ class DecisionCondition(object):
         """
         if isinstance(self.__value, DiscreteIndexedAttribute):
             if self.__value.getIndex() != -1:
-                return instance.getAttribute(self.__attributeIndex).getIndex() == self.__value.getIndex()
+                return instance.getAttribute(self.__attribute_index).getIndex() == self.__value.getIndex()
             else:
                 return True
         elif isinstance(self.__value, DiscreteAttribute):
-            return instance.getAttribute(self.__attributeIndex).getValue() == self.__value.getValue()
+            return instance.getAttribute(self.__attribute_index).getValue() == self.__value.getValue()
         elif isinstance(self.__value, ContinuousAttribute):
             if self.__comparison == "<":
-                return instance.getAttribute(self.__attributeIndex).getValue() <= self.__value.getValue()
+                return instance.getAttribute(self.__attribute_index).getValue() <= self.__value.getValue()
             else:
-                return instance.getAttribute(self.__attributeIndex).getValue() > self.__value.getValue()
+                return instance.getAttribute(self.__attribute_index).getValue() > self.__value.getValue()
         return False

@@ -7,13 +7,17 @@ import math
 
 class Sign(PairedTest):
 
-    def __binomial(self, m: int, n: int) -> int:
+    def __binomial(self,
+                   m: int,
+                   n: int) -> int:
         if n == 0 or m == n:
             return 1
         else:
             return math.factorial(m) // (math.factorial(n) * math.factorial(m - n))
 
-    def compare(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance) -> StatisticalTestResult:
+    def compare(self,
+                classifier1: ExperimentPerformance,
+                classifier2: ExperimentPerformance) -> StatisticalTestResult:
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
             raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
                                                "experiments in both algorithms.")
@@ -26,9 +30,9 @@ class Sign(PairedTest):
                 if classifier1.getErrorRate(i) > classifier2.getErrorRate(i):
                     minus = minus + 1
         total = plus + minus
-        pValue = 0
+        p_value = 0
         if total == 0:
             raise StatisticalTestNotApplicable("Variance is 0.")
         for i in range(plus + 1):
-            pValue += self.__binomial(total, i) / math.pow(2, total)
-        return StatisticalTestResult(pValue, False)
+            p_value += self.__binomial(total, i) / math.pow(2, total)
+        return StatisticalTestResult(p_value, False)

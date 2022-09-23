@@ -10,7 +10,9 @@ class FloatingSelection(SubSetSelection):
         """
         super().__init__(FeatureSubSet())
 
-    def operator(self, current: FeatureSubSet, numberOfFeatures: int) -> list:
+    def operator(self,
+                 current: FeatureSubSet,
+                 numberOfFeatures: int) -> list:
         """
         The operator method calls forward and backward methods.
 

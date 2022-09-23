@@ -7,10 +7,12 @@ from Classification.Model.GaussianModel import GaussianModel
 
 
 class KMeansModel(GaussianModel):
-    __classMeans: InstanceList
-    __distanceMetric: DistanceMetric
+    __class_means: InstanceList
+    __distance_metric: DistanceMetric
 
-    def __init__(self, priorDistribution: DiscreteDistribution, classMeans: InstanceList,
+    def __init__(self,
+                 priorDistribution: DiscreteDistribution,
+                 classMeans: InstanceList,
                  distanceMetric: DistanceMetric):
         """
         The constructor that sets the classMeans, priorDistribution and distanceMetric according to given inputs.
@@ -20,15 +22,17 @@ class KMeansModel(GaussianModel):
         priorDistribution : DiscreteDistribution
             DiscreteDistribution input.
         classMeans : InstanceList
-            InstanceList of class means.
+            Class means.
         distanceMetric : DistanceMetric
             DistanceMetric input.
         """
-        self.__classMeans = classMeans
-        self.priorDistribution = priorDistribution
-        self.__distanceMetric = distanceMetric
+        self.__class_means = classMeans
+        self.prior_distribution = priorDistribution
+        self.__distance_metric = distanceMetric
 
-    def calculateMetric(self, instance: Instance, Ci: str) -> float:
+    def calculateMetric(self,
+                        instance: Instance,
+                        Ci: str) -> float:
         """
         The calculateMetric method takes an {@link Instance} and a String as inputs. It loops through the class means,
         if the corresponding class label is same as the given String it returns the negated distance between given
@@ -46,7 +50,7 @@ class KMeansModel(GaussianModel):
         float
             The negated distance between given instance and the current item of class means.
         """
-        for i in range(self.__classMeans.size()):
-            if self.__classMeans.get(i).getClassLabel() == Ci:
-                return -self.__distanceMetric.distance(instance, self.__classMeans.get(i))
+        for i in range(self.__class_means.size()):
+            if self.__class_means.get(i).getClassLabel() == Ci:
+                return -self.__distance_metric.distance(instance, self.__class_means.get(i))
         return -1000000

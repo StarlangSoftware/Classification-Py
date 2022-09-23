@@ -35,8 +35,11 @@ class StratifiedSingleRunWithK:
         Performance
             A Performance instance.
         """
-        crossValidation = StratifiedKFoldCrossValidation(experiment.getDataSet().getClassInstances(), self.__K,
-                                                         experiment.getParameter().getSeed())
-        trainSet = InstanceList(crossValidation.getTrainFold(0))
-        testSet = InstanceList(crossValidation.getTestFold(0))
-        return experiment.getClassifier().singleRun(experiment.getParameter(), trainSet, testSet)
+        cross_validation = StratifiedKFoldCrossValidation(instanceLists=experiment.getDataSet().getClassInstances(),
+                                                         K=self.__K,
+                                                         seed=experiment.getParameter().getSeed())
+        train_set = InstanceList(cross_validation.getTrainFold(0))
+        test_set = InstanceList(cross_validation.getTestFold(0))
+        return experiment.getClassifier().singleRun(parameter=experiment.getParameter(),
+                                                    trainSet=train_set,
+                                                    testSet=test_set)

@@ -24,10 +24,15 @@ class SingleRunWithK(SingleRun):
         """
         self.__K = K
 
-    def runExperiment(self, classifier: Classifier, parameter: Parameter, crossValidation: CrossValidation):
-        trainSet = InstanceList(crossValidation.getTrainFold(0))
-        testSet = InstanceList(crossValidation.getTestFold(0))
-        return classifier.singleRun(parameter, trainSet, testSet)
+    def runExperiment(self,
+                      classifier: Classifier,
+                      parameter: Parameter,
+                      crossValidation: CrossValidation):
+        train_set = InstanceList(crossValidation.getTrainFold(0))
+        test_set = InstanceList(crossValidation.getTestFold(0))
+        return classifier.singleRun(parameter=parameter,
+                                    trainSet=train_set,
+                                    testSet=test_set)
 
     def execute(self, experiment: Experiment) -> Performance:
         """
@@ -44,6 +49,9 @@ class SingleRunWithK(SingleRun):
         Performance
             A Performance instance.
         """
-        crossValidation = KFoldCrossValidation(experiment.getDataSet().getInstances(), self.__K,
-                                               experiment.getParameter().getSeed())
-        return self.runExperiment(experiment.getClassifier(), experiment.getParameter(), crossValidation)
+        cross_validation = KFoldCrossValidation(instanceList=experiment.getDataSet().getInstances(),
+                                               K=self.__K,
+                                               seed=experiment.getParameter().getSeed())
+        return self.runExperiment(classifier=experiment.getClassifier(),
+                                  parameter=experiment.getParameter(),
+                                  crossValidation=cross_validation)

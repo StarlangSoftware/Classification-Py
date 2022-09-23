@@ -9,9 +9,9 @@ from Classification.Instance.Instance import Instance
 
 class Pca(TrainedFeatureFilter):
 
-    __covarianceExplained: float
+    __covariance_explained: float
     __eigenvectors: list
-    __numberOfDimensions: int
+    __number_of_dimensions: int
 
     def __init__(self, dataSet: DataSet, covarianceExplained=0.99, numberOfDimensions=-1):
         """
@@ -28,8 +28,8 @@ class Pca(TrainedFeatureFilter):
         """
         super().__init__(dataSet)
         self.__eigenvectors = []
-        self.__covarianceExplained = covarianceExplained
-        self.__numberOfDimensions = numberOfDimensions
+        self.__covariance_explained = covarianceExplained
+        self.__number_of_dimensions = numberOfDimensions
         self.train()
 
     def __removeUnnecessaryEigenvectors(self):
@@ -39,12 +39,12 @@ class Pca(TrainedFeatureFilter):
         these eigenvectors.
         """
         total = 0.0
-        currentSum = 0.0
+        current_sum = 0.0
         for eigenvector in self.__eigenvectors:
             total += eigenvector.getEigenvalue()
         for i in range(len(self.__eigenvectors)):
-            if currentSum / total < self.__covarianceExplained:
-                currentSum += self.__eigenvectors[i].getEigenvalue()
+            if current_sum / total < self.__covariance_explained:
+                current_sum += self.__eigenvectors[i].getEigenvalue()
             else:
                 del self.__eigenvectors[i:]
                 break
@@ -54,7 +54,7 @@ class Pca(TrainedFeatureFilter):
         The removeAllEigenvectorsExceptTheMostImportantK method takes an list of Eigenvectors and removes the
         surplus eigenvectors when the number of eigenvectors is greater than the dimension.
         """
-        del self.__eigenvectors[self.__numberOfDimensions:]
+        del self.__eigenvectors[self.__number_of_dimensions:]
 
     def train(self):
         """
@@ -62,10 +62,10 @@ class Pca(TrainedFeatureFilter):
         that averageVector. Then finds the eigenvectors of that covariance matrix and removes its unnecessary
         eigenvectors.
         """
-        averageVector = Vector(self.dataSet.getInstanceList().continuousAverage())
-        covariance = self.dataSet.getInstanceList().covariance(averageVector)
+        average_vector = Vector(self.dataSet.getInstanceList().continuousAverage())
+        covariance = self.dataSet.getInstanceList().covariance(average_vector)
         self.__eigenvectors = covariance.characteristics()
-        if self.__numberOfDimensions != -1:
+        if self.__number_of_dimensions != -1:
             self.__removeAllEigenvectorsExceptTheMostImportantK()
         else:
             self.__removeUnnecessaryEigenvectors()
@@ -91,7 +91,7 @@ class Pca(TrainedFeatureFilter):
         The convertDataDefinition method gets the data definitions of the dataSet and removes all the attributes. Then
         adds new attributes as CONTINUOUS.
         """
-        dataDefinition = self.dataSet.getDataDefinition()
-        dataDefinition.removeAllAtrributes()
+        data_definition = self.dataSet.getDataDefinition()
+        data_definition.removeAllAtrributes()
         for i in range(len(self.__eigenvectors)):
-            dataDefinition.addAttribute(AttributeType.CONTINUOUS)
+            data_definition.addAttribute(AttributeType.CONTINUOUS)

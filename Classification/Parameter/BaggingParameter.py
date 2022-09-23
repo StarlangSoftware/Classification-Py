@@ -3,7 +3,7 @@ from Classification.Parameter.Parameter import Parameter
 
 class BaggingParameter(Parameter):
 
-    ensembleSize: int
+    ensemble_size: int
 
     def __init__(self, seed: int, ensembleSize: int):
         """
@@ -17,7 +17,7 @@ class BaggingParameter(Parameter):
             The number of trees in the bagged forest.
         """
         super().__init__(seed)
-        self.ensembleSize = ensembleSize
+        self.ensemble_size = ensembleSize
 
     def getEnsembleSize(self) -> int:
         """
@@ -28,4 +28,4 @@ class BaggingParameter(Parameter):
         int
             The ensemble size.
         """
-        return self.ensembleSize
+        return self.ensemble_size

@@ -7,7 +7,9 @@ from Math.Distribution import Distribution
 
 class Combined5x2F(PairedTest):
 
-    def __testStatistic(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance):
+    def __testStatistic(self,
+                        classifier1: ExperimentPerformance,
+                        classifier2: ExperimentPerformance):
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
             raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
                                                "experiments in both algorithms.")
@@ -29,8 +31,12 @@ class Combined5x2F(PairedTest):
             raise StatisticalTestNotApplicable("Variance is 0.")
         return numerator / denominator
 
-    def compare(self, classifier1: ExperimentPerformance, classifier2: ExperimentPerformance) -> StatisticalTestResult:
+    def compare(self,
+                classifier1: ExperimentPerformance,
+                classifier2: ExperimentPerformance) -> StatisticalTestResult:
         statistic = self.__testStatistic(classifier1, classifier2)
-        degreeOfFreedom1 = classifier1.numberOfExperiments()
-        degreeOfFreedom2 = classifier2.numberOfExperiments() // 2
-        return StatisticalTestResult(Distribution.fDistribution(statistic, degreeOfFreedom1, degreeOfFreedom2), True)
+        degree_of_freedom1 = classifier1.numberOfExperiments()
+        degree_of_freedom2 = classifier2.numberOfExperiments() // 2
+        return StatisticalTestResult(Distribution.fDistribution(F=statistic,
+                                                                freedom1=degree_of_freedom1,
+                                                                freedom2=degree_of_freedom2), True)

@@ -4,7 +4,7 @@ from Classification.Performance.ConfusionMatrix import ConfusionMatrix
 
 class DetailedClassificationPerformance(ClassificationPerformance):
 
-    __confusionMatrix: ConfusionMatrix
+    __confusion_matrix: ConfusionMatrix
 
     def __init__(self, confusionMatrix: ConfusionMatrix):
         """
@@ -17,7 +17,7 @@ class DetailedClassificationPerformance(ClassificationPerformance):
             ConfusionMatrix input.
         """
         super().__init__(confusionMatrix.getAccuracy())
-        self.__confusionMatrix = confusionMatrix
+        self.__confusion_matrix = confusionMatrix
 
     def getConfusionMatrix(self) -> ConfusionMatrix:
         """
@@ -28,4 +28,4 @@ class DetailedClassificationPerformance(ClassificationPerformance):
         ConfusionMatrix
             ConfusionMatrix.
         """
-        return self.__confusionMatrix
+        return self.__confusion_matrix

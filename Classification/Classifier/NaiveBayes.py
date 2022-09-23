@@ -10,7 +10,9 @@ from Classification.Parameter.Parameter import Parameter
 
 class NaiveBayes(Classifier):
 
-    def trainContinuousVersion(self, priorDistribution: DiscreteDistribution, classLists: Partition):
+    def trainContinuousVersion(self,
+                               priorDistribution: DiscreteDistribution,
+                               classLists: Partition):
         """
         Training algorithm for Naive Bayes algorithm with a continuous data set.
 
@@ -21,19 +23,21 @@ class NaiveBayes(Classifier):
         classLists : Partition
             Instances are divided into K lists, where each list contains only instances from a single class
         """
-        classMeans = {}
-        classDeviations = {}
+        class_means = {}
+        class_deviations = {}
         for i in range(classLists.size()):
-            classLabel = classLists.get(i).getClassLabel()
-            averageVector = classLists.get(i).average().toVector()
-            classMeans[classLabel] = averageVector
-            standardDeviationVector = classLists.get(i).standardDeviation().toVector()
-            classDeviations[classLabel] = standardDeviationVector
+            class_label = classLists.get(i).getClassLabel()
+            average_vector = classLists.get(i).average().toVector()
+            class_means[class_label] = average_vector
+            standard_deviation_vector = classLists.get(i).standardDeviation().toVector()
+            class_deviations[class_label] = standard_deviation_vector
         self.model = NaiveBayesModel(priorDistribution)
         if isinstance(self.model, NaiveBayesModel):
-            self.model.initForContinuous(classMeans, classDeviations)
+            self.model.initForContinuous(class_means, class_deviations)
 
-    def trainDiscreteVersion(self, priorDistribution: DiscreteDistribution, classLists: Partition):
+    def trainDiscreteVersion(self,
+                             priorDistribution: DiscreteDistribution,
+                             classLists: Partition):
         """
         Training algorithm for Naive Bayes algorithm with a discrete data set.
 
@@ -44,15 +48,17 @@ class NaiveBayes(Classifier):
         classLists : Partition
             Instances are divided into K lists, where each list contains only instances from a single class
         """
-        classAttributeDistributions = {}
+        class_attribute_distributions = {}
         for i in range(classLists.size()):
-            classAttributeDistributions[classLists.get(i).getClassLabel()] = \
+            class_attribute_distributions[classLists.get(i).getClassLabel()] = \
                 classLists.get(i).allAttributesDistribution()
         self.model = NaiveBayesModel(priorDistribution)
         if isinstance(self.model, NaiveBayesModel):
-            self.model.initForDiscrete(classAttributeDistributions)
+            self.model.initForDiscrete(class_attribute_distributions)
 
-    def train(self, trainSet: InstanceList, parameters: Parameter):
+    def train(self,
+              trainSet: InstanceList,
+              parameters: Parameter):
         """
         Training algorithm for Naive Bayes algorithm. It basically calls trainContinuousVersion for continuous data
         sets, trainDiscreteVersion for discrete data sets.
@@ -62,9 +68,9 @@ class NaiveBayes(Classifier):
         trainSet : InstanceList
             Training data given to the algorithm
         """
-        priorDistribution = trainSet.classDistribution()
-        classLists = Partition(trainSet)
-        if isinstance(classLists.get(0).get(0).getAttribute(0), DiscreteAttribute):
-            self.trainDiscreteVersion(priorDistribution, classLists)
+        prior_distribution = trainSet.classDistribution()
+        class_lists = Partition(trainSet)
+        if isinstance(class_lists.get(0).get(0).getAttribute(0), DiscreteAttribute):
+            self.trainDiscreteVersion(prior_distribution, class_lists)
         else:
-            self.trainContinuousVersion(priorDistribution, classLists)
+            self.trainContinuousVersion(prior_distribution, class_lists)

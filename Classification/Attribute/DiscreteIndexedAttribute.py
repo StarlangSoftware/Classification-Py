@@ -6,7 +6,10 @@ class DiscreteIndexedAttribute(DiscreteAttribute):
     __index: int
     __maxIndex: int
 
-    def __init__(self, value: str, index: int, maxIndex: int):
+    def __init__(self,
+                 value: str,
+                 index: int,
+                 maxIndex: int):
         """
         Constructor for a discrete attribute.
 

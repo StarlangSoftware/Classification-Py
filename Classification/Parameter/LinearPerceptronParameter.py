@@ -3,12 +3,17 @@ from Classification.Parameter.Parameter import Parameter
 
 class LinearPerceptronParameter(Parameter):
 
-    learningRate: float
-    etaDecrease: float
-    crossValidationRatio: float
+    learning_rate: float
+    eta_decrease: float
+    cross_validation_ratio: float
     __epoch: int
 
-    def __init__(self, seed: int, learningRate: float, etaDecrease: float, crossValidationRatio: float, epoch: int):
+    def __init__(self,
+                 seed: int,
+                 learningRate: float,
+                 etaDecrease: float,
+                 crossValidationRatio: float,
+                 epoch: int):
         """
         Parameters of the linear perceptron algorithm.
 
@@ -26,9 +31,9 @@ class LinearPerceptronParameter(Parameter):
             Integer value for epoch number of the algorithm.
         """
         super().__init__(seed)
-        self.learningRate = learningRate
-        self.etaDecrease = etaDecrease
-        self.crossValidationRatio = crossValidationRatio
+        self.learning_rate = learningRate
+        self.eta_decrease = etaDecrease
+        self.cross_validation_ratio = crossValidationRatio
         self.__epoch = epoch
 
     def getLearningRate(self) -> float:
@@ -40,7 +45,7 @@ class LinearPerceptronParameter(Parameter):
         float
             The learningRate.
         """
-        return self.learningRate
+        return self.learning_rate
 
     def getEtaDecrease(self) -> float:
         """
@@ -51,7 +56,7 @@ class LinearPerceptronParameter(Parameter):
         float
             The etaDecrease.
         """
-        return self.etaDecrease
+        return self.eta_decrease
 
     def getCrossValidationRatio(self) -> float:
         """
@@ -62,7 +67,7 @@ class LinearPerceptronParameter(Parameter):
         float
             The crossValidationRatio.
         """
-        return self.crossValidationRatio
+        return self.cross_validation_ratio
 
     def getEpoch(self) -> int:
         """

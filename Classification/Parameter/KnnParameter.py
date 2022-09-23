@@ -6,7 +6,10 @@ class KnnParameter(KMeansParameter):
 
     __k: int
 
-    def __init__(self, seed: int, k: int, distanceMetric=EuclidianDistance()):
+    def __init__(self,
+                 seed: int,
+                 k: int,
+                 distanceMetric=EuclidianDistance()):
         """
         Parameters of the K-nearest neighbor classifier.
 

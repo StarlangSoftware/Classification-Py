@@ -4,11 +4,17 @@ from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronP
 
 class MultiLayerPerceptronParameter(LinearPerceptronParameter):
 
-    __hiddenNodes: int
-    __activationFunction: ActivationFunction
+    __hidden_nodes: int
+    __activation_function: ActivationFunction
 
-    def __init__(self, seed: int, learningRate: float, etaDecrease: float, crossValidationRatio: float, epoch: int,
-                 hiddenNodes: int, activationFunction: ActivationFunction):
+    def __init__(self,
+                 seed: int,
+                 learningRate: float,
+                 etaDecrease: float,
+                 crossValidationRatio: float,
+                 epoch: int,
+                 hiddenNodes: int,
+                 activationFunction: ActivationFunction):
         """
         Parameters of the multi layer perceptron algorithm.
 
@@ -30,8 +36,8 @@ class MultiLayerPerceptronParameter(LinearPerceptronParameter):
             Activation function.
         """
         super().__init__(seed, learningRate, etaDecrease, crossValidationRatio, epoch)
-        self.__hiddenNodes = hiddenNodes
-        self.__activationFunction = activationFunction
+        self.__hidden_nodes = hiddenNodes
+        self.__activation_function = activationFunction
 
     def getHiddenNodes(self) -> int:
         """
@@ -42,7 +48,7 @@ class MultiLayerPerceptronParameter(LinearPerceptronParameter):
         int
             The hiddenNodes.
         """
-        return self.__hiddenNodes
+        return self.__hidden_nodes
 
     def getActivationFunction(self) -> ActivationFunction:
         """
@@ -53,4 +59,4 @@ class MultiLayerPerceptronParameter(LinearPerceptronParameter):
         int
             The activation function.
         """
-        return self.__activationFunction
+        return self.__activation_function

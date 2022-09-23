@@ -10,7 +10,11 @@ class QdaModel(GaussianModel):
     w: dict
     w0: dict
 
-    def __init__(self, priorDistribution: DiscreteDistribution, W: dict, w: dict, w0: dict):
+    def __init__(self,
+                 priorDistribution: DiscreteDistribution,
+                 W: dict,
+                 w: dict,
+                 w0: dict):
         """
         A constructor which sets the priorDistribution, w and w0 and dictionary of String Matrix according to given
         inputs.
@@ -26,12 +30,14 @@ class QdaModel(GaussianModel):
         w0 : dict
             Dict of String and float.
         """
-        self.priorDistribution = priorDistribution
+        self.prior_distribution = priorDistribution
         self.__W = W
         self.w = w
         self.w0 = w0
 
-    def calculateMetric(self, instance: Instance, Ci: str) -> float:
+    def calculateMetric(self,
+                        instance: Instance,
+                        Ci: str) -> float:
         """
         The calculateMetric method takes an Instance and a String as inputs. It multiplies Matrix Wi with Vector xi
         then calculates the dot product of it with xi. Then, again it finds the dot product of wi and xi and returns the

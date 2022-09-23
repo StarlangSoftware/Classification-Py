@@ -6,7 +6,9 @@ from Classification.Parameter.Parameter import Parameter
 
 class RandomClassifier(Classifier):
 
-    def train(self, trainSet: InstanceList, parameters: Parameter):
+    def train(self,
+              trainSet: InstanceList,
+              parameters: Parameter):
         """
         Training algorithm for random classifier.
 
@@ -15,4 +17,5 @@ class RandomClassifier(Classifier):
         trainSet : InstanceList
             Training data given to the algorithm.
         """
-        self.model = RandomModel(list(trainSet.classDistribution().keys()), parameters.getSeed())
+        self.model = RandomModel(classLabels=list(trainSet.classDistribution().keys()),
+                                 seed=parameters.getSeed())
