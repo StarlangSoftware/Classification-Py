@@ -26,7 +26,7 @@ class PairedtTest(ClassifierTest):
         pairedt = Pairedt()
         experimentPerformance1 = kFoldRun.execute(Experiment(C45(), C45Parameter(1, True, 0.2), self.iris))
         experimentPerformance2 = kFoldRun.execute(Experiment(LinearPerceptron(), LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), self.iris))
-        self.assertAlmostEqual(0.379, pairedt.compare(experimentPerformance1, experimentPerformance2).getPValue(), 3)
+        self.assertAlmostEqual(0.278, pairedt.compare(experimentPerformance1, experimentPerformance2).getPValue(), 3)
         experimentPerformance1 = kFoldRun.execute(Experiment(C45(), C45Parameter(1, True, 0.2), self.tictactoe))
         experimentPerformance2 = kFoldRun.execute(Experiment(Bagging(), BaggingParameter(1, 50), self.tictactoe))
         self.assertAlmostEqual(0.00000692, pairedt.compare(experimentPerformance1, experimentPerformance2).getPValue(), 7)

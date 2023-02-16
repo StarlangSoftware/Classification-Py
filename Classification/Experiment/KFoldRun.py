@@ -50,7 +50,7 @@ class KFoldRun(MultipleRun):
             An ExperimentPerformance instance.
         """
         result = ExperimentPerformance()
-        crossValidation = KFoldCrossValidation(instanceList=experiment.getDataSet().getInstances(),
+        crossValidation = KFoldCrossValidation(instance_list=experiment.getDataSet().getInstances(),
                                                K=self.K,
                                                seed=experiment.getParameter().getSeed())
         self.runExperiment(classifier=experiment.getClassifier(),

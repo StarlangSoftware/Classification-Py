@@ -36,7 +36,7 @@ class BootstrapRun(MultipleRun):
         """
         result = ExperimentPerformance()
         for i in range(self.__numberOfBootstraps):
-            bootstrap = Bootstrap(instanceList=experiment.getDataSet().getInstances(),
+            bootstrap = Bootstrap(instance_list=experiment.getDataSet().getInstances(),
                                   seed=i + experiment.getParameter().getSeed())
             bootstrap_sample = InstanceList(bootstrap.getSample())
             experiment.getClassifier().train(trainSet=bootstrap_sample,

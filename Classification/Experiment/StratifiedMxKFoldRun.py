@@ -40,7 +40,7 @@ class StratifiedMxKFoldRun(MxKFoldRun):
         """
         result = ExperimentPerformance()
         for j in range(self.M):
-            cross_validation = StratifiedKFoldCrossValidation(instanceLists=experiment.getDataSet().getClassInstances(),
+            cross_validation = StratifiedKFoldCrossValidation(instance_lists=experiment.getDataSet().getClassInstances(),
                                                              K=self.K,
                                                              seed=experiment.getParameter().getSeed())
             self.runExperiment(classifier=experiment.getClassifier(),

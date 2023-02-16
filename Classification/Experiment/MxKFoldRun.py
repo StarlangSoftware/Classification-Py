@@ -42,7 +42,7 @@ class MxKFoldRun(KFoldRun):
         """
         result = ExperimentPerformance()
         for j in range(self.M):
-            cross_validation = KFoldCrossValidation(instanceList=experiment.getDataSet().getInstances(),
+            cross_validation = KFoldCrossValidation(instance_list=experiment.getDataSet().getInstances(),
                                                    K=self.K,
                                                    seed=experiment.getParameter().getSeed())
             self.runExperiment(classifier=experiment.getClassifier(),

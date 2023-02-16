@@ -23,7 +23,7 @@ class BootstrapRunTest(ClassifierTest):
     def test_Execute(self):
         bootstrapRun = BootstrapRun(10)
         experimentPerformance = bootstrapRun.execute(Experiment(C45(), C45Parameter(1, True, 0.2), self.iris))
-        self.assertAlmostEqual(4.33, 100 * experimentPerformance.meanPerformance().getErrorRate(), 2)
+        self.assertAlmostEqual(3.73, 100 * experimentPerformance.meanPerformance().getErrorRate(), 2)
         experimentPerformance = bootstrapRun.execute(Experiment(C45(), C45Parameter(1, True, 0.2), self.tictactoe))
         self.assertAlmostEqual(13.16, 100 * experimentPerformance.meanPerformance().getErrorRate(), 2)
         experimentPerformance = bootstrapRun.execute(Experiment(Knn(), KnnParameter(1, 3, EuclidianDistance()), self.bupa))

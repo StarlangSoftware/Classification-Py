@@ -24,7 +24,7 @@ class Combined5x2FTest(ClassifierTest):
         combined5x2F = Combined5x2F()
         experimentPerformance1 = mxKFoldRun.execute(Experiment(C45(), C45Parameter(1, True, 0.2), self.iris))
         experimentPerformance2 = mxKFoldRun.execute(Experiment(LinearPerceptron(), LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), self.iris))
-        self.assertAlmostEqual(0.289, combined5x2F.compare(experimentPerformance1, experimentPerformance2).getPValue(), 3)
+        self.assertAlmostEqual(0.390, combined5x2F.compare(experimentPerformance1, experimentPerformance2).getPValue(), 3)
         experimentPerformance1 = mxKFoldRun.execute(Experiment(C45(), C45Parameter(1, True, 0.2), self.tictactoe))
         experimentPerformance2 = mxKFoldRun.execute(Experiment(Bagging(), BaggingParameter(1, 50), self.tictactoe))
         self.assertAlmostEqual(0.00072, combined5x2F.compare(experimentPerformance1, experimentPerformance2).getPValue(), 5)

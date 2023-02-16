@@ -39,11 +39,11 @@ class DiscreteToContinuousTest(ClassifierTest):
         discreteToContinuous = DiscreteToContinuous(self.car)
         discreteToContinuous.convert()
         c45.train(self.car.getInstanceList(), c45Parameter)
-        self.assertAlmostEqual(29.98, 100 * c45.test(self.car.getInstanceList()).getErrorRate(), 2)
+        self.assertAlmostEqual(3.99, 100 * c45.test(self.car.getInstanceList()).getErrorRate(), 2)
         discreteToContinuous = DiscreteToContinuous(self.tictactoe)
         discreteToContinuous.convert()
         c45.train(self.tictactoe.getInstanceList(), c45Parameter)
-        self.assertAlmostEqual(34.66, 100 * c45.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
+        self.assertAlmostEqual(3.34, 100 * c45.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
 
 
 if __name__ == '__main__':

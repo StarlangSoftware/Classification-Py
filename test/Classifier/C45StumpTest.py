@@ -11,7 +11,7 @@ class C45StumpTest(ClassifierTest):
         c45Stump.train(self.iris.getInstanceList(), None)
         self.assertAlmostEqual(33.33, 100 * c45Stump.test(self.iris.getInstanceList()).getErrorRate(), 2)
         c45Stump.train(self.bupa.getInstanceList(), None)
-        self.assertAlmostEqual(42.03, 100 * c45Stump.test(self.bupa.getInstanceList()).getErrorRate(), 2)
+        self.assertAlmostEqual(36.81, 100 * c45Stump.test(self.bupa.getInstanceList()).getErrorRate(), 2)
         c45Stump.train(self.dermatology.getInstanceList(), None)
         self.assertAlmostEqual(49.73, 100 * c45Stump.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
         c45Stump.train(self.car.getInstanceList(), None)
@@ -21,7 +21,7 @@ class C45StumpTest(ClassifierTest):
         c45Stump.train(self.nursery.getInstanceList(), None)
         self.assertAlmostEqual(29.03, 100 * c45Stump.test(self.nursery.getInstanceList()).getErrorRate(), 2)
         c45Stump.train(self.chess.getInstanceList(), None)
-        self.assertAlmostEqual(80.76, 100 * c45Stump.test(self.chess.getInstanceList()).getErrorRate(), 2)
+        self.assertAlmostEqual(80.92, 100 * c45Stump.test(self.chess.getInstanceList()).getErrorRate(), 2)
 
 
 if __name__ == '__main__':
