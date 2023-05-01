@@ -1,0 +1,11 @@
+4
+unacc 1210
+acc 384
+vgood 65
+good 69
+DISCRETE DISCRETE DISCRETE DISCRETE DISCRETE DISCRETE 
+4
+vhigh,vhigh,2,2,small,low,unacc
+med,med,4,4,big,high,acc
+low,low,4,more,big,high,vgood
+low,low,3,4,big,med,good

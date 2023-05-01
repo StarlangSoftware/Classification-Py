@@ -1,0 +1,7 @@
+2
+positive 626
+negative 332
+DISCRETE DISCRETE DISCRETE DISCRETE DISCRETE DISCRETE DISCRETE DISCRETE DISCRETE 
+2
+x,o,x,o,x,o,x,o,x,positive
+o,x,o,x,o,x,o,x,o,negative

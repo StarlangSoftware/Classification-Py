@@ -1,0 +1,19 @@
+18
+draw 2796
+zero 27
+one 78
+two 246
+three 81
+four 198
+five 471
+six 592
+seven 683
+eight 1433
+nine 1712
+ten 1985
+eleven 2854
+twelve 3597
+thirteen 4194
+fourteen 4553
+fifteen 2166
+sixteen 390

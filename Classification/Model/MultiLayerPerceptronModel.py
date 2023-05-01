@@ -11,7 +11,6 @@ from Classification.Performance.ClassificationPerformance import ClassificationP
 
 
 class MultiLayerPerceptronModel(LinearPerceptronModel):
-
     __V: Matrix
     __activation_function: ActivationFunction
 
@@ -33,10 +32,10 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
                                              column=H + 1,
                                              seed=seed)
 
-    def __init__(self,
-                 trainSet: InstanceList,
-                 validationSet: InstanceList,
-                 parameters: MultiLayerPerceptronParameter):
+    def constructor2(self,
+                     trainSet: InstanceList,
+                     validationSet: InstanceList,
+                     parameters: MultiLayerPerceptronParameter):
         """
         A constructor that takes InstanceLists as trainsSet and validationSet. It  sets the NeuralNetworkModel nodes
         with given InstanceList then creates an input vector by using given trainSet and finds error. Via the
@@ -53,7 +52,7 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
             Multi layer perceptron parameters; seed, learningRate, etaDecrease, crossValidationRatio, epoch,
             hiddenNodes.
         """
-        super().initWithTrainSet(trainSet)
+        super().__init__(trainSet)
         self.__activation_function = parameters.getActivationFunction()
         self.__allocateWeights(parameters.getHiddenNodes(), parameters.getSeed())
         best_w = copy.deepcopy(self.W)
@@ -95,6 +94,24 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
             learning_rate *= parameters.getEtaDecrease()
         self.W = best_w
         self.__V = best_v
+
+    def constructor3(self, fileName: str):
+        inputFile = open(fileName, mode='r', encoding='utf-8')
+        self.loadClassLabels(inputFile)
+        self.W = self.loadMatrix(inputFile)
+        self.__V = self.loadMatrix(inputFile)
+        self.__activation_function = self.loadActivationFunction(inputFile)
+        inputFile.close()
+
+    def __init__(self,
+                 trainSet: object,
+                 validationSet: InstanceList = None,
+                 parameters: MultiLayerPerceptronParameter = None):
+        if isinstance(trainSet, InstanceList):
+            self.constructor2(trainSet, validationSet, parameters)
+        elif isinstance(trainSet, str):
+            super().__init__()
+            self.constructor3(trainSet)
 
     def calculateOutput(self):
         """

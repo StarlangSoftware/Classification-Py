@@ -1,20 +1,18 @@
 from Math.DiscreteDistribution import DiscreteDistribution
 
 from Classification.Instance.Instance import Instance
-from Classification.Model.GaussianModel import GaussianModel
+from Classification.Model.LdaModel import LdaModel
 
 
-class QdaModel(GaussianModel):
+class QdaModel(LdaModel):
 
     __W: dict
-    w: dict
-    w0: dict
 
-    def __init__(self,
-                 priorDistribution: DiscreteDistribution,
-                 W: dict,
-                 w: dict,
-                 w0: dict):
+    def constructor3(self,
+                     priorDistribution: DiscreteDistribution,
+                     W: dict,
+                     w: dict,
+                     w0: dict):
         """
         A constructor which sets the priorDistribution, w and w0 and dictionary of String Matrix according to given
         inputs.
@@ -34,6 +32,28 @@ class QdaModel(GaussianModel):
         self.__W = W
         self.w = w
         self.w0 = w0
+
+    def constructor2(self, fileName: str):
+        inputFile = open(fileName, mode='r', encoding='utf-8')
+        size = self.loadPriorDistribution(inputFile)
+        self.loadWandW0(inputFile, size)
+        self.__W = dict()
+        for i in range(size):
+            c = inputFile.readline().strip()
+            matrix = self.loadMatrix(inputFile)
+            self.__W[c] = matrix
+        inputFile.close()
+
+    def __init__(self,
+                 priorDistribution: object,
+                 W: dict = None,
+                 w: dict = None,
+                 w0: dict = None):
+        super().__init__()
+        if isinstance(priorDistribution, DiscreteDistribution):
+            self.constructor3(priorDistribution, W, w, w0)
+        elif isinstance(priorDistribution, str):
+            self.constructor2(priorDistribution)
 
     def calculateMetric(self,
                         instance: Instance,

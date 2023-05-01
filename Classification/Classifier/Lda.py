@@ -14,7 +14,7 @@ class Lda(Classifier):
 
     def train(self,
               trainSet: InstanceList,
-              parameters: Parameter):
+              parameters: Parameter = None):
         """
         Training algorithm for the linear discriminant analysis classifier (Introduction to Machine Learning, Alpaydin,
         2015).
@@ -46,3 +46,6 @@ class Lda(Classifier):
             w0i = -0.5 * wi.dotProduct(average_vector) + math.log(prior_distribution.getProbability(Ci))
             w0[Ci] = w0i
         self.model = LdaModel(prior_distribution, w, w0)
+
+    def loadModel(self, fileName: str):
+        self.model = LdaModel(fileName)

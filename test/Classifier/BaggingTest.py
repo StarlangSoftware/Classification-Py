@@ -21,6 +21,19 @@ class BaggingTest(ClassifierTest):
         bagging.train(self.tictactoe.getInstanceList(), baggingParameter)
         self.assertAlmostEqual(0.0, 100 * bagging.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
 
+    def test_Load(self):
+        bagging = Bagging()
+        bagging.loadModel("../../models/bagging-iris.txt")
+        self.assertAlmostEqual(0.0, 100 * bagging.test(self.iris.getInstanceList()).getErrorRate(), 2)
+        bagging.loadModel("../../models/bagging-bupa.txt")
+        self.assertAlmostEqual(0.0, 100 * bagging.test(self.bupa.getInstanceList()).getErrorRate(), 2)
+        bagging.loadModel("../../models/bagging-dermatology.txt")
+        self.assertAlmostEqual(0.0, 100 * bagging.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
+        bagging.loadModel("../../models/bagging-car.txt")
+        self.assertAlmostEqual(0.0, 100 * bagging.test(self.car.getInstanceList()).getErrorRate(), 2)
+        bagging.loadModel("../../models/bagging-tictactoe.txt")
+        self.assertAlmostEqual(0.0, 100 * bagging.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
+
 
 if __name__ == '__main__':
     unittest.main()

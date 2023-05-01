@@ -14,7 +14,7 @@ class Qda(Classifier):
 
     def train(self,
               trainSet: InstanceList,
-              parameters: Parameter):
+              parameters: Parameter = None):
         """
         Training algorithm for the quadratic discriminant analysis classifier (Introduction to Machine Learning,
         Alpaydin, 2015).
@@ -44,3 +44,6 @@ class Qda(Classifier):
                                                                                            getProbability(Ci))
             w0[Ci] = w0i
         self.model = QdaModel(prior_distribution, W, w, w0)
+
+    def loadModel(self, fileName: str):
+        self.model = QdaModel(fileName)

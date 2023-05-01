@@ -8,7 +8,7 @@ class Dummy(Classifier):
 
     def train(self,
               trainSet: InstanceList,
-              parameters: Parameter):
+              parameters: Parameter = None):
         """
         Training algorithm for the dummy classifier. Actually dummy classifier returns the maximum occurring class in
         the training data, there is no training.
@@ -21,3 +21,6 @@ class Dummy(Classifier):
             Parameter of the Dummy algorithm.
         """
         self.model = DummyModel(trainSet)
+
+    def loadModel(self, fileName: str):
+        self.model = DummyModel(fileName)

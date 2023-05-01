@@ -31,3 +31,6 @@ class RandomForest(Classifier):
                                              isStump=False))
             forest.append(tree)
         self.model = TreeEnsembleModel(forest)
+
+    def loadModel(self, fileName: str):
+        self.model = TreeEnsembleModel(fileName)

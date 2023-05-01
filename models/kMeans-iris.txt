@@ -1,0 +1,9 @@
+3
+Iris-setosa 50
+Iris-versicolor 50
+Iris-virginica 50
+CONTINUOUS CONTINUOUS CONTINUOUS CONTINUOUS 
+3
+5.0060,3.4180,1.4640,0.2440,Iris-setosa
+5.9360,2.7700,4.2600,1.3260,Iris-versicolor
+6.5880,2.9740,5.5520,2.0260,Iris-virginica

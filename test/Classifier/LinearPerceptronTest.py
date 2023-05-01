@@ -17,6 +17,15 @@ class LinearPerceptronTest(ClassifierTest):
         linearPerceptron.train(self.dermatology.getInstanceList(), linearPerceptronParameter)
         self.assertAlmostEqual(4.37, 100 * linearPerceptron.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
 
+    def test_Load(self):
+        linearPerceptron = LinearPerceptron()
+        linearPerceptron.loadModel("../../models/linearPerceptron-iris.txt")
+        self.assertAlmostEqual(3.33, 100 * linearPerceptron.test(self.iris.getInstanceList()).getErrorRate(), 2)
+        linearPerceptron.loadModel("../../models/linearPerceptron-bupa.txt")
+        self.assertAlmostEqual(31.88, 100 * linearPerceptron.test(self.bupa.getInstanceList()).getErrorRate(), 2)
+        linearPerceptron.loadModel("../../models/linearPerceptron-dermatology.txt")
+        self.assertAlmostEqual(0.82, 100 * linearPerceptron.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
+
 
 if __name__ == '__main__':
     unittest.main()

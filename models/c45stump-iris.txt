@@ -1,0 +1,8 @@
+-1 = -1
+2
+2 < 2.4500
+0
+Iris-setosa
+2 > 2.4500
+0
+Iris-versicolor

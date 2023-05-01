@@ -19,3 +19,6 @@ class RandomClassifier(Classifier):
         """
         self.model = RandomModel(classLabels=list(trainSet.classDistribution().keys()),
                                  seed=parameters.getSeed())
+
+    def loadModel(self, fileName: str):
+        self.model = RandomModel(fileName)

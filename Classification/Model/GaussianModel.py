@@ -1,6 +1,8 @@
 from abc import abstractmethod
+from io import TextIOWrapper
 
 from Math.DiscreteDistribution import DiscreteDistribution
+from Math.Vector import Vector
 
 from Classification.Instance.CompositeInstance import CompositeInstance
 from Classification.Instance.Instance import Instance
@@ -16,6 +18,29 @@ class GaussianModel(ValidatedModel):
                         instance: Instance,
                         Ci: str) -> float:
         pass
+
+    def loadPriorDistribution(self, inputFile: TextIOWrapper):
+        size = int(inputFile.readline().strip())
+        self.prior_distribution = DiscreteDistribution()
+        for i in range(size):
+            line = inputFile.readline().strip()
+            items = line.split(" ")
+            for j in range(int(items[1])):
+                self.prior_distribution.addItem(items[0])
+        return size
+
+    def loadVectors(self,
+                    inputFile: TextIOWrapper,
+                    size: int) -> dict:
+        hash_map = dict()
+        for i in range(size):
+            line = inputFile.readline().strip()
+            items = line.split(" ")
+            vector = Vector(int(items[1]), 0)
+            for j in range(2, len(items)):
+                vector.setValue(j - 2, float(items[j]))
+            hash_map[items[0]] = vector
+        return hash_map
 
     def predict(self, instance: Instance) -> str:
         """

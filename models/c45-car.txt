@@ -1,0 +1,331 @@
+-1 = -1
+3
+5 = med
+3
+3 = 4
+4
+0 = med
+4
+1 = low
+3
+4 = big
+0
+good
+4 = med
+0
+acc
+4 = small
+0
+acc
+1 = vhigh
+3
+4 = big
+0
+acc
+4 = med
+0
+acc
+4 = small
+0
+unacc
+1 = high
+3
+4 = small
+0
+unacc
+4 = med
+0
+acc
+4 = big
+0
+acc
+1 = med
+0
+acc
+0 = low
+4
+1 = low
+3
+4 = med
+0
+acc
+4 = small
+0
+acc
+4 = big
+0
+good
+1 = high
+0
+acc
+1 = vhigh
+3
+4 = small
+0
+unacc
+4 = med
+0
+unacc
+4 = big
+0
+acc
+1 = med
+3
+4 = small
+0
+acc
+4 = big
+0
+good
+4 = med
+0
+acc
+0 = high
+3
+4 = med
+0
+unacc
+4 = small
+0
+unacc
+4 = big
+0
+acc
+0 = vhigh
+4
+1 = med
+0
+acc
+1 = low
+3
+4 = med
+0
+acc
+4 = big
+0
+acc
+4 = small
+0
+unacc
+1 = vhigh
+0
+unacc
+1 = high
+0
+unacc
+3 = more
+4
+0 = med
+4
+1 = vhigh
+0
+acc
+1 = low
+0
+good
+1 = high
+3
+4 = small
+0
+unacc
+4 = big
+0
+acc
+4 = med
+0
+acc
+1 = med
+0
+acc
+0 = high
+3
+4 = med
+0
+acc
+4 = small
+0
+unacc
+4 = big
+0
+acc
+0 = low
+0
+acc
+0 = vhigh
+4
+1 = vhigh
+0
+unacc
+1 = med
+0
+acc
+1 = low
+0
+unacc
+1 = high
+0
+unacc
+3 = 2
+0
+unacc
+5 = high
+3
+3 = more
+4
+0 = low
+0
+vgood
+0 = med
+4
+1 = med
+3
+4 = big
+0
+vgood
+4 = med
+0
+acc
+4 = small
+0
+acc
+1 = high
+0
+acc
+1 = vhigh
+0
+acc
+1 = low
+3
+4 = big
+0
+vgood
+4 = med
+0
+vgood
+4 = small
+0
+good
+0 = vhigh
+4
+1 = med
+0
+acc
+1 = high
+0
+unacc
+1 = vhigh
+0
+unacc
+1 = low
+0
+acc
+0 = high
+4
+1 = low
+0
+acc
+1 = med
+0
+acc
+1 = high
+0
+acc
+1 = vhigh
+0
+unacc
+3 = 4
+4
+0 = low
+4
+1 = vhigh
+0
+acc
+1 = med
+3
+4 = big
+0
+vgood
+4 = med
+0
+vgood
+4 = small
+0
+good
+1 = high
+0
+acc
+1 = low
+3
+4 = small
+0
+good
+4 = med
+0
+vgood
+4 = big
+0
+vgood
+0 = vhigh
+4
+1 = med
+0
+acc
+1 = vhigh
+0
+unacc
+1 = low
+0
+acc
+1 = high
+0
+unacc
+0 = high
+4
+1 = high
+0
+acc
+1 = med
+0
+acc
+1 = low
+0
+acc
+1 = vhigh
+0
+unacc
+0 = med
+4
+1 = med
+3
+4 = med
+0
+acc
+4 = small
+0
+acc
+4 = big
+0
+vgood
+1 = high
+0
+acc
+1 = vhigh
+0
+acc
+1 = low
+3
+4 = med
+0
+vgood
+4 = big
+0
+vgood
+4 = small
+0
+good
+3 = 2
+0
+unacc
+5 = low
+0
+unacc

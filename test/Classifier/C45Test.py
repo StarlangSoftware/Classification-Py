@@ -21,6 +21,19 @@ class C45Test(ClassifierTest):
         c45.train(self.tictactoe.getInstanceList(), c45Parameter)
         self.assertAlmostEqual(8.77, 100 * c45.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
 
+    def test_Load(self):
+        c45 = C45()
+        c45.loadModel("../../models/c45-iris.txt")
+        self.assertAlmostEqual(4.00, 100 * c45.test(self.iris.getInstanceList()).getErrorRate(), 2)
+        c45.loadModel("../../models/c45-bupa.txt")
+        self.assertAlmostEqual(42.03, 100 * c45.test(self.bupa.getInstanceList()).getErrorRate(), 2)
+        c45.loadModel("../../models/c45-dermatology.txt")
+        self.assertAlmostEqual(2.19, 100 * c45.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
+        c45.loadModel("../../models/c45-car.txt")
+        self.assertAlmostEqual(8.16, 100 * c45.test(self.car.getInstanceList()).getErrorRate(), 2)
+        c45.loadModel("../../models/c45-tictactoe.txt")
+        self.assertAlmostEqual(14.61, 100 * c45.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
+
 
 if __name__ == '__main__':
     unittest.main()

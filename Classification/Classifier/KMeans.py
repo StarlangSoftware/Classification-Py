@@ -18,3 +18,6 @@ class KMeans(Classifier):
         self.model = KMeansModel(priorDistribution=prior_distribution,
                                  classMeans=class_means,
                                  distanceMetric=parameters.getDistanceMetric())
+
+    def loadModel(self, fileName: str):
+        self.model = KMeansModel(fileName)

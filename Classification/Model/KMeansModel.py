@@ -1,6 +1,9 @@
+from io import TextIOWrapper
+
 from Math.DiscreteDistribution import DiscreteDistribution
 
 from Classification.DistanceMetric.DistanceMetric import DistanceMetric
+from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.GaussianModel import GaussianModel
@@ -10,10 +13,10 @@ class KMeansModel(GaussianModel):
     __class_means: InstanceList
     __distance_metric: DistanceMetric
 
-    def __init__(self,
-                 priorDistribution: DiscreteDistribution,
-                 classMeans: InstanceList,
-                 distanceMetric: DistanceMetric):
+    def constructor1(self,
+                     priorDistribution: DiscreteDistribution,
+                     classMeans: InstanceList,
+                     distanceMetric: DistanceMetric):
         """
         The constructor that sets the classMeans, priorDistribution and distanceMetric according to given inputs.
 
@@ -29,6 +32,30 @@ class KMeansModel(GaussianModel):
         self.__class_means = classMeans
         self.prior_distribution = priorDistribution
         self.__distance_metric = distanceMetric
+
+    def constructor2(self, fileName: str):
+        self.__distance_metric = EuclidianDistance()
+        inputFile = open(fileName, 'r')
+        self.loadPriorDistribution(inputFile)
+        self.__class_means = self.loadInstanceList(inputFile)
+        inputFile.close()
+
+    def loadInstanceList(self, inputFile: TextIOWrapper) -> InstanceList:
+        types = inputFile.readline().strip().split(" ")
+        instance_count = int(inputFile.readline().strip())
+        instance_list = InstanceList()
+        for i in range(instance_count):
+            instance_list.add(self.loadInstance(inputFile.readline().strip(), types))
+        return instance_list
+
+    def __init__(self,
+                 priorDistribution: object,
+                 classMeans: InstanceList = None,
+                 distanceMetric: DistanceMetric = None):
+        if isinstance(priorDistribution, DiscreteDistribution):
+            self.constructor1(priorDistribution, classMeans, distanceMetric)
+        elif isinstance(priorDistribution, str):
+            self.constructor2(priorDistribution)
 
     def calculateMetric(self,
                         instance: Instance,

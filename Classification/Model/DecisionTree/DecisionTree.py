@@ -9,7 +9,7 @@ class DecisionTree(ValidatedModel):
 
     __root: DecisionNode
 
-    def __init__(self, root: DecisionNode):
+    def constructor1(self, root: DecisionNode):
         """
         Constructor that sets root node of the decision tree.
 
@@ -19,6 +19,17 @@ class DecisionTree(ValidatedModel):
             DecisionNode type input.
         """
         self.__root = root
+
+    def constructor2(self, fileName: str):
+        inputFile = open(fileName, mode='r', encoding='utf-8')
+        self.__root = DecisionNode(inputFile)
+        inputFile.close()
+
+    def __init__(self, root: object):
+        if isinstance(root, DecisionNode):
+            self.constructor1(root)
+        elif isinstance(root, str):
+            self.constructor2(root)
 
     def predict(self, instance: Instance) -> str:
         """

@@ -6,8 +6,9 @@ from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
 class DataDefinition(object):
 
     __attributeTypes: list
+    __attributeValueList: [[str]]
 
-    def __init__(self, attributeTypes=None):
+    def __init__(self, attributeTypes=None, attributeValueList=None):
         """
         Constructor for creating a new DataDefinition with given attribute types.
 
@@ -18,7 +19,20 @@ class DataDefinition(object):
         """
         if attributeTypes is None:
             attributeTypes = []
+        if attributeValueList is not None:
+            self.__attributeValueList = attributeValueList
         self.__attributeTypes = attributeTypes
+
+    def numberOfValues(self, attributeIndex: int) -> int:
+        return len(self.__attributeValueList[attributeIndex])
+
+    def featureValueIndex(self,
+                          attributeIndex: int,
+                          value: str) -> int:
+        for i in range(len(self.__attributeValueList[attributeIndex])):
+            if self.__attributeValueList[attributeIndex][i] == value:
+                return i
+        return -1
 
     def attributeCount(self) -> int:
         """

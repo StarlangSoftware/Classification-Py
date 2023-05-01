@@ -25,6 +25,23 @@ class KMeansTest(ClassifierTest):
         kMeans.train(self.chess.getInstanceList(), kMeansParameter)
         self.assertAlmostEqual(83.25, 100 * kMeans.test(self.chess.getInstanceList()).getErrorRate(), 2)
 
+    def test_Load(self):
+        kMeans = KMeans()
+        kMeans.loadModel("../../models/kMeans-iris.txt")
+        self.assertAlmostEqual(7.33, 100 * kMeans.test(self.iris.getInstanceList()).getErrorRate(), 2)
+        kMeans.loadModel("../../models/kMeans-bupa.txt")
+        self.assertAlmostEqual(43.77, 100 * kMeans.test(self.bupa.getInstanceList()).getErrorRate(), 2)
+        kMeans.loadModel("../../models/kMeans-dermatology.txt")
+        self.assertAlmostEqual(45.08, 100 * kMeans.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
+        kMeans.loadModel("../../models/kMeans-car.txt")
+        self.assertAlmostEqual(44.21, 100 * kMeans.test(self.car.getInstanceList()).getErrorRate(), 2)
+        kMeans.loadModel("../../models/kMeans-tictactoe.txt")
+        self.assertAlmostEqual(38.94, 100 * kMeans.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
+        kMeans.loadModel("../../models/kMeans-nursery.txt")
+        self.assertAlmostEqual(60.26, 100 * kMeans.test(self.nursery.getInstanceList()).getErrorRate(), 2)
+        kMeans.loadModel("../../models/kMeans-chess.txt")
+        self.assertAlmostEqual(83.25, 100 * kMeans.test(self.chess.getInstanceList()).getErrorRate(), 2)
+
 
 if __name__ == '__main__':
     unittest.main()

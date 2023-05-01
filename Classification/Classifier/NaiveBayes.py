@@ -58,7 +58,7 @@ class NaiveBayes(Classifier):
 
     def train(self,
               trainSet: InstanceList,
-              parameters: Parameter):
+              parameters: Parameter = None):
         """
         Training algorithm for Naive Bayes algorithm. It basically calls trainContinuousVersion for continuous data
         sets, trainDiscreteVersion for discrete data sets.
@@ -74,3 +74,6 @@ class NaiveBayes(Classifier):
             self.trainDiscreteVersion(prior_distribution, class_lists)
         else:
             self.trainContinuousVersion(prior_distribution, class_lists)
+
+    def loadModel(self, fileName: str):
+        self.model = NaiveBayesModel(fileName)

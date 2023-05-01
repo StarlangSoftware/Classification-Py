@@ -1,0 +1,5 @@
+4
+unacc 1210
+acc 384
+vgood 65
+good 69

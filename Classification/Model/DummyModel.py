@@ -9,7 +9,7 @@ class DummyModel(Model):
 
     distribution: DiscreteDistribution
 
-    def __init__(self, trainSet: InstanceList):
+    def constructor1(self, trainSet: InstanceList):
         """
         Constructor which sets the distribution using the given InstanceList.
 
@@ -19,6 +19,24 @@ class DummyModel(Model):
             InstanceList which is used to get the class distribution.
         """
         self.distribution = trainSet.classDistribution()
+
+    def constructor2(self, fileName: str):
+        inputFile = open(fileName, mode='r', encoding='utf-8')
+        self.distribution = DiscreteDistribution()
+        size = int(inputFile.readline().strip())
+        for i in range(size):
+            line = inputFile.readline().strip()
+            items = line.split(" ")
+            count = int(items[1])
+            for j in range(count):
+                self.distribution.addItem(items[0])
+        inputFile.close()
+
+    def __init__(self, trainSet: object):
+        if isinstance(trainSet, InstanceList):
+            self.constructor1(trainSet)
+        elif isinstance(trainSet, str):
+            self.constructor2(trainSet)
 
     def predict(self, instance: Instance) -> str:
         """

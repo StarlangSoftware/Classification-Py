@@ -29,3 +29,6 @@ class LinearPerceptron(Classifier):
         self.model = LinearPerceptronModel(trainSet=partition.get(1),
                                            validationSet=partition.get(0),
                                            parameters=parameters)
+
+    def loadModel(self, fileName: str):
+        self.model = LinearPerceptronModel(fileName)

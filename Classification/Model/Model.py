@@ -1,6 +1,8 @@
 from abc import abstractmethod
+from io import TextIOWrapper
 
 from DataStructure.CounterHashMap import CounterHashMap
+from Math.Matrix import Matrix
 
 from Classification.Instance.Instance import Instance
 
@@ -27,6 +29,26 @@ class Model(object):
     @abstractmethod
     def predictProbability(self, instance: Instance) -> dict:
         pass
+
+    def loadInstance(self, line: str, attributeTypes: list) -> Instance:
+        items = line.split(",")
+        instance = Instance(items[len(items) - 1])
+        for i in range(len(items) - 1):
+            if attributeTypes[i] == "DISCRETE":
+                instance.addDiscreteAttribute(items[i])
+            elif attributeTypes[i] == "CONTINUOUS":
+                instance.addContinuousAttribute(float(items[i]))
+        return instance
+
+    def loadMatrix(self, inputFile: TextIOWrapper) -> Matrix:
+        items = inputFile.readline().strip().split(" ")
+        matrix = Matrix(int(items[0]), int(items[1]))
+        for j in range(matrix.getRow()):
+            line = inputFile.readline().strip()
+            items = line.split(" ")
+            for k in range(matrix.getColumn()):
+                matrix.setValue(j, k, float(items[k]))
+        return matrix
 
     @staticmethod
     def getMaximum(classLabels: list) -> str:

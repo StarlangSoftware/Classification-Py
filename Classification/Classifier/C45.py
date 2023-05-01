@@ -32,3 +32,6 @@ class C45(Classifier):
         else:
             tree = DecisionTree(DecisionNode(trainSet))
         self.model = tree
+
+    def loadModel(self, fileName: str):
+        self.model = DecisionTree(fileName)

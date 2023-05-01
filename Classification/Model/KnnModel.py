@@ -1,7 +1,8 @@
 from functools import cmp_to_key
+from io import TextIOWrapper
 
-from Classification.Classifier.Classifier import Classifier
 from Classification.DistanceMetric.DistanceMetric import DistanceMetric
+from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
 from Classification.Instance.CompositeInstance import CompositeInstance
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
@@ -10,15 +11,14 @@ from Classification.Model.Model import Model
 
 
 class KnnModel(Model):
-
     __data: InstanceList
     __k: int
     __distance_metric: DistanceMetric
 
-    def __init__(self,
-                 data: InstanceList,
-                 k: int,
-                 distanceMetric: DistanceMetric):
+    def constructor1(self,
+                     data: InstanceList,
+                     k: int,
+                     distanceMetric: DistanceMetric):
         """
         Constructor that sets the data InstanceList, k value and the DistanceMetric.
 
@@ -34,6 +34,30 @@ class KnnModel(Model):
         self.__data = data
         self.__k = k
         self.__distance_metric = distanceMetric
+
+    def constructor2(self, fileName: str):
+        self.__distance_metric = EuclidianDistance()
+        inputFile = open(fileName, 'r')
+        self.__k = int(inputFile.readline().strip())
+        self.__data = self.loadInstanceList(inputFile)
+        inputFile.close()
+
+    def loadInstanceList(self, inputFile: TextIOWrapper) -> InstanceList:
+        types = inputFile.readline().strip().split(" ")
+        instance_count = int(inputFile.readline().strip())
+        instance_list = InstanceList()
+        for i in range(instance_count):
+            instance_list.add(self.loadInstance(inputFile.readline().strip(), types))
+        return instance_list
+
+    def __init__(self,
+                 data: object,
+                 k: int = None,
+                 distanceMetric: DistanceMetric = None):
+        if isinstance(data, InstanceList):
+            self.constructor1(data, k, distanceMetric)
+        elif isinstance(data, str):
+            self.constructor2(data)
 
     def predict(self, instance: Instance) -> str:
         """
@@ -69,6 +93,7 @@ class KnnModel(Model):
                 return 1
             else:
                 return 0
+
         return compare
 
     def nearestNeighbors(self, instance: Instance) -> InstanceList:
@@ -94,7 +119,8 @@ class KnnModel(Model):
         if isinstance(instance, CompositeInstance):
             possible_class_labels = instance.getPossibleClassLabels()
         for i in range(self.__data.size()):
-            if not isinstance(instance, CompositeInstance) or self.__data.get(i).getClassLabel() in possible_class_labels:
+            if not isinstance(instance, CompositeInstance) or self.__data.get(
+                    i).getClassLabel() in possible_class_labels:
                 instances.append(KnnInstance(self.__data.get(i), self.__distance_metric.distance(self.__data.get(i),
                                                                                                  instance)))
         instances.sort(key=cmp_to_key(self.makeComparator()))

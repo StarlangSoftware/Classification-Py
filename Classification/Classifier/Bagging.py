@@ -33,3 +33,6 @@ class Bagging(Classifier):
             tree = DecisionTree(DecisionNode(InstanceList(bootstrap.getSample())))
             forest.append(tree)
         self.model = TreeEnsembleModel(forest)
+
+    def loadModel(self, fileName: str):
+        self.model = TreeEnsembleModel(fileName)

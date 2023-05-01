@@ -5,10 +5,12 @@ import random
 
 
 class RandomModel(Model):
-
     __class_labels: list
+    __seed: int
 
-    def __init__(self, classLabels: list, seed: int):
+    def constructor1(self,
+                     classLabels: list,
+                     seed: int):
         """
         A constructor that sets the class labels.
 
@@ -19,8 +21,27 @@ class RandomModel(Model):
         seed: int
             Seed of the random function
         """
+        self.__seed = seed
         self.__class_labels = classLabels
         random.seed(seed)
+
+    def constructor2(self, fileName: str):
+        inputFile = open(fileName, mode='r', encoding='utf-8')
+        self.__seed = int(inputFile.readline().strip())
+        random.seed(self.__seed)
+        size = int(inputFile.readline().strip())
+        self.__class_labels = list()
+        for i in range(size):
+            self.__class_labels.append(inputFile.readline().strip())
+        inputFile.close()
+
+    def __init__(self,
+                 classLabels: object,
+                 seed: int = None):
+        if isinstance(classLabels, list):
+            self.constructor1(classLabels, seed)
+        elif isinstance(classLabels, str):
+            self.constructor2(classLabels)
 
     def predict(self, instance: Instance) -> str:
         """

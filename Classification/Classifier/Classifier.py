@@ -8,7 +8,6 @@ from Classification.Performance.Performance import Performance
 from Classification.Performance.ConfusionMatrix import ConfusionMatrix
 from Classification.Performance.DetailedClassificationPerformance import DetailedClassificationPerformance
 from Classification.Model.Model import Model
-from DataStructure.CounterHashMap import CounterHashMap
 
 
 class Classifier(object):
@@ -19,6 +18,10 @@ class Classifier(object):
     def train(self,
               trainSet: InstanceList,
               parameters: Parameter):
+        pass
+
+    @abstractmethod
+    def loadModel(self, fileName: str):
         pass
 
     def discreteCheck(self, instance: Instance) -> bool:

@@ -1,0 +1,4 @@
+3
+Iris-setosa 50
+Iris-versicolor 50
+Iris-virginica 50

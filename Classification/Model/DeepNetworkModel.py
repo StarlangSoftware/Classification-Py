@@ -15,7 +15,7 @@ class DeepNetworkModel(NeuralNetworkModel):
     __hidden_layer_size: int
     __activation_function: ActivationFunction
 
-    def __init__(self,
+    def constructor1(self,
                  trainSet: InstanceList,
                  validationSet: InstanceList,
                  parameters: DeepNetworkParameter):
@@ -96,6 +96,26 @@ class DeepNetworkModel(NeuralNetworkModel):
         self.__weights.clear()
         for m in best_weights:
             self.__weights.append(m)
+
+    def constructor2(self, fileName: str):
+        inputFile = open(fileName, mode='r', encoding='utf-8')
+        self.loadClassLabels(inputFile)
+        self.__hidden_layer_size = int(inputFile.readline().strip())
+        self.__weights = list()
+        for i in range(self.__hidden_layer_size + 1):
+            self.__weights.append(self.loadMatrix(inputFile))
+        self.__activation_function = self.loadActivationFunction(inputFile)
+        inputFile.close()
+
+    def __init__(self,
+                 trainSet: object,
+                 validationSet: InstanceList = None,
+                 parameters: DeepNetworkParameter = None):
+        if isinstance(trainSet, InstanceList):
+            self.constructor1(trainSet, validationSet, parameters)
+        elif isinstance(trainSet, str):
+            super().__init__()
+            self.constructor2(trainSet)
 
     def __allocateWeights(self, parameters: DeepNetworkParameter):
         """

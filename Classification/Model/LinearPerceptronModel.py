@@ -9,16 +9,15 @@ from Classification.Performance.ClassificationPerformance import ClassificationP
 
 
 class LinearPerceptronModel(NeuralNetworkModel):
-
     W: Matrix
 
-    def initWithTrainSet(self, trainSet: InstanceList):
+    def constructor1(self, trainSet: InstanceList):
         super().__init__(trainSet)
 
-    def __init__(self,
-                 trainSet: InstanceList,
-                 validationSet: InstanceList,
-                 parameters: LinearPerceptronParameter):
+    def constructor2(self,
+                     trainSet: InstanceList,
+                     validationSet: InstanceList,
+                     parameters: LinearPerceptronParameter):
         """
         Constructor that takes InstanceLists as trainsSet and validationSet. Initially it allocates layer weights,
         then creates an input vector by using given trainSet and finds error. Via the validationSet it finds the
@@ -56,6 +55,24 @@ class LinearPerceptronModel(NeuralNetworkModel):
                 best_w = copy.deepcopy(self.W)
             learning_rate *= parameters.getEtaDecrease()
         self.W = best_w
+
+    def constructor3(self, fileName: str):
+        inputFile = open(fileName, mode='r', encoding='utf-8')
+        self.loadClassLabels(inputFile)
+        self.W = self.loadMatrix(inputFile)
+        inputFile.close()
+
+    def __init__(self, trainSet: object = None, validationSet: InstanceList = None,
+                 parameters: LinearPerceptronParameter = None):
+        if trainSet is not None:
+            if isinstance(trainSet, InstanceList):
+                if validationSet is None:
+                    self.constructor1(trainSet)
+                else:
+                    self.constructor2(trainSet, validationSet, parameters)
+            elif isinstance(trainSet, str):
+                super().__init__()
+                self.constructor3(trainSet)
 
     def calculateOutput(self):
         """

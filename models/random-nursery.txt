@@ -1,0 +1,7 @@
+1
+5
+recommend
+priority
+not_recom
+very_recom
+spec_prior

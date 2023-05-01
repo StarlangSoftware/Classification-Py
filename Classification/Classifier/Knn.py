@@ -22,3 +22,6 @@ class Knn(Classifier):
         self.model = KnnModel(data=trainSet,
                               k=parameters.getK(),
                               distanceMetric=parameters.getDistanceMetric())
+
+    def loadModel(self, fileName: str):
+        self.model = KnnModel(fileName)

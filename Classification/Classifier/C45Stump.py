@@ -22,3 +22,6 @@ class C45Stump(Classifier):
         """
         self.model = DecisionTree(DecisionNode(data=trainSet,
                                                isStump=True))
+
+    def loadModel(self, fileName: str):
+        self.model = DecisionTree(fileName)

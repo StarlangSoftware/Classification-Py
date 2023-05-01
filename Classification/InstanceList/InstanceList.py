@@ -69,6 +69,10 @@ class InstanceList(object):
                             for i in range(len(attribute_list) - 1):
                                 if listOrDefinition.getAttributeType(i) is AttributeType.DISCRETE:
                                     current.addAttribute(DiscreteAttribute(attribute_list[i]))
+                                elif listOrDefinition.getAttributeType(i) is AttributeType.DISCRETE_INDEXED:
+                                    current.addAttribute(DiscreteIndexedAttribute(attribute_list[i],
+                                        listOrDefinition.featureValueIndex(i, attribute_list[i]),
+                                        listOrDefinition.numberOfValues(i)))
                                 elif listOrDefinition.getAttributeType(i) is AttributeType.BINARY:
                                     current.addAttribute(
                                         BinaryAttribute(attribute_list[i] in ["True", "true", "Yes", "yes", "y", "Y"]))

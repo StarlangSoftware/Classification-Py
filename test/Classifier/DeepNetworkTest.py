@@ -20,6 +20,15 @@ class DeepNetworkTest(ClassifierTest):
         deepNetwork.train(self.dermatology.getInstanceList(), deepNetworkParameter)
         self.assertAlmostEqual(3.55, 100 * deepNetwork.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
 
+    def test_Load(self):
+        deepNetwork = DeepNetwork()
+        deepNetwork.loadModel("../../models/deepNetwork-iris.txt")
+        self.assertAlmostEqual(1.33, 100 * deepNetwork.test(self.iris.getInstanceList()).getErrorRate(), 2)
+        deepNetwork.loadModel("../../models/deepNetwork-bupa.txt")
+        self.assertAlmostEqual(28.99, 100 * deepNetwork.test(self.bupa.getInstanceList()).getErrorRate(), 2)
+        deepNetwork.loadModel("../../models/deepNetwork-dermatology.txt")
+        self.assertAlmostEqual(1.09, 100 * deepNetwork.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
+
 
 if __name__ == '__main__':
     unittest.main()

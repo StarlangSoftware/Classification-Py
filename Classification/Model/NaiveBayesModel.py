@@ -11,7 +11,7 @@ class NaiveBayesModel(GaussianModel):
     __class_deviations: dict
     __class_attribute_distributions: dict
 
-    def __init__(self, priorDistribution: DiscreteDistribution):
+    def constructor1(self, priorDistribution: DiscreteDistribution):
         """
         A constructor that sets the priorDistribution.
 
@@ -21,6 +21,20 @@ class NaiveBayesModel(GaussianModel):
             DiscreteDistribution input.
         """
         self.prior_distribution = priorDistribution
+
+    def constructor2(self, fileName: str):
+        inputFile = open(fileName, mode='r', encoding='utf-8')
+        size = self.loadPriorDistribution(inputFile)
+        self.__class_means = self.loadVectors(inputFile, size)
+        self.__class_deviations = self.loadVectors(inputFile, size)
+        self.__class_attribute_distributions = None
+        inputFile.close()
+
+    def __init__(self, priorDistribution: object):
+        if isinstance(priorDistribution, DiscreteDistribution):
+            self.constructor1(priorDistribution)
+        elif isinstance(priorDistribution, str):
+            self.constructor2(priorDistribution)
 
     def initForContinuous(self,
                           classMeans: dict,

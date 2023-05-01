@@ -21,6 +21,19 @@ class RandomForestTest(ClassifierTest):
         randomForest.train(self.tictactoe.getInstanceList(), randomForestParameter)
         self.assertAlmostEqual(0.0, 100 * randomForest.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
 
+    def test_Load(self):
+        randomForest = RandomForest()
+        randomForest.loadModel("../../models/randomForest-iris.txt")
+        self.assertAlmostEqual(0.0, 100 * randomForest.test(self.iris.getInstanceList()).getErrorRate(), 2)
+        randomForest.loadModel("../../models/randomForest-bupa.txt")
+        self.assertAlmostEqual(0.0, 100 * randomForest.test(self.bupa.getInstanceList()).getErrorRate(), 2)
+        randomForest.loadModel("../../models/randomForest-dermatology.txt")
+        self.assertAlmostEqual(0.0, 100 * randomForest.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
+        randomForest.loadModel("../../models/randomForest-car.txt")
+        self.assertAlmostEqual(0.0, 100 * randomForest.test(self.car.getInstanceList()).getErrorRate(), 2)
+        randomForest.loadModel("../../models/randomForest-tictactoe.txt")
+        self.assertAlmostEqual(0.0, 100 * randomForest.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
+
 
 if __name__ == '__main__':
     unittest.main()
