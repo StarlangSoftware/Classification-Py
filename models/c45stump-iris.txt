@@ -3,6 +3,11 @@
 2 < 2.4500
 0
 Iris-setosa
+1
+Iris-setosa 50
 2 > 2.4500
 0
 Iris-versicolor
+2
+Iris-versicolor 50
+Iris-virginica 50

@@ -3,9 +3,19 @@
 7 = recommended
 0
 priority
+4
+recommend 2
+priority 2412
+very_recom 328
+spec_prior 1578
 7 = priority
 0
 spec_prior
+2
+priority 1854
+spec_prior 2466
 7 = not_recom
 0
 not_recom
+1
+not_recom 4320

@@ -21,6 +21,7 @@ class DecisionNode(object):
     __class_label: str = None
     leaf: bool
     __condition: DecisionCondition
+    __classLabelsDistribution: DiscreteDistribution
     EPSILON = 0.0000000001
 
     def constructor1(self,
@@ -65,7 +66,11 @@ class DecisionNode(object):
         best_split_value = 0
         self.__condition = condition
         self.__data = data
-        self.__class_label = Model.getMaximum(self.__data.getClassLabels())
+        self.__classLabelsDistribution = DiscreteDistribution()
+        labels = self.__data.getClassLabels()
+        for label in labels:
+            self.__classLabelsDistribution.addItem(label)
+        self.__class_label = Model.getMaximum(labels)
         self.leaf = True
         self.children = []
         class_labels = self.__data.getDistinctClassLabels()
@@ -158,6 +163,7 @@ class DecisionNode(object):
         else:
             self.leaf = True
             self.__class_label = inputFile.readline().strip()
+            self.__classLabelsDistribution = Model.loadClassDistribution(inputFile)
 
     def __init__(self,
                  data: object,
@@ -321,7 +327,7 @@ class DecisionNode(object):
 
     def predictProbabilityDistribution(self, instance: Instance) -> dict:
         if self.leaf:
-            return self.__data.classDistribution().getProbabilityDistribution()
+            return self.__classLabelsDistribution.getProbabilityDistribution()
         else:
             for node in self.children:
                 if node.__condition.satisfy(instance):

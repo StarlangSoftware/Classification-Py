@@ -5,6 +5,9 @@
 6 = o
 0
 positive
+2
+positive 100
+negative 42
 6 = x
 3
 2 = o
@@ -14,36 +17,56 @@ positive
 0 = x
 0
 positive
+1
+positive 7
 0 = b
 2
 5 = x
 0
 positive
+1
+positive 3
 5 = o
 0
 negative
+1
+negative 1
 0 = o
 0
 negative
+2
+negative 6
+positive 3
 3 = b
 3
 5 = b
 0
 negative
+2
+negative 2
+positive 1
 5 = x
 0
 negative
+1
+negative 3
 5 = o
 3
 8 = o
 0
 negative
+1
+negative 3
 8 = b
 0
 positive
+1
+positive 1
 8 = x
 0
 positive
+1
+positive 1
 3 = o
 3
 5 = o
@@ -51,27 +74,45 @@ positive
 8 = b
 0
 positive
+1
+positive 1
 8 = o
 0
 negative
+1
+negative 1
 8 = x
 0
 positive
+1
+positive 4
 5 = x
 0
 negative
+2
+negative 3
+positive 1
 5 = b
 0
 positive
+1
+positive 5
 2 = x
 0
 positive
+1
+positive 68
 2 = b
 0
 positive
+1
+positive 16
 6 = b
 0
 positive
+2
+positive 75
+negative 11
 4 = o
 3
 0 = x
@@ -79,6 +120,9 @@ positive
 8 = o
 0
 positive
+2
+positive 30
+negative 10
 8 = x
 3
 2 = x
@@ -88,77 +132,121 @@ positive
 1 = o
 0
 negative
+1
+negative 5
 1 = b
 0
 negative
+1
+negative 3
 1 = x
 0
 positive
+1
+positive 2
 5 = b
 2
 1 = x
 0
 positive
+1
+positive 3
 1 = o
 0
 negative
+1
+negative 1
 5 = x
 0
 positive
+1
+positive 7
 2 = b
 0
 negative
+2
+negative 9
+positive 3
 2 = o
 3
 6 = o
 0
 negative
+1
+negative 11
 6 = x
 0
 positive
+2
+positive 5
+negative 1
 6 = b
 0
 negative
+1
+negative 2
 8 = b
 3
 7 = b
 0
 positive
+2
+negative 5
+positive 9
 7 = x
 3
 3 = o
 0
 negative
+1
+negative 6
 3 = x
 2
 6 = o
 0
 negative
+1
+negative 3
 6 = x
 0
 positive
+1
+positive 2
 3 = b
 0
 negative
+1
+negative 2
 7 = o
 3
 1 = o
 0
 negative
+1
+negative 6
 1 = x
 0
 positive
+2
+positive 8
+negative 1
 1 = b
 0
 positive
+1
+positive 3
 0 = b
 3
 8 = o
 0
 negative
+1
+negative 5
 8 = b
 0
 negative
+1
+negative 10
 8 = x
 3
 1 = o
@@ -166,42 +254,67 @@ negative
 7 = x
 0
 positive
+2
+positive 7
+negative 1
 7 = b
 0
 positive
+1
+positive 1
 7 = o
 0
 negative
+1
+negative 6
 1 = x
 3
 5 = o
 0
 negative
+1
+negative 6
 5 = x
 2
 2 = x
 0
 positive
+1
+positive 2
 2 = o
 0
 negative
+1
+negative 1
 5 = b
 0
 negative
+1
+negative 2
 1 = b
 0
 positive
+2
+negative 4
+positive 8
 0 = o
 3
 8 = o
 0
 negative
+1
+negative 38
 8 = x
 0
 positive
+2
+positive 25
+negative 14
 8 = b
 0
 negative
+1
+negative 5
 4 = b
 3
 2 = b
@@ -209,20 +322,31 @@ negative
 6 = o
 0
 negative
+1
+negative 5
 6 = x
 0
 positive
+1
+positive 19
 2 = o
 3
 6 = x
 0
 positive
+2
+negative 12
+positive 24
 6 = o
 0
 negative
+1
+negative 3
 6 = b
 0
 negative
+1
+negative 7
 2 = x
 3
 6 = o
@@ -232,39 +356,62 @@ negative
 0 = x
 0
 positive
+1
+positive 6
 0 = o
 0
 negative
+1
+negative 2
 8 = o
 3
 7 = o
 0
 negative
+1
+negative 5
 7 = x
 2
 0 = o
 0
 negative
+1
+negative 1
 0 = x
 0
 positive
+1
+positive 1
 7 = b
 0
 positive
+1
+positive 3
 8 = x
 3
 5 = x
 0
 positive
+1
+positive 13
 5 = o
 0
 positive
+1
+positive 2
 5 = b
 0
 negative
+2
+positive 1
+negative 1
 6 = b
 0
 positive
+1
+positive 18
 6 = x
 0
 positive
+1
+positive 12

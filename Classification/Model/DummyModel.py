@@ -22,14 +22,7 @@ class DummyModel(Model):
 
     def constructor2(self, fileName: str):
         inputFile = open(fileName, mode='r', encoding='utf-8')
-        self.distribution = DiscreteDistribution()
-        size = int(inputFile.readline().strip())
-        for i in range(size):
-            line = inputFile.readline().strip()
-            items = line.split(" ")
-            count = int(items[1])
-            for j in range(count):
-                self.distribution.addItem(items[0])
+        self.distribution = Model.loadClassDistribution(inputFile)
         inputFile.close()
 
     def __init__(self, trainSet: object):

@@ -11,37 +11,60 @@
 4 = big
 0
 good
+1
+good 4
 4 = med
 0
 acc
+2
+good 2
+acc 2
 4 = small
 0
 acc
+1
+acc 2
 1 = vhigh
 3
 4 = big
 0
 acc
+1
+acc 3
 4 = med
 0
 acc
+2
+unacc 2
+acc 2
 4 = small
 0
 unacc
+1
+unacc 2
 1 = high
 3
 4 = small
 0
 unacc
+1
+unacc 4
 4 = med
 0
 acc
+2
+acc 2
+unacc 2
 4 = big
 0
 acc
+1
+acc 2
 1 = med
 0
 acc
+1
+acc 7
 0 = low
 4
 1 = low
@@ -49,70 +72,115 @@ acc
 4 = med
 0
 acc
+2
+acc 2
+good 1
 4 = small
 0
 acc
+1
+acc 3
 4 = big
 0
 good
+1
+good 2
 1 = high
 0
 acc
+1
+acc 8
 1 = vhigh
 3
 4 = small
 0
 unacc
+1
+unacc 3
 4 = med
 0
 unacc
+2
+unacc 2
+acc 1
 4 = big
 0
 acc
+1
+acc 2
 1 = med
 3
 4 = small
 0
 acc
+1
+acc 4
 4 = big
 0
 good
+1
+good 3
 4 = med
 0
 acc
+2
+good 1
+acc 2
 0 = high
 3
 4 = med
 0
 unacc
+2
+acc 6
+unacc 7
 4 = small
 0
 unacc
+1
+unacc 12
 4 = big
 0
 acc
+2
+acc 10
+unacc 4
 0 = vhigh
 4
 1 = med
 0
 acc
+2
+acc 6
+unacc 6
 1 = low
 3
 4 = med
 0
 acc
+2
+acc 2
+unacc 2
 4 = big
 0
 acc
+1
+acc 3
 4 = small
 0
 unacc
+1
+unacc 4
 1 = vhigh
 0
 unacc
+1
+unacc 10
 1 = high
 0
 unacc
+1
+unacc 9
 3 = more
 4
 0 = med
@@ -120,54 +188,95 @@ unacc
 1 = vhigh
 0
 acc
+2
+acc 6
+unacc 4
 1 = low
 0
 good
+3
+good 7
+acc 4
+unacc 1
 1 = high
 3
 4 = small
 0
 unacc
+1
+unacc 3
 4 = big
 0
 acc
+1
+acc 3
 4 = med
 0
 acc
+2
+unacc 1
+acc 3
 1 = med
 0
 acc
+2
+acc 9
+unacc 1
 0 = high
 3
 4 = med
 0
 acc
+2
+acc 7
+unacc 6
 4 = small
 0
 unacc
+1
+unacc 12
 4 = big
 0
 acc
+2
+unacc 4
+acc 10
 0 = low
 0
 acc
+3
+acc 17
+good 11
+unacc 5
 0 = vhigh
 4
 1 = vhigh
 0
 unacc
+1
+unacc 11
 1 = med
 0
 acc
+2
+acc 5
+unacc 5
 1 = low
 0
 unacc
+2
+acc 3
+unacc 4
 1 = high
 0
 unacc
+1
+unacc 10
 3 = 2
 0
 unacc
+1
+unacc 151
 5 = high
 3
 3 = more
@@ -175,6 +284,11 @@ unacc
 0 = low
 0
 vgood
+4
+good 7
+acc 13
+vgood 16
+unacc 4
 0 = med
 4
 1 = med
@@ -182,57 +296,98 @@ vgood
 4 = big
 0
 vgood
+1
+vgood 3
 4 = med
 0
 acc
+2
+acc 1
+vgood 1
 4 = small
 0
 acc
+2
+unacc 1
+acc 3
 1 = high
 0
 acc
+2
+acc 10
+unacc 1
 1 = vhigh
 0
 acc
+2
+acc 8
+unacc 1
 1 = low
 3
 4 = big
 0
 vgood
+1
+vgood 3
 4 = med
 0
 vgood
+2
+vgood 1
+good 1
 4 = small
 0
 good
+2
+good 2
+unacc 1
 0 = vhigh
 4
 1 = med
 0
 acc
+2
+acc 10
+unacc 1
 1 = high
 0
 unacc
+1
+unacc 10
 1 = vhigh
 0
 unacc
+1
+unacc 10
 1 = low
 0
 acc
+2
+acc 9
+unacc 1
 0 = high
 4
 1 = low
 0
 acc
+2
+unacc 1
+acc 10
 1 = med
 0
 acc
+1
+acc 10
 1 = high
 0
 acc
+1
+acc 11
 1 = vhigh
 0
 unacc
+1
+unacc 7
 3 = 4
 4
 0 = low
@@ -240,59 +395,94 @@ unacc
 1 = vhigh
 0
 acc
+1
+acc 11
 1 = med
 3
 4 = big
 0
 vgood
+1
+vgood 4
 4 = med
 0
 vgood
+2
+good 2
+vgood 2
 4 = small
 0
 good
+1
+good 1
 1 = high
 0
 acc
+2
+vgood 5
+acc 6
 1 = low
 3
 4 = small
 0
 good
+1
+good 3
 4 = med
 0
 vgood
+2
+good 2
+vgood 2
 4 = big
 0
 vgood
+1
+vgood 4
 0 = vhigh
 4
 1 = med
 0
 acc
+1
+acc 9
 1 = vhigh
 0
 unacc
+1
+unacc 9
 1 = low
 0
 acc
+1
+acc 11
 1 = high
 0
 unacc
+1
+unacc 9
 0 = high
 4
 1 = high
 0
 acc
+1
+acc 8
 1 = med
 0
 acc
+1
+acc 7
 1 = low
 0
 acc
+1
+acc 10
 1 = vhigh
 0
 unacc
+1
+unacc 10
 0 = med
 4
 1 = med
@@ -300,32 +490,54 @@ unacc
 4 = med
 0
 acc
+2
+acc 2
+vgood 2
 4 = small
 0
 acc
+1
+acc 2
 4 = big
 0
 vgood
+1
+vgood 3
 1 = high
 0
 acc
+1
+acc 9
 1 = vhigh
 0
 acc
+1
+acc 11
 1 = low
 3
 4 = med
 0
 vgood
+2
+vgood 2
+good 2
 4 = big
 0
 vgood
+1
+vgood 3
 4 = small
 0
 good
+1
+good 4
 3 = 2
 0
 unacc
+1
+unacc 162
 5 = low
 0
 unacc
+1
+unacc 452

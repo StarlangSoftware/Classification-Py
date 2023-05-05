@@ -3,9 +3,18 @@
 4 = o
 0
 negative
+2
+positive 148
+negative 192
 4 = b
 0
 positive
+2
+positive 112
+negative 48
 4 = x
 0
 positive
+2
+positive 366
+negative 92

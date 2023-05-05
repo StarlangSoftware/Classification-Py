@@ -3,9 +3,20 @@
 5 = low
 0
 unacc
+1
+unacc 576
 5 = med
 0
 unacc
+3
+unacc 357
+acc 180
+good 39
 5 = high
 0
 unacc
+4
+unacc 277
+acc 204
+vgood 65
+good 30

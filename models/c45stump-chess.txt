@@ -3,6 +3,41 @@
 5 < 2.5000
 0
 eight
+18
+draw 559
+two 246
+five 422
+six 505
+seven 396
+eight 1099
+nine 758
+ten 729
+eleven 532
+twelve 442
+thirteen 314
+fourteen 298
+fifteen 151
+four 193
+zero 27
+three 81
+one 72
+sixteen 36
 5 > 2.5000
 0
 fourteen
+15
+eight 334
+nine 954
+ten 1256
+eleven 2322
+twelve 3155
+thirteen 3880
+fourteen 4255
+fifteen 2015
+six 87
+seven 287
+draw 2237
+sixteen 354
+five 49
+one 6
+four 5
