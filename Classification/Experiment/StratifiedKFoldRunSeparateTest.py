@@ -40,7 +40,7 @@ class StratifiedKFoldRunSeparateTest(KFoldRunSeparateTest):
                               ratio=0.25,
                               seed=experiment.getParameter().getSeed(),
                               stratified=True)
-        cross_validation = StratifiedKFoldCrossValidation(instanceLists=Partition(partition.get(1)).getLists(),
+        cross_validation = StratifiedKFoldCrossValidation(instance_lists=Partition(partition.get(1)).getLists(),
                                                          K=self.K,
                                                          seed=experiment.getParameter().getSeed())
         self.runExperimentSeparate(classifier=experiment.getClassifier(),
