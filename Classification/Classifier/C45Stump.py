@@ -24,4 +24,8 @@ class C45Stump(Classifier):
                                                isStump=True))
 
     def loadModel(self, fileName: str):
+        """
+        Loads the decision tree model from an input file.
+        :param fileName: File name of the decision tree model.
+        """
         self.model = DecisionTree(fileName)

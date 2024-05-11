@@ -28,6 +28,11 @@ class StratifiedMxKFoldRunSeparateTest(StratifiedKFoldRunSeparateTest):
         self.M = M
 
     def execute(self, experiment: Experiment) -> ExperimentPerformance:
+        """
+        Execute the Stratified MxK-fold cross-validation with the given classifier on the given data set using the given parameters.
+        :param experiment: Experiment to be run.
+        :return: An ExperimentPerformance instance.
+        """
         result = ExperimentPerformance()
         instance_list = experiment.getDataSet().getInstanceList()
         partition = Partition(instanceList=instance_list,

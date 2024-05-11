@@ -35,4 +35,8 @@ class Bagging(Classifier):
         self.model = TreeEnsembleModel(forest)
 
     def loadModel(self, fileName: str):
+        """
+        Loads the Bagging ensemble model from an input file.
+        :param fileName: File name of the decision tree model.
+        """
         self.model = TreeEnsembleModel(fileName)

@@ -31,6 +31,10 @@ class LdaModel(GaussianModel):
         self.w0 = w0
 
     def constructor2(self, fileName: str):
+        """
+        Loads a Linear Discriminant Analysis model from an input model file.
+        :param fileName: Model file name.
+        """
         inputFile = open(fileName, mode='r', encoding='utf-8')
         size = self.loadPriorDistribution(inputFile)
         self.loadWandW0(inputFile, size)
@@ -49,6 +53,11 @@ class LdaModel(GaussianModel):
     def loadWandW0(self,
                    inputFile: TextIOWrapper,
                    size: int):
+        """
+        Loads w0 and w hash maps from an input file. The number of items in the hash map is given by the parameter size.
+        :param inputFile: Input file
+        :param size: Size of the hash map
+        """
         self.w0 = dict()
         for i in range(size):
             line = inputFile.readline().strip()

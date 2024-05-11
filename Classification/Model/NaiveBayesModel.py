@@ -23,6 +23,10 @@ class NaiveBayesModel(GaussianModel):
         self.prior_distribution = priorDistribution
 
     def constructor2(self, fileName: str):
+        """
+        Loads a naive Bayes model from an input model file.
+        :param fileName: Model file name.
+        """
         inputFile = open(fileName, mode='r', encoding='utf-8')
         size = self.loadPriorDistribution(inputFile)
         self.__class_means = self.loadVectors(inputFile, size)

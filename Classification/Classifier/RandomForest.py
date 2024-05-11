@@ -33,4 +33,8 @@ class RandomForest(Classifier):
         self.model = TreeEnsembleModel(forest)
 
     def loadModel(self, fileName: str):
+        """
+        Loads the random forest model from an input file.
+        :param fileName: File name of the random forest model.
+        """
         self.model = TreeEnsembleModel(fileName)

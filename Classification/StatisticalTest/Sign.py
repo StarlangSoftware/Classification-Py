@@ -10,6 +10,12 @@ class Sign(PairedTest):
     def __binomial(self,
                    m: int,
                    n: int) -> int:
+        """
+        Calculates m of n that is C(n, m)
+        :param m: m in C(m, n)
+        :param n: n in C(m, n)
+        :return: C(m, n)
+        """
         if n == 0 or m == n:
             return 1
         else:
@@ -18,6 +24,12 @@ class Sign(PairedTest):
     def compare(self,
                 classifier1: ExperimentPerformance,
                 classifier2: ExperimentPerformance) -> StatisticalTestResult:
+        """
+        Compares two classification algorithms based on their performances (accuracy or error rate) using sign test.
+        :param classifier1: Performance (error rate or accuracy) results of the first classifier.
+        :param classifier2: Performance (error rate or accuracy) results of the second classifier.
+        :return: Statistical test result of the comparison.
+        """
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
             raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
                                                "experiments in both algorithms.")

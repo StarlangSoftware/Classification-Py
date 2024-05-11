@@ -20,6 +20,11 @@ class GaussianModel(ValidatedModel):
         pass
 
     def loadPriorDistribution(self, inputFile: TextIOWrapper):
+        """
+        Loads the prior probability distribution from an input model file.
+        :param inputFile: Input model file.
+        :return: Prior probability distribution.
+        """
         size = int(inputFile.readline().strip())
         self.prior_distribution = DiscreteDistribution()
         for i in range(size):
@@ -32,6 +37,12 @@ class GaussianModel(ValidatedModel):
     def loadVectors(self,
                     inputFile: TextIOWrapper,
                     size: int) -> dict:
+        """
+        Loads hash map of vectors from input model file.
+        :param inputFile: Input model file.
+        :param size: Number of vectors to be read from input model file.
+        :return: Dictionary of vectors.
+        """
         hash_map = dict()
         for i in range(size):
             line = inputFile.readline().strip()

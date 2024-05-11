@@ -26,6 +26,10 @@ class RandomModel(Model):
         random.seed(seed)
 
     def constructor2(self, fileName: str):
+        """
+        Loads a random classifier model from an input model file.
+        :param fileName: Model file name.
+        """
         inputFile = open(fileName, mode='r', encoding='utf-8')
         self.__seed = int(inputFile.readline().strip())
         random.seed(self.__seed)
@@ -69,6 +73,11 @@ class RandomModel(Model):
             return self.__class_labels[index]
 
     def predictProbability(self, instance: Instance) -> dict:
+        """
+        Calculates the posterior probability distribution for the given instance according to random model.
+        :param instance: Instance for which posterior probability distribution is calculated.
+        :return: Posterior probability distribution for the given instance.
+        """
         result = {}
         for classLabel in self.__class_labels:
             result[classLabel] = 1.0 / len(self.__class_labels)

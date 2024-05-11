@@ -29,6 +29,14 @@ class KFoldRun(MultipleRun):
                       parameter: Parameter,
                       experimentPerformance: ExperimentPerformance,
                       crossValidation: CrossValidation):
+        """
+        Runs a K fold cross-validated experiment for the given classifier with the given parameters. The experiment
+        results will be added to the experimentPerformance.
+        :param classifier: Classifier for the experiment
+        :param parameter: Hyperparameters of the classifier of the experiment
+        :param experimentPerformance: Storage to add experiment results
+        :param crossValidation: K-fold crossvalidated dataset.
+        """
         for i in range(self.K):
             train_set = InstanceList(crossValidation.getTrainFold(i))
             test_set = InstanceList(crossValidation.getTestFold(i))

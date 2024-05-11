@@ -12,6 +12,10 @@ class LinearPerceptronModel(NeuralNetworkModel):
     W: Matrix
 
     def constructor1(self, trainSet: InstanceList):
+        """
+        Constructor that sets the NeuralNetworkModel nodes with given InstanceList.
+        :param trainSet: InstanceList that is used to train.
+        """
         super().__init__(trainSet)
 
     def constructor2(self,
@@ -57,6 +61,10 @@ class LinearPerceptronModel(NeuralNetworkModel):
         self.W = best_w
 
     def constructor3(self, fileName: str):
+        """
+        Loads a linear perceptron model from an input model file.
+        :param fileName: Name of the input model file.
+        """
         inputFile = open(fileName, mode='r', encoding='utf-8')
         self.loadClassLabels(inputFile)
         self.W = self.loadMatrix(inputFile)

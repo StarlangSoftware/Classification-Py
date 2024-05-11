@@ -34,6 +34,10 @@ class QdaModel(LdaModel):
         self.w0 = w0
 
     def constructor2(self, fileName: str):
+        """
+        Loads a quadratic discriminant analysis model from an input model file.
+        :param fileName: Model file name.
+        """
         inputFile = open(fileName, mode='r', encoding='utf-8')
         size = self.loadPriorDistribution(inputFile)
         self.loadWandW0(inputFile, size)

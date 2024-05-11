@@ -6,6 +6,7 @@ from Math.DiscreteDistribution import DiscreteDistribution
 from Math.Matrix import Matrix
 
 from Classification.Instance.Instance import Instance
+from Classification.InstanceList.InstanceList import InstanceList
 
 
 class Model(object):
@@ -82,3 +83,16 @@ class Model(object):
         for label in classLabels:
             frequencies.put(label)
         return frequencies.max()
+
+    def loadInstanceList(self, inputFile: TextIOWrapper) -> InstanceList:
+        """
+        Loads an instance list from an input model file.
+        :param inputFile: Input model file.
+        :return: Instance list read from an input model file.
+        """
+        types = inputFile.readline().strip().split(" ")
+        instance_count = int(inputFile.readline().strip())
+        instance_list = InstanceList()
+        for i in range(instance_count):
+            instance_list.add(self.loadInstance(inputFile.readline().strip(), types))
+        return instance_list

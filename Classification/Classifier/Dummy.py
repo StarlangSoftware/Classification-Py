@@ -23,4 +23,8 @@ class Dummy(Classifier):
         self.model = DummyModel(trainSet)
 
     def loadModel(self, fileName: str):
+        """
+        Loads the dummy model from an input file.
+        :param fileName: File name of the dummy model.
+        """
         self.model = DummyModel(fileName)

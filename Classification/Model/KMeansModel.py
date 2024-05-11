@@ -34,19 +34,15 @@ class KMeansModel(GaussianModel):
         self.__distance_metric = distanceMetric
 
     def constructor2(self, fileName: str):
+        """
+        Loads a K-means model from an input model file.
+        :param fileName: Model file name.
+        """
         self.__distance_metric = EuclidianDistance()
         inputFile = open(fileName, 'r')
         self.loadPriorDistribution(inputFile)
         self.__class_means = self.loadInstanceList(inputFile)
         inputFile.close()
-
-    def loadInstanceList(self, inputFile: TextIOWrapper) -> InstanceList:
-        types = inputFile.readline().strip().split(" ")
-        instance_count = int(inputFile.readline().strip())
-        instance_list = InstanceList()
-        for i in range(instance_count):
-            instance_list.add(self.loadInstance(inputFile.readline().strip(), types))
-        return instance_list
 
     def __init__(self,
                  priorDistribution: object,

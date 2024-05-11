@@ -36,19 +36,15 @@ class KnnModel(Model):
         self.__distance_metric = distanceMetric
 
     def constructor2(self, fileName: str):
+        """
+        Loads a K-nearest neighbor model from an input model file.
+        :param fileName: Model file name.
+        """
         self.__distance_metric = EuclidianDistance()
         inputFile = open(fileName, 'r')
         self.__k = int(inputFile.readline().strip())
         self.__data = self.loadInstanceList(inputFile)
         inputFile.close()
-
-    def loadInstanceList(self, inputFile: TextIOWrapper) -> InstanceList:
-        types = inputFile.readline().strip().split(" ")
-        instance_count = int(inputFile.readline().strip())
-        instance_list = InstanceList()
-        for i in range(instance_count):
-            instance_list.add(self.loadInstance(inputFile.readline().strip(), types))
-        return instance_list
 
     def __init__(self,
                  data: object,
@@ -82,6 +78,11 @@ class KnnModel(Model):
         return predicted_class
 
     def predictProbability(self, instance: Instance) -> dict:
+        """
+        Calculates the posterior probability distribution for the given instance according to K-means model.
+        :param instance: Instance for which posterior probability distribution is calculated.
+        :return: Posterior probability distribution for the given instance.
+        """
         nearest_neighbors = self.nearestNeighbors(instance)
         return nearest_neighbors.classDistribution().getProbabilityDistribution()
 

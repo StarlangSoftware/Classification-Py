@@ -11,6 +11,12 @@ class Paired5x2t(PairedTest):
     def __testStatistic(self,
                         classifier1: ExperimentPerformance,
                         classifier2: ExperimentPerformance):
+        """
+        Calculates the test statistic of the 5x2 t test.
+        :param classifier1: Performance (error rate or accuracy) results of the first classifier.
+        :param classifier2: Performance (error rate or accuracy) results of the second classifier.
+        :return: Given the performances of two classifiers, the test statistic of the 5x2 t test.
+        """
         if classifier1.numberOfExperiments() != classifier2.numberOfExperiments():
             raise StatisticalTestNotApplicable("In order to apply a paired test, you need to have the same number of "
                                                "experiments in both algorithms.")
@@ -33,6 +39,12 @@ class Paired5x2t(PairedTest):
     def compare(self,
                 classifier1: ExperimentPerformance,
                 classifier2: ExperimentPerformance) -> StatisticalTestResult:
+        """
+        Compares two classification algorithms based on their performances (accuracy or error rate) using 5x2 t test.
+        :param classifier1: Performance (error rate or accuracy) results of the first classifier.
+        :param classifier2: Performance (error rate or accuracy) results of the second classifier.
+        :return: Statistical test result of the comparison.
+        """
         statistic = self.__testStatistic(classifier1, classifier2)
         degree_of_freedom = classifier1.numberOfExperiments() // 2
         return StatisticalTestResult(Distribution.tDistribution(statistic, degree_of_freedom), False)

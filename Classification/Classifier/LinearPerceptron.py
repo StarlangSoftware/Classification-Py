@@ -31,4 +31,8 @@ class LinearPerceptron(Classifier):
                                            parameters=parameters)
 
     def loadModel(self, fileName: str):
+        """
+        Loads the linear perceptron model from an input file.
+        :param fileName: File name of the linear perceptron model.
+        """
         self.model = LinearPerceptronModel(fileName)

@@ -96,6 +96,10 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
         self.__V = best_v
 
     def constructor3(self, fileName: str):
+        """
+        Loads a multi-layer perceptron model from an input model file.
+        :param fileName: Model file name.
+        """
         inputFile = open(fileName, mode='r', encoding='utf-8')
         self.loadClassLabels(inputFile)
         self.W = self.loadMatrix(inputFile)

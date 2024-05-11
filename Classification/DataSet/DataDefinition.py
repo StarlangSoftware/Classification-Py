@@ -24,11 +24,22 @@ class DataDefinition(object):
         self.__attributeTypes = attributeTypes
 
     def numberOfValues(self, attributeIndex: int) -> int:
+        """
+        Returns number of distinct values for a given discrete attribute with index attributeIndex.
+        :param attributeIndex: Index of the discrete attribute.
+        :return: Number of distinct values for a given discrete attribute
+        """
         return len(self.__attributeValueList[attributeIndex])
 
     def featureValueIndex(self,
                           attributeIndex: int,
                           value: str) -> int:
+        """
+        Returns the index of the given value in the values list of the attributeIndex'th discrete attribute.
+        :param attributeIndex: Index of the discrete attribute.
+        :param value: Value of the discrete attribute
+        :return: Index of the given value in the values list of the discrete attribute.
+        """
         for i in range(len(self.__attributeValueList[attributeIndex])):
             if self.__attributeValueList[attributeIndex][i] == value:
                 return i

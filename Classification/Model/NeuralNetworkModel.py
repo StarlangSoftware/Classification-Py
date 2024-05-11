@@ -247,6 +247,11 @@ class NeuralNetworkModel(ValidatedModel):
             return self.class_labels[self.y.maxIndex()]
 
     def predictProbability(self, instance: Instance) -> dict:
+        """
+        Calculates the posterior probability distribution for the given instance according to neural network model.
+        :param instance: Instance for which posterior probability distribution is calculated.
+        :return: Posterior probability distribution for the given instance.
+        """
         self.createInputVector(instance)
         self.calculateOutput()
         result = {}
@@ -255,6 +260,10 @@ class NeuralNetworkModel(ValidatedModel):
         return result
 
     def loadClassLabels(self, inputFile: TextIOWrapper):
+        """
+        Loads the class labels from input model file.
+        :param inputFile: Input model file.
+        """
         items = inputFile.readline().strip().split(" ")
         self.K = int(items[0])
         self.d = int(items[1])
@@ -263,6 +272,11 @@ class NeuralNetworkModel(ValidatedModel):
             self.class_labels.append(inputFile.readline().strip())
 
     def loadActivationFunction(self, inputFile: TextIOWrapper):
+        """
+        Loads the activation function from an input model file.
+        :param inputFile: Input model file.
+        :return: Activation function read.
+        """
         line = inputFile.readline().strip()
         if line == "TANH":
             return ActivationFunction.TANH

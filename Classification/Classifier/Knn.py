@@ -24,4 +24,8 @@ class Knn(Classifier):
                               distanceMetric=parameters.getDistanceMetric())
 
     def loadModel(self, fileName: str):
+        """
+        Loads the K-nearest neighbor model from an input file.
+        :param fileName: File name of the K-nearest neighbor model.
+        """
         self.model = KnnModel(fileName)

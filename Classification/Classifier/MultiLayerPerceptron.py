@@ -31,4 +31,8 @@ class MultiLayerPerceptron(Classifier):
                                                parameters=parameters)
 
     def loadModel(self, fileName: str):
+        """
+        Loads the multi-layer perceptron model from an input file.
+        :param fileName: File name of the multi-layer perceptron model.
+        """
         self.model = MultiLayerPerceptronModel(fileName)

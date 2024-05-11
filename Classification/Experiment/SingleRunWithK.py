@@ -27,7 +27,15 @@ class SingleRunWithK(SingleRun):
     def runExperiment(self,
                       classifier: Classifier,
                       parameter: Parameter,
-                      crossValidation: CrossValidation):
+                      crossValidation: CrossValidation) -> Performance:
+        """
+        Runs first fold of a K fold cross-validated experiment for the given classifier with the given parameters.
+        The experiment result will be returned.
+        :param classifier: Classifier for the experiment
+        :param parameter: Hyperparameters of the classifier of the experiment
+        :param crossValidation: K-fold crossvalidated dataset.
+        :return: The experiment result of the first fold of the K-fold cross-validated experiment.
+        """
         train_set = InstanceList(crossValidation.getTrainFold(0))
         test_set = InstanceList(crossValidation.getTestFold(0))
         return classifier.singleRun(parameter=parameter,

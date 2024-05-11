@@ -76,4 +76,8 @@ class NaiveBayes(Classifier):
             self.trainContinuousVersion(prior_distribution, class_lists)
 
     def loadModel(self, fileName: str):
+        """
+        Loads the naive Bayes model from an input file.
+        :param fileName: File name of the naive Bayes model.
+        """
         self.model = NaiveBayesModel(fileName)

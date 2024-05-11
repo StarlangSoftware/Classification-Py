@@ -22,6 +22,10 @@ class TreeEnsembleModel(Model):
         self.__forest = forest
 
     def constructor2(self, fileName: str):
+        """
+        Loads a tree ensemble model such as Random Forest model or Bagging model from an input model file.
+        :param fileName: Model file name.
+        """
         inputFile = open(fileName, mode='r', encoding='utf-8')
         number_of_trees = int(inputFile.readline().strip())
         self.__forest = list()
@@ -56,6 +60,11 @@ class TreeEnsembleModel(Model):
         return distribution.getMaxItem()
 
     def predictProbability(self, instance: Instance) -> dict:
+        """
+        Calculates the posterior probability distribution for the given instance according to ensemble tree model.
+        :param instance: Instance for which posterior probability distribution is calculated.
+        :return: Posterior probability distribution for the given instance.
+        """
         distribution = DiscreteDistribution()
         for tree in self.__forest:
             distribution.addItem(tree.predict(instance))

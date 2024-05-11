@@ -21,6 +21,10 @@ class DummyModel(Model):
         self.distribution = trainSet.classDistribution()
 
     def constructor2(self, fileName: str):
+        """
+        Loads a dummy model from an input model file.
+        :param fileName: Model file name.
+        """
         inputFile = open(fileName, mode='r', encoding='utf-8')
         self.distribution = Model.loadClassDistribution(inputFile)
         inputFile.close()
@@ -53,4 +57,9 @@ class DummyModel(Model):
             return self.distribution.getMaxItem()
 
     def predictProbability(self, instance: Instance) -> dict:
+        """
+        Calculates the posterior probability distribution for the given instance according to dummy model.
+        :param instance: Instance for which posterior probability distribution is calculated.
+        :return: Posterior probability distribution for the given instance.
+        """
         return self.distribution.getProbabilityDistribution()

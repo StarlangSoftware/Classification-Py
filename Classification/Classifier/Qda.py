@@ -46,4 +46,8 @@ class Qda(Classifier):
         self.model = QdaModel(prior_distribution, W, w, w0)
 
     def loadModel(self, fileName: str):
+        """
+        Loads the Qda model from an input file.
+        :param fileName: File name of the Qda model.
+        """
         self.model = QdaModel(fileName)

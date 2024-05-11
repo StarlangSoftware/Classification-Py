@@ -48,4 +48,8 @@ class Lda(Classifier):
         self.model = LdaModel(prior_distribution, w, w0)
 
     def loadModel(self, fileName: str):
+        """
+        Loads the Lda model from an input file.
+        :param fileName: File name of the Lda model.
+        """
         self.model = LdaModel(fileName)

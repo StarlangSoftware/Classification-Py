@@ -98,6 +98,10 @@ class DeepNetworkModel(NeuralNetworkModel):
             self.__weights.append(m)
 
     def constructor2(self, fileName: str):
+        """
+        Loads a deep network model from an input model file.
+        :param fileName: Model file name.
+        """
         inputFile = open(fileName, mode='r', encoding='utf-8')
         self.loadClassLabels(inputFile)
         self.__hidden_layer_size = int(inputFile.readline().strip())
