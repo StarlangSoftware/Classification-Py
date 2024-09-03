@@ -7,8 +7,10 @@ long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 setup(
     name='NlpToolkit-Classification',
     version='1.0.16',
-    packages=['Classification', 'Classification.Model', 'Classification.Model.DecisionTree', 'Classification.Filter',
-              'Classification.DataSet', 'Classification.Instance', 'Classification.Attribute',
+    packages=['Classification', 'Classification.Model', 'Classification.Model.DecisionTree',
+              'Classification.Model.Ensemble', 'Classification.Model.NeuralNetwork',
+              'Classification.Model.NonParametric', 'Classification.Model.Parametric',
+              'Classification.Filter', 'Classification.DataSet', 'Classification.Instance', 'Classification.Attribute',
               'Classification.Parameter', 'Classification.Classifier', 'Classification.Experiment',
               'Classification.Performance', 'Classification.InstanceList', 'Classification.DistanceMetric',
               'Classification.StatisticalTest', 'Classification.FeatureSelection'],
