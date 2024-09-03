@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Model.NaiveBayesModel import NaiveBayesModel
+from Classification.Model.Parametric.NaiveBayesModel import NaiveBayesModel
 from test.Classifier.ClassifierTest import ClassifierTest
 
 

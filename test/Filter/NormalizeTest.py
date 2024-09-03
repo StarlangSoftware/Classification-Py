@@ -2,9 +2,9 @@ import unittest
 
 from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
 from Classification.Filter.Normalize import Normalize
-from Classification.Model.KnnModel import KnnModel
-from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
-from Classification.Model.MultiLayerPerceptronModel import MultiLayerPerceptronModel
+from Classification.Model.NonParametric.KnnModel import KnnModel
+from Classification.Model.NeuralNetwork.LinearPerceptronModel import LinearPerceptronModel
+from Classification.Model.NeuralNetwork.MultiLayerPerceptronModel import MultiLayerPerceptronModel
 from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.KnnParameter import KnnParameter
 from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronParameter

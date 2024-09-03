@@ -2,8 +2,8 @@ import unittest
 
 from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
 from Classification.Filter.Pca import Pca
-from Classification.Model.KnnModel import KnnModel
-from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
+from Classification.Model.NonParametric.KnnModel import KnnModel
+from Classification.Model.NeuralNetwork.LinearPerceptronModel import LinearPerceptronModel
 from Classification.Parameter.KnnParameter import KnnParameter
 from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronParameter
 from test.Classifier.ClassifierTest import ClassifierTest

@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Model.MultiLayerPerceptronModel import MultiLayerPerceptronModel
+from Classification.Model.NeuralNetwork.MultiLayerPerceptronModel import MultiLayerPerceptronModel
 from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPerceptronParameter
 from test.Classifier.ClassifierTest import ClassifierTest

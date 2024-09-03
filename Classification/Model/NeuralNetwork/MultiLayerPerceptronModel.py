@@ -3,7 +3,7 @@ from Math.Vector import Vector
 
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.InstanceList.Partition import Partition
-from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
+from Classification.Model.NeuralNetwork.LinearPerceptronModel import LinearPerceptronModel
 from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPerceptronParameter
 import copy

@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Model.BaggingModel import BaggingModel
+from Classification.Model.Ensemble.BaggingModel import BaggingModel
 from Classification.Parameter.BaggingParameter import BaggingParameter
 from test.Classifier.ClassifierTest import ClassifierTest
 

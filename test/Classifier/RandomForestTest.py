@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Model.RandomForestModel import RandomForestModel
+from Classification.Model.Ensemble.RandomForestModel import RandomForestModel
 from Classification.Parameter.RandomForestParameter import RandomForestParameter
 from test.Classifier.ClassifierTest import ClassifierTest
 

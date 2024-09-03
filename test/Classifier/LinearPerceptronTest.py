@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
+from Classification.Model.NeuralNetwork.LinearPerceptronModel import LinearPerceptronModel
 from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronParameter
 from test.Classifier.ClassifierTest import ClassifierTest
 

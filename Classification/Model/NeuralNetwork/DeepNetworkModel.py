@@ -1,6 +1,6 @@
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.InstanceList.Partition import Partition
-from Classification.Model.NeuralNetworkModel import NeuralNetworkModel
+from Classification.Model.NeuralNetwork.NeuralNetworkModel import NeuralNetworkModel
 from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.DeepNetworkParameter import DeepNetworkParameter
 from Math.Matrix import Matrix

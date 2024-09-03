@@ -4,7 +4,7 @@ from Classification.Attribute.DiscreteAttribute import DiscreteAttribute
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.InstanceList.Partition import Partition
-from Classification.Model.GaussianModel import GaussianModel
+from Classification.Model.Parametric.GaussianModel import GaussianModel
 import math
 
 from Classification.Parameter.Parameter import Parameter

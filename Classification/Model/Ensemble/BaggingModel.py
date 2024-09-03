@@ -1,7 +1,7 @@
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.DecisionTree.DecisionNode import DecisionNode
 from Classification.Model.DecisionTree.DecisionTree import DecisionTree
-from Classification.Model.TreeEnsembleModel import TreeEnsembleModel
+from Classification.Model.Ensemble.TreeEnsembleModel import TreeEnsembleModel
 from Classification.Parameter.BaggingParameter import BaggingParameter
 
 

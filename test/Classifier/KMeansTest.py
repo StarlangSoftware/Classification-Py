@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Model.KMeansModel import KMeansModel
+from Classification.Model.Parametric.KMeansModel import KMeansModel
 from Classification.Parameter.KMeansParameter import KMeansParameter
 from test.Classifier.ClassifierTest import ClassifierTest
 

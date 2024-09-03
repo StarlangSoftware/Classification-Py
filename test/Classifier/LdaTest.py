@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Model.LdaModel import LdaModel
+from Classification.Model.Parametric.LdaModel import LdaModel
 from test.Classifier.ClassifierTest import ClassifierTest
 
 

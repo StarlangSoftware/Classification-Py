@@ -4,7 +4,7 @@ from Math.Vector import Vector
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.InstanceList.Partition import Partition
-from Classification.Model.NeuralNetworkModel import NeuralNetworkModel
+from Classification.Model.NeuralNetwork.NeuralNetworkModel import NeuralNetworkModel
 from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPerceptronParameter
 import copy

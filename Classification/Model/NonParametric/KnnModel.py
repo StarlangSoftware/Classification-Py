@@ -5,7 +5,7 @@ from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
 from Classification.Instance.CompositeInstance import CompositeInstance
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
-from Classification.Model.KnnInstance import KnnInstance
+from Classification.Model.NonParametric.KnnInstance import KnnInstance
 from Classification.Model.Model import Model
 from Classification.Parameter.KnnParameter import KnnParameter
 

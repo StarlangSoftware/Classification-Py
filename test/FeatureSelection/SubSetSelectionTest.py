@@ -6,9 +6,9 @@ from Classification.FeatureSelection.BackwardSelection import BackwardSelection
 from Classification.FeatureSelection.FloatingSelection import FloatingSelection
 from Classification.FeatureSelection.ForwardSelection import ForwardSelection
 from Classification.Model.DecisionTree.DecisionTree import DecisionTree
-from Classification.Model.KnnModel import KnnModel
-from Classification.Model.LdaModel import LdaModel
-from Classification.Model.NaiveBayesModel import NaiveBayesModel
+from Classification.Model.NonParametric.KnnModel import KnnModel
+from Classification.Model.Parametric.LdaModel import LdaModel
+from Classification.Model.Parametric.NaiveBayesModel import NaiveBayesModel
 from Classification.Parameter.C45Parameter import C45Parameter
 from Classification.Parameter.KnnParameter import KnnParameter
 from Classification.Parameter.Parameter import Parameter

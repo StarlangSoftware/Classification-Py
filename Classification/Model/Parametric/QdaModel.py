@@ -7,7 +7,7 @@ from Math.Vector import Vector
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.InstanceList.Partition import Partition
-from Classification.Model.LdaModel import LdaModel
+from Classification.Model.Parametric.LdaModel import LdaModel
 from Classification.Parameter.Parameter import Parameter
 
 

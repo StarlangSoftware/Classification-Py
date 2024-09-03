@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Model.QdaModel import QdaModel
+from Classification.Model.Parametric.QdaModel import QdaModel
 from test.Classifier.ClassifierTest import ClassifierTest
 
 
