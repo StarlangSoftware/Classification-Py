@@ -1,11 +1,11 @@
 from Sampling.CrossValidation import CrossValidation
 from Sampling.KFoldCrossValidation import KFoldCrossValidation
 
-from Classification.Classifier.Classifier import Classifier
 from Classification.Experiment.Experiment import Experiment
 from Classification.Experiment.KFoldRun import KFoldRun
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.InstanceList.Partition import Partition
+from Classification.Model.Model import Model
 from Classification.Parameter.Parameter import Parameter
 from Classification.Performance.ExperimentPerformance import ExperimentPerformance
 
@@ -24,7 +24,7 @@ class KFoldRunSeparateTest(KFoldRun):
         super().__init__(K)
 
     def runExperimentSeparate(self,
-                      classifier: Classifier,
+                      classifier: Model,
                       parameter: Parameter,
                       experimentPerformance: ExperimentPerformance,
                       crossValidation: CrossValidation,

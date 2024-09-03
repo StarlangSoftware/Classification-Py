@@ -6,7 +6,9 @@ from Classification.DistanceMetric.DistanceMetric import DistanceMetric
 from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.GaussianModel import GaussianModel
+from Classification.Parameter.KMeansParameter import KMeansParameter
 
 
 class KMeansModel(GaussianModel):
@@ -45,7 +47,7 @@ class KMeansModel(GaussianModel):
         inputFile.close()
 
     def __init__(self,
-                 priorDistribution: object,
+                 priorDistribution: object = None,
                  classMeans: InstanceList = None,
                  distanceMetric: DistanceMetric = None):
         if isinstance(priorDistribution, DiscreteDistribution):
@@ -77,3 +79,25 @@ class KMeansModel(GaussianModel):
             if self.__class_means.get(i).getClassLabel() == Ci:
                 return -self.__distance_metric.distance(instance, self.__class_means.get(i))
         return -1000000
+
+    def train(self,
+              trainSet: InstanceList,
+              parameters: KMeansParameter):
+        """
+        Training algorithm for K-Means classifier. K-Means finds the mean of each class for training.
+        :param trainSet: Training data given to the algorithm.
+        :param parameters: distance metric used to calculate the distance between two instances.
+        """
+        prior_distribution = trainSet.classDistribution()
+        class_means = InstanceList()
+        class_lists = Partition(trainSet)
+        for i in range(class_lists.size()):
+            class_means.add(class_lists.get(i).average())
+        self.constructor1(priorDistribution=prior_distribution, classMeans=class_means, distanceMetric=parameters.getDistanceMetric())
+
+    def loadModel(self, fileName: str):
+        """
+        Loads the K-means model from an input file.
+        :param fileName: File name of the K-means model.
+        """
+        self.constructor2(fileName)

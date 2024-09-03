@@ -1,7 +1,10 @@
 from Classification.Instance.CompositeInstance import CompositeInstance
 from Classification.Instance.Instance import Instance
+from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.Model import Model
 import random
+
+from Classification.Parameter.Parameter import Parameter
 
 
 class RandomModel(Model):
@@ -40,7 +43,7 @@ class RandomModel(Model):
         inputFile.close()
 
     def __init__(self,
-                 classLabels: object,
+                 classLabels: object = None,
                  seed: int = None):
         if isinstance(classLabels, list):
             self.constructor1(classLabels, seed)
@@ -82,3 +85,24 @@ class RandomModel(Model):
         for classLabel in self.__class_labels:
             result[classLabel] = 1.0 / len(self.__class_labels)
         return result
+
+    def train(self,
+              trainSet: InstanceList,
+              parameters: Parameter):
+        """
+        Training algorithm for random classifier.
+
+        PARAMETERS
+        ----------
+        trainSet : InstanceList
+            Training data given to the algorithm.
+        """
+        self.constructor1(classLabels=list(trainSet.classDistribution().keys()),
+                                 seed=parameters.getSeed())
+
+    def loadModel(self, fileName: str):
+        """
+        Loads the random classifier model from an input file.
+        :param fileName: File name of the random classifier model.
+        """
+        self.constructor2(fileName)

@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Classifier.RandomForest import RandomForest
+from Classification.Model.RandomForestModel import RandomForestModel
 from Classification.Parameter.RandomForestParameter import RandomForestParameter
 from test.Classifier.ClassifierTest import ClassifierTest
 
@@ -8,7 +8,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class RandomForestTest(ClassifierTest):
 
     def test_Train(self):
-        randomForest = RandomForest()
+        randomForest = RandomForestModel()
         randomForestParameter = RandomForestParameter(1, 100, 35)
         randomForest.train(self.iris.getInstanceList(), randomForestParameter)
         self.assertAlmostEqual(0.0, 100 * randomForest.test(self.iris.getInstanceList()).getErrorRate(), 2)
@@ -22,7 +22,7 @@ class RandomForestTest(ClassifierTest):
         self.assertAlmostEqual(0.0, 100 * randomForest.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        randomForest = RandomForest()
+        randomForest = RandomForestModel()
         randomForest.loadModel("../../models/randomForest-iris.txt")
         self.assertAlmostEqual(0.0, 100 * randomForest.test(self.iris.getInstanceList()).getErrorRate(), 2)
         randomForest.loadModel("../../models/randomForest-bupa.txt")

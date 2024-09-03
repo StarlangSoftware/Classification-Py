@@ -1,10 +1,10 @@
 from Sampling.CrossValidation import CrossValidation
 from Sampling.KFoldCrossValidation import KFoldCrossValidation
 
-from Classification.Classifier.Classifier import Classifier
 from Classification.Experiment.Experiment import Experiment
 from Classification.Experiment.SingleRun import SingleRun
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.Model.Model import Model
 from Classification.Parameter.Parameter import Parameter
 from Classification.Performance.Performance import Performance
 
@@ -25,7 +25,7 @@ class SingleRunWithK(SingleRun):
         self.__K = K
 
     def runExperiment(self,
-                      classifier: Classifier,
+                      classifier: Model,
                       parameter: Parameter,
                       crossValidation: CrossValidation) -> Performance:
         """

@@ -3,6 +3,8 @@ import random
 import math
 from functools import cmp_to_key
 
+from DataStructure.CounterHashMap import CounterHashMap
+
 from Classification.DataSet.DataDefinition import DataDefinition
 from Classification.Instance.Instance import Instance
 from Classification.Attribute.AttributeType import AttributeType
@@ -16,8 +18,6 @@ from Classification.Attribute.DiscreteIndexedAttribute import DiscreteIndexedAtt
 from Math.DiscreteDistribution import DiscreteDistribution
 from Math.Vector import Vector
 from Math.Matrix import Matrix
-
-from Classification.Model.Model import Model
 
 
 class InstanceList(object):
@@ -275,7 +275,7 @@ class InstanceList(object):
             values = []
             for instance in self.list:
                 values.append(instance.getAttribute(index).getValue())
-            return DiscreteAttribute(Model.getMaximum(values))
+            return DiscreteAttribute(InstanceList.getMaximum(values))
         elif isinstance(self.list[0].getAttribute(index), ContinuousAttribute):
             total = 0.0
             for instance in self.list:
@@ -579,3 +579,23 @@ class InstanceList(object):
             Instances.
         """
         return self.list
+
+    @staticmethod
+    def getMaximum(classLabels: list) -> str:
+        """
+        Given an array of class labels, returns the maximum occurred one.
+
+        PARAMETERS
+        ----------
+        classLabels : list
+            An array of class labels.
+
+        RETURNS
+        -------
+        str
+            The class label that occurs most in the array of class labels (mod of class label list).
+        """
+        frequencies = CounterHashMap()
+        for label in classLabels:
+            frequencies.put(label)
+        return frequencies.max()

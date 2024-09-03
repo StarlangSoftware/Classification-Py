@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Classifier.KMeans import KMeans
+from Classification.Model.KMeansModel import KMeansModel
 from Classification.Parameter.KMeansParameter import KMeansParameter
 from test.Classifier.ClassifierTest import ClassifierTest
 
@@ -8,7 +8,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class KMeansTest(ClassifierTest):
 
     def test_Train(self):
-        kMeans = KMeans()
+        kMeans = KMeansModel()
         kMeansParameter = KMeansParameter(1)
         kMeans.train(self.iris.getInstanceList(), kMeansParameter)
         self.assertAlmostEqual(7.33, 100 * kMeans.test(self.iris.getInstanceList()).getErrorRate(), 2)
@@ -26,7 +26,7 @@ class KMeansTest(ClassifierTest):
         self.assertAlmostEqual(83.25, 100 * kMeans.test(self.chess.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        kMeans = KMeans()
+        kMeans = KMeansModel()
         kMeans.loadModel("../../models/kMeans-iris.txt")
         self.assertAlmostEqual(7.33, 100 * kMeans.test(self.iris.getInstanceList()).getErrorRate(), 2)
         kMeans.loadModel("../../models/kMeans-bupa.txt")

@@ -1,10 +1,10 @@
 import unittest
 
-from Classification.Classifier.C45 import C45
-from Classification.Classifier.Knn import Knn
-from Classification.Classifier.LinearPerceptron import LinearPerceptron
 from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
 from Classification.Filter.DiscreteToIndexed import DiscreteToIndexed
+from Classification.Model.DecisionTree.DecisionTree import DecisionTree
+from Classification.Model.KnnModel import KnnModel
+from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
 from Classification.Parameter.C45Parameter import C45Parameter
 from Classification.Parameter.KnnParameter import KnnParameter
 from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronParameter
@@ -14,7 +14,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class DiscreteToIndexedTest(ClassifierTest):
 
     def test_LinearPerceptron(self):
-        linearPerceptron = LinearPerceptron()
+        linearPerceptron = LinearPerceptronModel()
         linearPerceptronParameter = LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100)
         discreteToIndexed = DiscreteToIndexed(self.car)
         discreteToIndexed.convert()
@@ -26,7 +26,7 @@ class DiscreteToIndexedTest(ClassifierTest):
         self.assertAlmostEqual(2.51, 100 * linearPerceptron.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
 
     def test_Knn(self):
-        knn = Knn()
+        knn = KnnModel()
         knnParameter = KnnParameter(1, 3, EuclidianDistance())
         discreteToIndexed = DiscreteToIndexed(self.car)
         discreteToIndexed.convert()
@@ -34,7 +34,7 @@ class DiscreteToIndexedTest(ClassifierTest):
         self.assertAlmostEqual(20.31, 100 * knn.test(self.car.getInstanceList()).getErrorRate(), 2)
 
     def test_C45(self):
-        c45 = C45()
+        c45 = DecisionTree()
         c45Parameter = C45Parameter(1, True, 0.2)
         discreteToIndexed = DiscreteToIndexed(self.car)
         discreteToIndexed.convert()

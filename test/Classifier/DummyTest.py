@@ -1,13 +1,13 @@
 import unittest
 
-from Classification.Classifier.Dummy import Dummy
+from Classification.Model.DummyModel import DummyModel
 from test.Classifier.ClassifierTest import ClassifierTest
 
 
 class DummyTest(ClassifierTest):
 
     def test_Train(self):
-        dummy = Dummy()
+        dummy = DummyModel()
         dummy.train(self.iris.getInstanceList())
         self.assertAlmostEqual(66.67, 100 * dummy.test(self.iris.getInstanceList()).getErrorRate(), 2)
         dummy.train(self.bupa.getInstanceList())
@@ -24,7 +24,7 @@ class DummyTest(ClassifierTest):
         self.assertAlmostEqual(83.77, 100 * dummy.test(self.chess.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        dummy = Dummy()
+        dummy = DummyModel()
         dummy.loadModel("../../models/dummy-iris.txt")
         self.assertAlmostEqual(66.67, 100 * dummy.test(self.iris.getInstanceList()).getErrorRate(), 2)
         dummy.loadModel("../../models/dummy-bupa.txt")

@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Classifier.RandomClassifier import RandomClassifier
+from Classification.Model.RandomModel import RandomModel
 from Classification.Parameter.Parameter import Parameter
 from test.Classifier.ClassifierTest import ClassifierTest
 
@@ -8,7 +8,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class RandomClassifierTest(ClassifierTest):
 
     def test_Train(self):
-        randomClassifier = RandomClassifier()
+        randomClassifier = RandomModel()
         parameter = Parameter(1)
         randomClassifier.train(self.iris.getInstanceList(), parameter)
         self.assertAlmostEqual(61.33, 100 * randomClassifier.test(self.iris.getInstanceList()).getErrorRate(), 2)
@@ -26,7 +26,7 @@ class RandomClassifierTest(ClassifierTest):
         self.assertAlmostEqual(94.40, 100 * randomClassifier.test(self.chess.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        randomClassifier = RandomClassifier()
+        randomClassifier = RandomModel()
         randomClassifier.loadModel("../../models/random-iris.txt")
         self.assertAlmostEqual(61.33, 100 * randomClassifier.test(self.iris.getInstanceList()).getErrorRate(), 2)
         randomClassifier.loadModel("../../models/random-bupa.txt")

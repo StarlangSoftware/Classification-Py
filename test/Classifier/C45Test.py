@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Classifier.C45 import C45
+from Classification.Model.DecisionTree.DecisionTree import DecisionTree
 from Classification.Parameter.C45Parameter import C45Parameter
 from test.Classifier.ClassifierTest import ClassifierTest
 
@@ -8,7 +8,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class C45Test(ClassifierTest):
 
     def test_Train(self):
-        c45 = C45()
+        c45 = DecisionTree()
         c45Parameter = C45Parameter(1, True, 0.2)
         c45.train(self.iris.getInstanceList(), c45Parameter)
         self.assertAlmostEqual(2.00, 100 * c45.test(self.iris.getInstanceList()).getErrorRate(), 2)
@@ -22,7 +22,7 @@ class C45Test(ClassifierTest):
         self.assertAlmostEqual(8.77, 100 * c45.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        c45 = C45()
+        c45 = DecisionTree()
         c45.loadModel("../../models/c45-iris.txt")
         self.assertAlmostEqual(4.00, 100 * c45.test(self.iris.getInstanceList()).getErrorRate(), 2)
         c45.loadModel("../../models/c45-bupa.txt")

@@ -1,13 +1,13 @@
 import unittest
 
-from Classification.Classifier.NaiveBayes import NaiveBayes
+from Classification.Model.NaiveBayesModel import NaiveBayesModel
 from test.Classifier.ClassifierTest import ClassifierTest
 
 
 class NaiveBayesTest(ClassifierTest):
 
     def test_Train(self):
-        naiveBayes = NaiveBayes()
+        naiveBayes = NaiveBayesModel()
         naiveBayes.train(self.iris.getInstanceList())
         self.assertAlmostEqual(5.33, 100 * naiveBayes.test(self.iris.getInstanceList()).getErrorRate(), 2)
         naiveBayes.train(self.bupa.getInstanceList())
@@ -22,7 +22,7 @@ class NaiveBayesTest(ClassifierTest):
         self.assertAlmostEqual(9.70, 100 * naiveBayes.test(self.nursery.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        naiveBayes = NaiveBayes()
+        naiveBayes = NaiveBayesModel()
         naiveBayes.loadModel("../../models/naiveBayes-iris.txt")
         self.assertAlmostEqual(5.33, 100 * naiveBayes.test(self.iris.getInstanceList()).getErrorRate(), 2)
         naiveBayes.loadModel("../../models/naiveBayes-bupa.txt")

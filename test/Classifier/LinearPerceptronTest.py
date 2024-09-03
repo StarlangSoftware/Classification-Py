@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Classifier.LinearPerceptron import LinearPerceptron
+from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
 from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronParameter
 from test.Classifier.ClassifierTest import ClassifierTest
 
@@ -8,7 +8,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class LinearPerceptronTest(ClassifierTest):
 
     def test_Train(self):
-        linearPerceptron = LinearPerceptron()
+        linearPerceptron = LinearPerceptronModel()
         linearPerceptronParameter = LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100)
         linearPerceptron.train(self.iris.getInstanceList(), linearPerceptronParameter)
         self.assertAlmostEqual(1.33, 100 * linearPerceptron.test(self.iris.getInstanceList()).getErrorRate(), 2)
@@ -18,7 +18,7 @@ class LinearPerceptronTest(ClassifierTest):
         self.assertAlmostEqual(4.37, 100 * linearPerceptron.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        linearPerceptron = LinearPerceptron()
+        linearPerceptron = LinearPerceptronModel()
         linearPerceptron.loadModel("../../models/linearPerceptron-iris.txt")
         self.assertAlmostEqual(3.33, 100 * linearPerceptron.test(self.iris.getInstanceList()).getErrorRate(), 2)
         linearPerceptron.loadModel("../../models/linearPerceptron-bupa.txt")

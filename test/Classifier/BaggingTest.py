@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Classifier.Bagging import Bagging
+from Classification.Model.BaggingModel import BaggingModel
 from Classification.Parameter.BaggingParameter import BaggingParameter
 from test.Classifier.ClassifierTest import ClassifierTest
 
@@ -8,7 +8,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class BaggingTest(ClassifierTest):
 
     def test_Train(self):
-        bagging = Bagging()
+        bagging = BaggingModel()
         baggingParameter = BaggingParameter(1, 100)
         bagging.train(self.iris.getInstanceList(), baggingParameter)
         self.assertAlmostEqual(0.0, 100 * bagging.test(self.iris.getInstanceList()).getErrorRate(), 2)
@@ -22,7 +22,7 @@ class BaggingTest(ClassifierTest):
         self.assertAlmostEqual(0.0, 100 * bagging.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        bagging = Bagging()
+        bagging = BaggingModel()
         bagging.loadModel("../../models/bagging-iris.txt")
         self.assertAlmostEqual(0.0, 100 * bagging.test(self.iris.getInstanceList()).getErrorRate(), 2)
         bagging.loadModel("../../models/bagging-bupa.txt")

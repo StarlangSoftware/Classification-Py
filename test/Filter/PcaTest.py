@@ -1,9 +1,9 @@
 import unittest
 
-from Classification.Classifier.Knn import Knn
-from Classification.Classifier.LinearPerceptron import LinearPerceptron
 from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
 from Classification.Filter.Pca import Pca
+from Classification.Model.KnnModel import KnnModel
+from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
 from Classification.Parameter.KnnParameter import KnnParameter
 from Classification.Parameter.LinearPerceptronParameter import LinearPerceptronParameter
 from test.Classifier.ClassifierTest import ClassifierTest
@@ -12,7 +12,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class PcaTest(ClassifierTest):
 
     def test_LinearPerceptron(self):
-        linearPerceptron = LinearPerceptron()
+        linearPerceptron = LinearPerceptronModel()
         linearPerceptronParameter = LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100)
         pca = Pca(self.iris)
         pca.convert()
@@ -29,7 +29,7 @@ class PcaTest(ClassifierTest):
         self.assertAlmostEqual(3.28, 100 * linearPerceptron.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
 
     def test_Knn(self):
-        knn = Knn()
+        knn = KnnModel()
         knnParameter = KnnParameter(1, 3, EuclidianDistance())
         pca = Pca(self.iris)
         pca.convert()

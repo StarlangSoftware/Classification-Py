@@ -1,6 +1,6 @@
 import unittest
 
-from Classification.Classifier.MultiLayerPerceptron import MultiLayerPerceptron
+from Classification.Model.MultiLayerPerceptronModel import MultiLayerPerceptronModel
 from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPerceptronParameter
 from test.Classifier.ClassifierTest import ClassifierTest
@@ -9,7 +9,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class MultiLayerPerceptronTest(ClassifierTest):
 
     def test_Train(self):
-        multiLayerPerceptron = MultiLayerPerceptron()
+        multiLayerPerceptron = MultiLayerPerceptronModel()
         multiLayerPerceptronParameter = MultiLayerPerceptronParameter(1, 0.1, 0.99, 0.2, 100, 3, ActivationFunction.SIGMOID)
         multiLayerPerceptron.train(self.iris.getInstanceList(), multiLayerPerceptronParameter)
         self.assertAlmostEqual(2.67, 100 * multiLayerPerceptron.test(self.iris.getInstanceList()).getErrorRate(), 2)
@@ -21,7 +21,7 @@ class MultiLayerPerceptronTest(ClassifierTest):
         self.assertAlmostEqual(3.55, 100 * multiLayerPerceptron.test(self.dermatology.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        multiLayerPerceptron = MultiLayerPerceptron()
+        multiLayerPerceptron = MultiLayerPerceptronModel()
         multiLayerPerceptron.loadModel("../../models/multiLayerPerceptron-iris.txt")
         self.assertAlmostEqual(2.67, 100 * multiLayerPerceptron.test(self.iris.getInstanceList()).getErrorRate(), 2)
         multiLayerPerceptron.loadModel("../../models/multiLayerPerceptron-bupa.txt")

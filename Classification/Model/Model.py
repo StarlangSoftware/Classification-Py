@@ -1,15 +1,30 @@
 from abc import abstractmethod
 from io import TextIOWrapper
 
-from DataStructure.CounterHashMap import CounterHashMap
 from Math.DiscreteDistribution import DiscreteDistribution
 from Math.Matrix import Matrix
 
+from Classification.Attribute.DiscreteAttribute import DiscreteAttribute
+from Classification.Attribute.DiscreteIndexedAttribute import DiscreteIndexedAttribute
 from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.Parameter.Parameter import Parameter
+from Classification.Performance.ConfusionMatrix import ConfusionMatrix
+from Classification.Performance.DetailedClassificationPerformance import DetailedClassificationPerformance
+from Classification.Performance.Performance import Performance
 
 
 class Model(object):
+
+    @abstractmethod
+    def train(self,
+              trainSet: InstanceList,
+              parameters: Parameter):
+        pass
+
+    @abstractmethod
+    def loadModel(self, fileName: str):
+        pass
 
     @abstractmethod
     def predict(self, instance: Instance) -> str:
@@ -64,26 +79,6 @@ class Model(object):
                 distribution.addItem(items[0])
         return distribution
 
-    @staticmethod
-    def getMaximum(classLabels: list) -> str:
-        """
-        Given an array of class labels, returns the maximum occurred one.
-
-        PARAMETERS
-        ----------
-        classLabels : list
-            An array of class labels.
-
-        RETURNS
-        -------
-        str
-            The class label that occurs most in the array of class labels (mod of class label list).
-        """
-        frequencies = CounterHashMap()
-        for label in classLabels:
-            frequencies.put(label)
-        return frequencies.max()
-
     def loadInstanceList(self, inputFile: TextIOWrapper) -> InstanceList:
         """
         Loads an instance list from an input model file.
@@ -96,3 +91,67 @@ class Model(object):
         for i in range(instance_count):
             instance_list.add(self.loadInstance(inputFile.readline().strip(), types))
         return instance_list
+
+    def discreteCheck(self, instance: Instance) -> bool:
+        """
+        Checks given instance's attribute and returns true if it is a discrete indexed attribute, false otherwise.
+
+        PARAMETERS
+        ----------
+        instance Instance to check.
+
+        RETURNS
+        -------
+        bool
+            True if instance is a discrete indexed attribute, false otherwise.
+        """
+        for i in range(instance.attributeSize()):
+            if isinstance(instance.getAttribute(i), DiscreteAttribute) and not isinstance(instance.getAttribute(i),
+                                                                                          DiscreteIndexedAttribute):
+                return False
+        return True
+
+    def test(self, testSet: InstanceList) -> Performance:
+        """
+        TestClassification an instance list with the current model.
+
+        PARAMETERS
+        ----------
+        testSet : InstanceList
+            Test data (list of instances) to be tested.
+
+        RETURNS
+        -------
+        Performance
+            The accuracy (and error) of the model as an instance of Performance class.
+        """
+        class_labels = testSet.getUnionOfPossibleClassLabels()
+        confusion = ConfusionMatrix(class_labels)
+        for i in range(testSet.size()):
+            instance = testSet.get(i)
+            confusion.classify(instance.getClassLabel(), self.predict(instance))
+        return DetailedClassificationPerformance(confusion)
+
+    def singleRun(self,
+                  parameter: Parameter,
+                  trainSet: InstanceList,
+                  testSet: InstanceList) -> Performance:
+        """
+        Runs current classifier with the given train and test data.
+
+        PARAMETERS
+        ----------
+        parameter : Parameter
+            Parameter of the classifier to be trained.
+        trainSet : InstanceList
+            Training data to be used in training the classifier.
+        testSet : InstanceList
+            Test data to be tested after training the model.
+
+        RETURNS
+        -------
+        Performance
+            The accuracy (and error) of the trained model as an instance of Performance class.
+        """
+        self.train(trainSet, parameter)
+        return self.test(testSet)

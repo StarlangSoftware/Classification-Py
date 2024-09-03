@@ -1,5 +1,4 @@
 from functools import cmp_to_key
-from io import TextIOWrapper
 
 from Classification.DistanceMetric.DistanceMetric import DistanceMetric
 from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
@@ -8,6 +7,7 @@ from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.KnnInstance import KnnInstance
 from Classification.Model.Model import Model
+from Classification.Parameter.KnnParameter import KnnParameter
 
 
 class KnnModel(Model):
@@ -47,7 +47,7 @@ class KnnModel(Model):
         inputFile.close()
 
     def __init__(self,
-                 data: object,
+                 data: object = None,
                  k: int = None,
                  distanceMetric: DistanceMetric = None):
         if isinstance(data, InstanceList):
@@ -74,7 +74,7 @@ class KnnModel(Model):
         if isinstance(instance, CompositeInstance) and nearest_neighbors.size() == 0:
             predicted_class = instance.getPossibleClassLabels()[0]
         else:
-            predicted_class = Model.getMaximum(nearest_neighbors.getClassLabels())
+            predicted_class = InstanceList.getMaximum(nearest_neighbors.getClassLabels())
         return predicted_class
 
     def predictProbability(self, instance: Instance) -> dict:
@@ -128,3 +128,25 @@ class KnnModel(Model):
         for i in range(min(self.__k, len(instances))):
             result.add(instances[i].instance)
         return result
+
+    def train(self,
+              trainSet: InstanceList,
+              parameters: KnnParameter):
+        """
+        Training algorithm for K-nearest neighbor classifier.
+
+        PARAMETERS
+        ----------
+        trainSet : InstanceList
+            Training data given to the algorithm.
+        parameters : KnnParameter
+            Parameters of the Knn algorithm.
+        """
+        self.constructor1(data=trainSet, k=parameters.getK(), distanceMetric=parameters.getDistanceMetric())
+
+    def loadModel(self, fileName: str):
+        """
+        Loads the K-nearest neighbor model from an input file.
+        :param fileName: File name of the K-nearest neighbor model.
+        """
+        self.constructor2(fileName)

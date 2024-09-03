@@ -68,7 +68,7 @@ class DecisionNode(object):
         labels = data.getClassLabels()
         for label in labels:
             self.__classLabelsDistribution.addItem(label)
-        self.__class_label = Model.getMaximum(labels)
+        self.__class_label = InstanceList.getMaximum(labels)
         self.leaf = True
         self.children = []
         class_labels = data.getDistinctClassLabels()

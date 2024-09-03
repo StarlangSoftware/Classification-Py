@@ -1,7 +1,7 @@
 import unittest
 
-from Classification.Classifier.Knn import Knn
 from Classification.DistanceMetric.EuclidianDistance import EuclidianDistance
+from Classification.Model.KnnModel import KnnModel
 from Classification.Parameter.KnnParameter import KnnParameter
 from test.Classifier.ClassifierTest import ClassifierTest
 
@@ -9,7 +9,7 @@ from test.Classifier.ClassifierTest import ClassifierTest
 class KnnTest(ClassifierTest):
 
     def test_Train(self):
-        knn = Knn()
+        knn = KnnModel()
         knnParameter = KnnParameter(1, 3, EuclidianDistance())
         knn.train(self.iris.getInstanceList(), knnParameter)
         self.assertAlmostEqual(4.00, 100 * knn.test(self.iris.getInstanceList()).getErrorRate(), 2)
@@ -23,7 +23,7 @@ class KnnTest(ClassifierTest):
         self.assertAlmostEqual(32.57, 100 * knn.test(self.tictactoe.getInstanceList()).getErrorRate(), 2)
 
     def test_Load(self):
-        knn = Knn()
+        knn = KnnModel()
         knn.loadModel("../../models/knn-iris.txt")
         self.assertAlmostEqual(4.00, 100 * knn.test(self.iris.getInstanceList()).getErrorRate(), 2)
         knn.loadModel("../../models/knn-bupa.txt")

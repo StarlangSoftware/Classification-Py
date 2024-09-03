@@ -3,6 +3,7 @@ from Classification.Instance.Instance import Instance
 from Classification.InstanceList.InstanceList import InstanceList
 from Classification.Model.Model import Model
 from Math.DiscreteDistribution import DiscreteDistribution
+from Classification.Parameter.Parameter import Parameter
 
 
 class DummyModel(Model):
@@ -29,7 +30,7 @@ class DummyModel(Model):
         self.distribution = Model.loadClassDistribution(inputFile)
         inputFile.close()
 
-    def __init__(self, trainSet: object):
+    def __init__(self, trainSet: object = None):
         if isinstance(trainSet, InstanceList):
             self.constructor1(trainSet)
         elif isinstance(trainSet, str):
@@ -63,3 +64,26 @@ class DummyModel(Model):
         :return: Posterior probability distribution for the given instance.
         """
         return self.distribution.getProbabilityDistribution()
+
+    def train(self,
+              trainSet: InstanceList,
+              parameters: Parameter = None):
+        """
+        Training algorithm for the dummy classifier. Actually dummy classifier returns the maximum occurring class in
+        the training data, there is no training.
+
+        PARAMETERS
+        ----------
+        trainSet: InstanceList
+            Training data given to the algorithm.
+        parameters: Parameter
+            Parameter of the Dummy algorithm.
+        """
+        self.constructor1(trainSet)
+
+    def loadModel(self, fileName: str):
+        """
+        Loads the dummy model from an input file.
+        :param fileName: File name of the dummy model.
+        """
+        self.constructor2(fileName)

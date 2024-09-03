@@ -1,4 +1,5 @@
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.NeuralNetworkModel import NeuralNetworkModel
 from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.DeepNetworkParameter import DeepNetworkParameter
@@ -10,15 +11,14 @@ from Classification.Performance.ClassificationPerformance import ClassificationP
 
 
 class DeepNetworkModel(NeuralNetworkModel):
-
     __weights: list
     __hidden_layer_size: int
     __activation_function: ActivationFunction
 
     def constructor1(self,
-                 trainSet: InstanceList,
-                 validationSet: InstanceList,
-                 parameters: DeepNetworkParameter):
+                     trainSet: InstanceList,
+                     validationSet: InstanceList,
+                     parameters: DeepNetworkParameter):
         """
         Constructor that takes two InstanceList train set and validation set and DeepNetworkParameter as
         inputs. First it sets the class labels, their sizes as K and the size of the continuous attributes as d of given
@@ -59,10 +59,11 @@ class DeepNetworkModel(NeuralNetworkModel):
                     if k == 0:
                         hidden.append(self.calculateHidden(self.x, self.__weights[k], self.__activation_function))
                     else:
-                        hidden.append(self.calculateHidden(hidden_biased[k - 1], self.__weights[k], self.__activation_function))
+                        hidden.append(
+                            self.calculateHidden(hidden_biased[k - 1], self.__weights[k], self.__activation_function))
                     hidden_biased.append(hidden[k].biased())
                 r_minus_y = self.calculateRMinusY(trainSet.get(j), hidden_biased[self.__hidden_layer_size - 1],
-                                                self.__weights[len(self.__weights) - 1])
+                                                  self.__weights[len(self.__weights) - 1])
                 delta_weights.insert(0, Matrix(r_minus_y, hidden_biased[self.__hidden_layer_size - 1]))
                 for k in range(len(self.__weights) - 2, -1, -1):
                     if k == len(self.__weights) - 2:
@@ -112,7 +113,7 @@ class DeepNetworkModel(NeuralNetworkModel):
         inputFile.close()
 
     def __init__(self,
-                 trainSet: object,
+                 trainSet: object = None,
                  validationSet: InstanceList = None,
                  parameters: DeepNetworkParameter = None):
         if isinstance(trainSet, InstanceList):
@@ -141,7 +142,8 @@ class DeepNetworkModel(NeuralNetworkModel):
                                                             column=parameters.getHiddenNodes(i) + 1,
                                                             seed=parameters.getSeed()))
         self.__weights.append(self.allocateLayerWeights(row=self.K,
-                                                        column=parameters.getHiddenNodes(parameters.layerSize() - 1) + 1,
+                                                        column=parameters.getHiddenNodes(
+                                                            parameters.layerSize() - 1) + 1,
                                                         seed=parameters.getSeed()))
         self.__hidden_layer_size = parameters.layerSize()
 
@@ -173,3 +175,31 @@ class DeepNetworkModel(NeuralNetworkModel):
                 hidden = self.calculateHidden(hidden_biased, self.__weights[i], self.__activation_function)
             hidden_biased = hidden.biased()
         self.y = self.__weights[len(self.__weights) - 1].multiplyWithVectorFromRight(hidden_biased)
+
+    def train(self,
+              trainSet: InstanceList,
+              parameters: DeepNetworkParameter):
+        """
+        Training algorithm for deep network classifier.
+
+        PARAMETERS
+        ----------
+        trainSet : InstanceList
+            Training data given to the algorithm.
+        parameters : DeepNetworkParameter
+            Parameters of the deep network algorithm. crossValidationRatio and seed are used as parameters.
+        """
+        partition = Partition(instanceList=trainSet,
+                              ratio=parameters.getCrossValidationRatio(),
+                              seed=parameters.getSeed(),
+                              stratified=True)
+        self.constructor1(trainSet=partition.get(1),
+                          validationSet=partition.get(0),
+                          parameters=parameters)
+
+    def loadModel(self, fileName: str):
+        """
+        Loads the deep network model from an input file.
+        :param fileName: File name of the deep network model.
+        """
+        self.constructor2(fileName)

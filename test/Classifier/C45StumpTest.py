@@ -1,13 +1,13 @@
 import unittest
 
-from Classification.Classifier.C45Stump import C45Stump
+from Classification.Model.DecisionTree.DecisionStump import DecisionStump
 from test.Classifier.ClassifierTest import ClassifierTest
 
 
 class C45StumpTest(ClassifierTest):
 
     def test_Train(self):
-        c45Stump = C45Stump()
+        c45Stump = DecisionStump()
         c45Stump.train(self.iris.getInstanceList(), None)
         self.assertAlmostEqual(33.33, 100 * c45Stump.test(self.iris.getInstanceList()).getErrorRate(), 2)
         c45Stump.train(self.bupa.getInstanceList(), None)

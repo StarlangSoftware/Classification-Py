@@ -2,6 +2,7 @@ from Math.Matrix import Matrix
 from Math.Vector import Vector
 
 from Classification.InstanceList.InstanceList import InstanceList
+from Classification.InstanceList.Partition import Partition
 from Classification.Model.LinearPerceptronModel import LinearPerceptronModel
 from Classification.Parameter.ActivationFunction import ActivationFunction
 from Classification.Parameter.MultiLayerPerceptronParameter import MultiLayerPerceptronParameter
@@ -108,7 +109,7 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
         inputFile.close()
 
     def __init__(self,
-                 trainSet: object,
+                 trainSet: object = None,
                  validationSet: InstanceList = None,
                  parameters: MultiLayerPerceptronParameter = None):
         if isinstance(trainSet, InstanceList):
@@ -121,6 +122,30 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
         """
         The calculateOutput method calculates the forward single hidden layer by using Matrices W and V.
         """
-        self.calculateForwardSingleHiddenLayer(W=self.W,
-                                               V=self.__V,
-                                               activationFunction=self.__activation_function)
+        self.calculateForwardSingleHiddenLayer(W=self.W, V=self.__V, activationFunction=self.__activation_function)
+
+    def train(self,
+              trainSet: InstanceList,
+              parameters: MultiLayerPerceptronParameter):
+        """
+        Training algorithm for the multilayer perceptron algorithm. 20 percent of the data is separated as
+        cross-validation data used for selecting the best weights. 80 percent of the data is used for training the
+        multilayer perceptron with gradient descent.
+
+        PARAMETERS
+        ----------
+        trainSet : InstanceList
+            Training data given to the algorithm
+        parameters : MultiLayerPerceptronParameter
+            Parameters of the multilayer perceptron.
+        """
+        partition = Partition(instanceList=trainSet, ratio=parameters.getCrossValidationRatio(),
+                              seed=parameters.getSeed(), stratified=True)
+        self.constructor2(trainSet=partition.get(1), validationSet=partition.get(0), parameters=parameters)
+
+    def loadModel(self, fileName: str):
+        """
+        Loads the multi-layer perceptron model from an input file.
+        :param fileName: File name of the multi-layer perceptron model.
+        """
+        self.constructor3(fileName)

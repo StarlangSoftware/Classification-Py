@@ -1,18 +1,18 @@
 from __future__ import annotations
-from Classification.Classifier.Classifier import Classifier
 from Classification.FeatureSelection.FeatureSubSet import FeatureSubSet
+from Classification.Model.Model import Model
 from Classification.Parameter.Parameter import Parameter
 from Classification.DataSet.DataSet import DataSet
 
 
 class Experiment(object):
 
-    __classifier: Classifier
+    __classifier: Model
     __parameter: Parameter
     __dataSet: DataSet
 
     def __init__(self,
-                 classifier: Classifier,
+                 classifier: Model,
                  parameter: Parameter,
                  dataSet: DataSet):
         """
@@ -31,7 +31,7 @@ class Experiment(object):
         self.__parameter = parameter
         self.__dataSet = dataSet
 
-    def getClassifier(self) -> Classifier:
+    def getClassifier(self) -> Model:
         """
         Accessor for the classifier attribute.
 
