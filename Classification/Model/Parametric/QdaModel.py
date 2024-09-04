@@ -55,17 +55,6 @@ class QdaModel(LdaModel):
             self.__W[c] = matrix
         inputFile.close()
 
-    def __init__(self,
-                 priorDistribution: object = None,
-                 W: dict = None,
-                 w: dict = None,
-                 w0: dict = None):
-        super().__init__()
-        if isinstance(priorDistribution, DiscreteDistribution):
-            self.constructor3(priorDistribution, W, w, w0)
-        elif isinstance(priorDistribution, str):
-            self.constructor2(priorDistribution)
-
     def calculateMetric(self,
                         instance: Instance,
                         Ci: str) -> float:

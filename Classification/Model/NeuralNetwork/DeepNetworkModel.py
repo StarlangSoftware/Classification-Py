@@ -112,16 +112,6 @@ class DeepNetworkModel(NeuralNetworkModel):
         self.__activation_function = self.loadActivationFunction(inputFile)
         inputFile.close()
 
-    def __init__(self,
-                 trainSet: object = None,
-                 validationSet: InstanceList = None,
-                 parameters: DeepNetworkParameter = None):
-        if isinstance(trainSet, InstanceList):
-            self.constructor1(trainSet, validationSet, parameters)
-        elif isinstance(trainSet, str):
-            super().__init__()
-            self.constructor2(trainSet)
-
     def __allocateWeights(self, parameters: DeepNetworkParameter):
         """
         The allocateWeights method takes DeepNetworkParameters as an input. First it adds random weights to the list

@@ -46,16 +46,6 @@ class LdaModel(GaussianModel):
         self.loadWandW0(inputFile, size)
         inputFile.close()
 
-    def __init__(self,
-                 priorDistribution: object = None,
-                 w: dict = None,
-                 w0: dict = None):
-        if priorDistribution is not None:
-            if isinstance(priorDistribution, DiscreteDistribution):
-                self.constructor1(priorDistribution, w, w0)
-            elif isinstance(priorDistribution, str):
-                self.constructor2(priorDistribution)
-
     def loadWandW0(self,
                    inputFile: TextIOWrapper,
                    size: int):

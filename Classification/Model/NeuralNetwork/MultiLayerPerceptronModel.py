@@ -108,16 +108,6 @@ class MultiLayerPerceptronModel(LinearPerceptronModel):
         self.__activation_function = self.loadActivationFunction(inputFile)
         inputFile.close()
 
-    def __init__(self,
-                 trainSet: object = None,
-                 validationSet: InstanceList = None,
-                 parameters: MultiLayerPerceptronParameter = None):
-        if isinstance(trainSet, InstanceList):
-            self.constructor2(trainSet, validationSet, parameters)
-        elif isinstance(trainSet, str):
-            super().__init__()
-            self.constructor3(trainSet)
-
     def calculateOutput(self):
         """
         The calculateOutput method calculates the forward single hidden layer by using Matrices W and V.

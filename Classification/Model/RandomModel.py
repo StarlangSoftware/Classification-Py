@@ -42,14 +42,6 @@ class RandomModel(Model):
             self.__class_labels.append(inputFile.readline().strip())
         inputFile.close()
 
-    def __init__(self,
-                 classLabels: object = None,
-                 seed: int = None):
-        if isinstance(classLabels, list):
-            self.constructor1(classLabels, seed)
-        elif isinstance(classLabels, str):
-            self.constructor2(classLabels)
-
     def predict(self, instance: Instance) -> str:
         """
         The predict method gets an Instance as an input and retrieves the possible class labels as an ArrayList. Then

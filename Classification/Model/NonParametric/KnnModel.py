@@ -46,15 +46,6 @@ class KnnModel(Model):
         self.__data = self.loadInstanceList(inputFile)
         inputFile.close()
 
-    def __init__(self,
-                 data: object = None,
-                 k: int = None,
-                 distanceMetric: DistanceMetric = None):
-        if isinstance(data, InstanceList):
-            self.constructor1(data, k, distanceMetric)
-        elif isinstance(data, str):
-            self.constructor2(data)
-
     def predict(self, instance: Instance) -> str:
         """
         The predict method takes an Instance as an input and finds the nearest neighbors of given instance. Then

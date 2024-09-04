@@ -71,18 +71,6 @@ class LinearPerceptronModel(NeuralNetworkModel):
         self.W = self.loadMatrix(inputFile)
         inputFile.close()
 
-    def __init__(self, trainSet: object = None, validationSet: InstanceList = None,
-                 parameters: LinearPerceptronParameter = None):
-        if trainSet is not None:
-            if isinstance(trainSet, InstanceList):
-                if validationSet is None:
-                    self.constructor1(trainSet)
-                else:
-                    self.constructor2(trainSet, validationSet, parameters)
-            elif isinstance(trainSet, str):
-                super().__init__()
-                self.constructor3(trainSet)
-
     def calculateOutput(self):
         """
         The calculateOutput method calculates the Matrix y by multiplying Matrix W with Vector x.
