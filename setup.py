@@ -6,12 +6,12 @@ long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 
 setup(
     name='NlpToolkit-Classification',
-    version='1.0.16',
+    version='1.0.17',
     packages=['Classification', 'Classification.Model', 'Classification.Model.DecisionTree',
               'Classification.Model.Ensemble', 'Classification.Model.NeuralNetwork',
               'Classification.Model.NonParametric', 'Classification.Model.Parametric',
               'Classification.Filter', 'Classification.DataSet', 'Classification.Instance', 'Classification.Attribute',
-              'Classification.Parameter', 'Classification.Classifier', 'Classification.Experiment',
+              'Classification.Parameter', 'Classification.Experiment',
               'Classification.Performance', 'Classification.InstanceList', 'Classification.DistanceMetric',
               'Classification.StatisticalTest', 'Classification.FeatureSelection'],
     url='https://github.com/StarlangSoftware/Classification-Py',
