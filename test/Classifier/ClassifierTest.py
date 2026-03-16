@@ -18,22 +18,22 @@ class ClassifierTest(unittest.TestCase):
     def setUp(self) -> None:
         attributeTypes = 4 * [AttributeType.CONTINUOUS]
         dataDefinition = DataDefinition(attributeTypes)
-        self.iris = DataSet(dataDefinition, ",", "../../datasets/iris.data")
+        self.iris = DataSet(dataDefinition, ",", "datasets/iris.data")
         attributeTypes = 6 * [AttributeType.CONTINUOUS]
         dataDefinition = DataDefinition(attributeTypes)
-        self.bupa = DataSet(dataDefinition, ",", "../../datasets/bupa.data")
+        self.bupa = DataSet(dataDefinition, ",", "datasets/bupa.data")
         attributeTypes = 34 * [AttributeType.CONTINUOUS]
         dataDefinition = DataDefinition(attributeTypes)
-        self.dermatology = DataSet(dataDefinition, ",", "../../datasets/dermatology.data")
+        self.dermatology = DataSet(dataDefinition, ",", "datasets/dermatology.data")
         attributeTypes = 6 * [AttributeType.DISCRETE]
         dataDefinition = DataDefinition(attributeTypes)
-        self.car = DataSet(dataDefinition, ",", "../../datasets/car.data")
+        self.car = DataSet(dataDefinition, ",", "datasets/car.data")
         attributeTypes = 9 * [AttributeType.DISCRETE]
         dataDefinition = DataDefinition(attributeTypes)
-        self.tictactoe = DataSet(dataDefinition, ",", "../../datasets/tictactoe.data")
+        self.tictactoe = DataSet(dataDefinition, ",", "datasets/tictactoe.data")
         attributeTypes = 8 * [AttributeType.DISCRETE]
         dataDefinition = DataDefinition(attributeTypes)
-        self.nursery = DataSet(dataDefinition, ",", "../../datasets/nursery.data")
+        self.nursery = DataSet(dataDefinition, ",", "datasets/nursery.data")
         attributeTypes = []
         for i in range(6):
             if i % 2 == 0:
@@ -41,4 +41,4 @@ class ClassifierTest(unittest.TestCase):
             else:
                 attributeTypes.append(AttributeType.CONTINUOUS)
         dataDefinition = DataDefinition(attributeTypes)
-        self.chess = DataSet(dataDefinition, ",", "../../datasets/chess.data")
+        self.chess = DataSet(dataDefinition, ",", "datasets/chess.data")
