@@ -5,8 +5,8 @@ this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 
 setup(
-    name='NlpToolkit-Classification',
-    version='1.0.17',
+    name='nlptoolkit_classification',
+    version='1.0.18',
     packages=['Classification', 'Classification.Model', 'Classification.Model.DecisionTree',
               'Classification.Model.Ensemble', 'Classification.Model.NeuralNetwork',
               'Classification.Model.NonParametric', 'Classification.Model.Parametric',
